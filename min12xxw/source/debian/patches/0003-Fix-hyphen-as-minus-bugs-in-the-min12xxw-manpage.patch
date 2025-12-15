@@ -1,0 +1,48 @@
+From 6395865d270d5875d075933da3c2ea756be80767 Mon Sep 17 00:00:00 2001
+From: Didier Raboud <odyx@debian.org>
+Date: Sat, 10 Feb 2018 18:06:04 +0100
+Subject: Fix hyphen-as-minus bugs in the min12xxw manpage
+
+Last-Update: 2014-04-23
+---
+ min12xxw.1 | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/min12xxw.1 b/min12xxw.1
+index 6b84bf4..2f0192a 100644
+--- a/min12xxw.1
++++ b/min12xxw.1
+@@ -49,7 +49,7 @@ others as well.
+ .B -d dev, --device dev
+ Sets the device file to use for queries. The default is /dev/lp0.
+ 
+-Please note that this option is only meaningful with the "-s" or "--status"
++Please note that this option is only meaningful with the "\-s" or "\-\-status"
+ option. If you intend to send a document to the printer, you have to
+ redirect min12xxw's standard output to the device file in question. See
+ the documentation that came with your shell on how to do that.
+@@ -88,7 +88,7 @@ output or react to status queries from the host.
+ Sets the resolution to either 300, 600 or 1200 dpi (600 dpi is the
+ default). Keep in mind that you need to produce your output
+ accordingly. It is also possible to specify the resolution as
+-(horizontal)x(vertical) resolution (e.g. -r 1200x600) where horizontal
++(horizontal)x(vertical) resolution (e.g. \-r 1200x600) where horizontal
+ resolution may be once or twice the vertical resolution. The maximum
+ resolution is 1200 dpi in both vertical and horizontal direction. The
+ minimum vertical resolution for mixed resolution printing seems to be
+@@ -235,12 +235,12 @@ Quad postcard (200 mm x 296 mm)
+ .SH EXAMPLES
+ .TP 0.5i
+ .B gs -q -dBATCH -dSAFER -dQUIET -dNOPAUSE \
+--sPAPERSIZE=a4 -r1200 -sDEVICE=pbmraw \
+--sOutputFile=- - < test.ps | min12xxw -r 1200 > test.min
++\-sPAPERSIZE=a4 \-r1200 \-sDEVICE=pbmraw \
++\-sOutputFile=\- \- < test.ps | min12xxw \-r 1200 > test.min
+ This would convert a postscript file test.ps to a file test.min which
+ could be sent directly to the printer, a 1200W to be exact. The output is
+ rendered at 1200 dpi. If you have to drive some other model, see the model
+-selection option (-m) above.
++selection option (\-m) above.
+ 
+ .SH PORTABILITY
+ .B Min12xxw

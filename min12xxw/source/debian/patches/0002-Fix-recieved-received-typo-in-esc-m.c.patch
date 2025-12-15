@@ -1,0 +1,41 @@
+From 6768b8ad11567df89e3c5f9a74dc2616160d1695 Mon Sep 17 00:00:00 2001
+From: Didier Raboud <odyx@debian.org>
+Date: Sat, 10 Feb 2018 18:06:03 +0100
+Subject: Fix recieved/received typo in esc-m.c
+
+Last-Update: 2014-04-23
+---
+ esc-m.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/esc-m.c b/esc-m.c
+index ca17698..ae54278 100644
+--- a/esc-m.c
++++ b/esc-m.c
+@@ -87,7 +87,7 @@ static void dump50(unsigned char *data)
+ 	printf("ESC 50: select resolution and paper type:\n");
+ 
+ 	if (lb != 8) {
+-		printf("\tExpected 8 data bytes for ESC 0x50 command, recieved %d.\n", lb);
++		printf("\tExpected 8 data bytes for ESC 0x50 command, received %d.\n", lb);
+ 		dumpraw(data);
+ 		return;
+ 	}
+@@ -162,7 +162,7 @@ static void dump51(unsigned char *data)
+ 	printf("ESC 51: start new page and set paper format:\n");
+ 
+ 	if (lb != 22) {
+-		printf("\tExpected 22 data bytes for ESC 0x51 command, recieved %d.\n", lb);
++		printf("\tExpected 22 data bytes for ESC 0x51 command, received %d.\n", lb);
+ 		dumpraw(data);
+ 		return;
+ 	}
+@@ -260,7 +260,7 @@ static void dump52(unsigned char *data)
+ 	printf("ESC 52: send raster data:\n");
+ 
+ 	if (lb != 6) {
+-		printf("\tExpected 6 data bytes for ESC 0x52 command, recieved %d.\n", lb);
++		printf("\tExpected 6 data bytes for ESC 0x52 command, received %d.\n", lb);
+ 		dumpraw(data);
+ 		return;
+ 	}

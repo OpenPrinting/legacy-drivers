@@ -1,0 +1,85 @@
+#!/usr/bin/make -f
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+
+CFLAGS=$(shell dpkg-buildflags --get CFLAGS)
+LDFLAGS=$(shell dpkg-buildflags --get LDFLAGS)
+CPPFLAGS=$(shell dpkg-buildflags --get CPPFLAGS)
+
+configure: configure.ac
+	dh_autoreconf
+
+config.status: configure
+	dh_testdir
+	CFLAGS="$(CFLAGS)" CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)"	\
+		./configure --host=$(DEB_HOST_GNU_TYPE)			\
+		--build=$(DEB_BUILD_GNU_TYPE)				\
+		--prefix=/usr						\
+		--mandir=\$${prefix}/share/man				\
+		--infodir=\$${prefix}/share/info
+
+
+build: build-arch build-indep
+build-arch: build-stamp
+# no depends (no arch-indep package)
+build-indep:
+
+build-stamp: config.status
+	dh_testdir
+	$(MAKE)
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	if [ -e Makefile ]; then			\
+		$(MAKE) distclean;			\
+	else						\
+		echo "No Makefile for distclean";	\
+		touch configure.ac;			\
+	fi
+	dh_autoreconf_clean
+	$(RM) -f Makefile.in aclocal.m4 config.h.in configure compile build-stamp
+	dh_clean 
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/printer-driver-min12xxw
+	# Install Apport hook (only on Ubuntu and derivatives)
+	if dpkg-vendor --derives-from ubuntu; then \
+	  install -D -m 644 debian/local/apport-hook.py $(CURDIR)/debian/printer-driver-min12xxw/usr/share/apport/package-hooks/source_min12xxw.py; \
+	fi
+
+# no depends (no arch-indep package)
+binary-indep:
+
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs -p printer-driver-min12xxw ChangeLog
+	dh_installdocs
+	dh_installman
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean	\
+	binary-indep	\
+	binary-arch	\
+	binary		\
+	install		\
+	build-arch	\
+	build-indep

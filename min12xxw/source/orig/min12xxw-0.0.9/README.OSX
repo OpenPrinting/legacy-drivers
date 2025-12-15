@@ -1,0 +1,96 @@
+The following message was sent to www.linuxprinting.org Minolta forum
+by Marc Cerisier. He describes the steps he needed to perform on his
+system to get hin Minolta PagePro 1350W to work. Because I haven't got
+MacOS X on any computer, I can't test it and give instructions on how
+to get things going, Marc has kindly given me permission to include his
+post here, so others can use it as a starting point. The steps you may
+have to perform need not neccessarily match his' in all details, but the
+general outline should be similar.
+Anyway, I hope this bit of information is helpful...
+
+Manuel
+
+[Original message follows:]
+From: cerisier@mc.edu (Marc Cerisier)
+Newsgroups: linuxprinting.minolta.general
+Date: Mon, 2 May 2005 17:03:17 +0000 (UTC)
+Organization: http://www.linuxprinting.org/
+To: minolta-list@linuxprinting.org
+Subject: [lp.minolta] Instructions for installing a PagePro 1350W on Mac OS X
+
+These instructions are the fruit of my own struggle to install this printer on
+my mother's Mini Mac.  Hope they help.	I sure wish these were available before
+I started.
+
+-Marc Cerisier
+
+
+To install a Minolta PagePro 1350W on Mac OS 10.3.8:
+
+1)  PREPARE THE DEVELOPMENT ENVIRONMENT
+
+If you've never installed the development tools (Xcode), install them as you
+will need the compiler(gcc).  The version of autoconf and automake are not
+current enough for the min12xxw driver, though, so you need to compile new
+versions of those packages.  Here are the links:
+
+www.gnu.org/software/autoconf/
+www.gnu.org/software/automake/
+
+You need to build the new autoconf before automake.
+
+The build process is similar for both, and will also be the same for min12xxw:
+
+tar zxf <downloaded file>
+cd <new directory>
+/configure
+make
+make install
+
+In both instances, the new files are installed into /usr/local/bin/, which
+isn't in the path by default, so first, add it to the path
+(PATH="$PATH:/usr/local/bin"), and then rename all of the files in /usr/bin/
+that have new versions in /usr/local/bin/.  As soon as you type 'make install',
+you will see which files were created by that build, and those are the ones
+that need to be renamed.  If you don't rename them(or delete them), the build
+process for minn12xxw will see the old versions before the new ones of the same
+name since /usr/bin/ occurs before /usr/local/bin/ in the path.
+
+2)  BUILD MIN12XXW
+
+Get the driver here:
+
+http://www.hinterbergen.de/mala/min12xxw/
+
+Using the build process outlined in the above step, this should happen without
+flaw.  The driver will be installed to /usr/local/bin/.
+
+You also need to get the PPD file for the printer.  Do so here:
+
+http://www.linuxprinting.org/show_driver.cgi?driver=min12xxw
+
+Place the PPD in this folder:
+
+/Library/Printers/PPDs/Contents/Resources/en.lproj
+
+3)  INSTALL PRINTER
+
+First, restart the CUPS system with this command - 'killall -HUP cupsd'.  Next
+open the Printer Setup Utility (in /Applications/Utilities).  Since the os
+cannot directly recognize the driver, you have add the printer with the
+advanced option.  Do this by holding down the option key, and clicking Add in
+the Printer Setup Utility.  When the new widow opens, select Advanced from the
+very first popup menu (the one that selects the connection method).  In the
+Device popup menu, look for your printer--should be at the bottom of the menu. 
+When you select your printer (mine was called PP1350W), the Device Name &
+Device URI fields are filled in for you.  On the Printer Model popup menu,
+select Minolta, and when you do so, the PPD you installed should appear below. 
+Be sure it's selected, and click add.
+
+Your printer should now work!  By substituting another PPD, these instructions
+should work for the other printers that use this driver.
+_______________________________________________
+Minolta-list mailing list
+Minolta-list@linuxprinting.org
+http://www.linuxprinting.org/cgi-bin/mailman/listinfo/minolta-list
+
