@@ -1,0 +1,41 @@
+From 511a229d9dac5e8629da3369ece1a101c6b71736 Mon Sep 17 00:00:00 2001
+From: Till Kamppeter <till.kamppeter@gmail.com>
+Date: Sat, 10 Feb 2018 18:06:02 +0100
+Subject: Passed upstream corrections done by Debian into a proper patch
+
+---
+ Makefile.am | 3 +--
+ min12xxw.c  | 4 ++--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index 4c6813e..a2efbe5 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -1,7 +1,6 @@
+ bin_PROGRAMS = min12xxw esc-m
+ man_MANS = min12xxw.1
+-dist_man_MANS = min12xxw.1
+-min12xxw_SOURCES = min12xxw.c getopt.c getopt.h getopt1.c getline.c getline.h
++min12xxw_SOURCES = min12xxw.c getline.c getline.h
+ esc_m_SOURCES = esc-m.c
+ # make sure a few extra files are included in the distribution tarballs
+ EXTRA_DIST = FAQ README.OSX format.txt usblogs
+diff --git a/min12xxw.c b/min12xxw.c
+index 7735e2f..f209306 100644
+--- a/min12xxw.c
++++ b/min12xxw.c
+@@ -721,11 +721,11 @@ static struct map resolutions[] = {
+ /* this procedure is used by help() below to print available somethings
+  * in a nice and painless way from the maps above
+  * see help() below and everything will become clearer */
+-static void printav(char *msg, struct map *m, int defid)
++static void printav(const char *msg, struct map *m, int defid)
+ {
+ 	int i, n;
+ 	
+-	n = printf(msg);
++	n = printf("%s", msg);
+ 	/* print all available somethings from our map */
+ 	for (i = 0; m[i].str != NULL; i++) {
+ 		/* in case we had to start a new line below, we need to

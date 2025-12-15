@@ -1,0 +1,233 @@
+This is what I found out about the Minolta Pagepro 1[234]xxW ESC codes:
+(The information contained in this document may be wrong or inaccurate,
+this is only what I guessed by looking at the output of the windoof
+driver and by monitoring the traffic to and from the printer I have)
+
+ESC sequence layout
+	1b cmd sq lw ~cmd [cmd data bytes] ck [further data bytes]
+
+	cmd	printer command
+	sq	sequence number for all ESC sequences in print job, starting
+		with 00
+	lw	word: length of command data in bytes (a word is 2 bytes!)
+	ck	byte: sum over all bytes of the ESC sequence modulo 256
+		(... or AND the result with 0xff if you like that better)
+
+note: ~cmd denotes the bitwise complement of cmd
+note: words and dwords are always transmitted least significant byte first,
+      most significant byte last
+
+known commands:
+	40 - start-of-printer-commands
+	41 - end-of-printer-commands
+	50 - select resolution and paper type
+	51 - new page and set paper format
+	52 - send raster data
+	55 - eject-current-sheet-of-paper (that's what it seems to be)
+	60 - read printer register (?)
+	6a - alternate read printer register (?)
+
+note: things which are still unclear are marked with an asterisk (*)
+
+------------------------------------------------------------------------------
+command 40 (start-of-printer-commands)
+------------------------------------------------------------------------------
+	model byte		81 - Minolta PagePro 12xxW series
+				83 - Minolta PagePro 13xxW series
+				86 - Minolta PagePro 1400W (and maybe later
+				     models)
+ *	data 			00 (this data is required!)
+
+------------------------------------------------------------------------------
+command 41 (end-of-printer-commands)
+------------------------------------------------------------------------------
+ *	data			00 (seems to be don't care data)
+
+------------------------------------------------------------------------------
+command 50 (select resolution and paper type)
+------------------------------------------------------------------------------
+	resolution byte		00 -  300 dpi (seen only with 12xxW)
+				01 -  600 dpi (12xxW, 13xxW series)
+				02 - 1200 dpi (12xxW, 13xxW series)
+
+				it would be great if someone could test
+				300 dpi printouts on 13xxW printers - may or
+				may not work
+
+				when printing with different horizontal and
+				vertical resolutions, this gives the vertical
+				resolution
+
+	horizontal modifier	00 - horizontal and vertical resolution equal
+				01 - horizontal twice the veritcal resolution
+
+				12xxW models drivers from other OSs seem to
+				support only equal resolution modes - however,
+				tests show that 12xxW models have no problem
+				printing with different resolutions...
+
+ *	data 			00 (seems to be don't care data)
+
+	paper type byte		00 - normal paper
+				01 - thick paper
+				02 - transparency
+				03 - envelope/postcard
+
+ *	data			04 00 00 00 (for Minolta PagePro 12xxW)
+				04 00 04 00 (for Minolta PagePro 13xxW)
+				04 00 04 00 (for Minolta PagePro 1400W, too)
+
+				12xxW models seem to accept 04 00 04 00...
+
+------------------------------------------------------------------------------
+command 51 (start new page and set paper format)
+------------------------------------------------------------------------------
+ *	data 			00 01 (seems to be don't care data)
+
+	page width dword	(in dots at current resolution)
+
+	page height dword	(in dots at current resolution)
+
+ *	data			08 00 08 00 (seems to be don't care data)
+
+	tray byte		ff - auto
+				00 - tray 1
+				01 - tray 2
+				80 - manual feed
+
+	paper byte		04 - a4
+				06 - b5
+				08 - a5
+				0c - J-Post
+				0d - cor. post
+				10 - JIS Y6
+				11 - JIS Y0
+				13 - Chinese 16K
+				15 - Chinese 32K
+				19 - legal
+				1a - G.legal
+				1b - letter
+				1d - G.letter
+				1f - executive
+				21 - half letter
+				24 - Env Monarch
+				25 - Env #10
+				26 - Env DL
+				27 - Env C5
+				28 - Env C6
+				29 - Env B5
+				2d - Choukei-3Gou
+				2e - Choukei-4Gou
+				31 - Custom, Env B6, Folio, JIS Y1, JIS Y2,
+				     quad post
+
+ *	data			?? ?? ?? (seems to be don't care data)
+
+ *	data			00 (seems to be don't care data)
+	flag byte		(c0 for 300 dpi printouts, 00 otherwise)
+ *	data			00 (seems to be don't care data)
+
+	note: command 51 seems to allow setting a different sequence number
+	      by simply specifying one out of sequence in the sequence...
+
+------------------------------------------------------------------------------
+command 52 (send raster data)
+------------------------------------------------------------------------------
+	dword			bytes in further data bytes section
+
+	word			number of lines in data section
+
+	raster data is appended in the further data section
+	Adam Bocim <beetman@seznam.cz> came up with an algorithm to compress
+	the raster data in a format that the minolta understands, and the
+	implementation in this program is heavily based upon it
+	(see http://sweb.cz/beetman for the original source)
+	I tried to understand what his code does and why it does things that
+	way. My implementation differs in some aspects, but seems to produce
+	correct results. See the source for details on how the raster data
+	compression works (this is not difficult, but using the source,
+	things may be clearer than my explanations). A short outline of the
+	method is given below to give the general idea and to make reading
+	the source easier.
+ 
+	note: there always seem to be eight ESC 52 commands per page
+	      the data seems to be divided in eight stripes with the first
+	      one starting at the top of the page; the last one may be short
+	      by a number of scanlines
+
+	Compression is done on a per-scanline basis. It uses RLE encoding as
+	well as a special table driven encoding. This table contains up to
+	16 bytes which can be compressed using the index into the table. The
+	table length and its nonempty entries are transmitted at the start of
+	each scanline. Compression principle works as follows:
+
+	while (bytes in scanline left)
+		three of more repeating bytes?
+			encode using RLE coding
+		next four or more bytes in table (or is space for them)?
+			encode using table indices (possibly filling the
+				table on our way) unless we have three or
+				more repeating bytes ahead, where we do
+				RLE-compression instead
+		we can't use RLE- or table-compression, so we have to send
+			literal bytes in chunks of up to ten bytes (Minolta
+			knows why exactly ten bytes - I don't) until one
+			of the other methods becomes feasible again
+	end compress scanline
+
+------------------------------------------------------------------------------
+command 55 (seems to be eject-current-sheet-of-paper command)
+------------------------------------------------------------------------------
+ *	data			00 (seems to be don't care data)
+
+	note: this command is only used after the last page has been printed
+
+------------------------------------------------------------------------------
+command 60 (read printer register (?))
+------------------------------------------------------------------------------
+	register byte		i have seen queries for registers 0x02, 0x04,
+				0x05, 0x53, and 0x81 (this last one on 1350W)
+*	data			00
+
+	see below for reading data procedure
+	see the source for data items that have been identified
+
+------------------------------------------------------------------------------
+command 6a (alternate read printer register (?))
+------------------------------------------------------------------------------
+*	data			78 00 04 (on 1200W)
+				1c 00 04 (on 1350W, seems to work on 1400W
+					  and 1200W as well)
+
+	very little is known about this command. reading two chunks on the
+	1200W will have register 0x53 in the second chunk (page counter!)
+
+------------------------------------------------------------------------------
+procedure used for reading data
+------------------------------------------------------------------------------
+Just fgetc from the device, the linux kernel does the right thing. The printer
+answers in packets of the following layout:
+
+	register byte (the register the printer sends - if the register is
+		unknown to the printer it might send a different one instead)
+
+	length byte (number of bytes in the packet remaining to be read)
+
+	remaining bytes (packet data section)
+
+You should always read all bytes of a packet's data section.
+
+
+------------------------------------------------------------------------------
+layout of a print job:
+------------------------------------------------------------------------------
+ESC 0x40
+ESC 0x50
+while pages left {
+	ESC 0x51
+	while bitmap data for this page left {
+		ESC 0x52
+	}
+}
+ESC 0x55
+ESC 0x41

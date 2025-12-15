@@ -1,0 +1,3 @@
+version=3
+http://www.hinterbergen.de/mala/min12xxw/min12xxw-(.*)\.tar\.gz \
+	debian uupdate

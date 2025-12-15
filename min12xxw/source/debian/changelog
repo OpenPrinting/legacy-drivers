@@ -1,0 +1,137 @@
+min12xxw (0.0.9-10) unstable; urgency=medium
+
+  * Bump Standards-Version to 4.1.3 without changes needed
+  * Update Vcs-* fields for the move to salsa.d.o
+  * Initialize git-dpm
+
+ -- Didier Raboud <odyx@debian.org>  Sat, 10 Feb 2018 18:07:11 +0100
+
+min12xxw (0.0.9-9) unstable; urgency=medium
+
+  * Team upload
+
+  [ Didier Raboud ]
+  * Convert the repository from SVN on collab-maint to git in the printing
+    namespace; update the VCS-* fields accordingly
+  * Drop DM-Upload-Allowed field, Stefan got granted upload rights using the
+    new FTP-Master's procedure
+  * Bump debhelper compat to 9, update versioned build-dependendy of debhelper
+  * Bump Standards-Version to 3.9.5 without changes needed
+  * Put package under the Debian Printing Team umbrella, with Stefan's
+    agreement
+  * Add patch to fix the recieved/received typo in esc-m
+  * Add patch to fix the hyphen-as-minus errors in the min12xxw manpage
+  * Drop superfluous dh_installchangelogs call
+  * Replace dh_clean -k with dh_prep
+  * Import Ubuntu changes:
+    [ Till Kamppeter ]
+    - Recommend foomatic-db-compressed-ppds to get the PPDs for this printer
+      driver. Recommend foomatic-db only as an alternative.
+    - Switched source format to 3.0 (quilt)
+    - Moved upstream changes of the Debian package into a proper patch
+    - Added apport hook on Ubuntu and derivatives (LP: #338442)
+    - Put CPPFLAGS and LDFLAGS for the ./configure command line in quotes
+    [ Daniel T Chen ]
+    - Use dh-autoreconf, resolving FTBFS on ppc64el
+
+ -- Didier Raboud <odyx@debian.org>  Wed, 23 Apr 2014 21:54:23 +0200
+
+min12xxw (0.0.9-8) unstable; urgency=low
+
+  * debian/rules: Make build-indep/binary-indep rules not do anything,
+    since there is no arch-independent package any longer.
+  * debian/control: Remove transitional package min12xxw.
+
+ -- Stefan Potyra <sistpoty@ubuntu.com>  Sun, 27 Oct 2013 16:01:36 +0100
+
+min12xxw (0.0.9-7) unstable; urgency=low
+
+  * debian/rules: 
+    + Clean autotools generated files on clean to avoid
+      cluttering the .diff.gz.
+    + Run automake with --add-missing (closes: #725552).
+    + Export further hardening options and pass them to configure.
+  * debian/control: Update standards-version to 3.9.4, no further changes
+    required.
+
+ -- Stefan Potyra <sistpoty@ubuntu.com>  Mon, 07 Oct 2013 19:46:01 +0200
+
+min12xxw (0.0.9-6) unstable; urgency=low
+
+  * Adjust to adhere to the new printing stack
+    [http://wiki.debian.org/Teams/Printing/RethinkingTheStack?action=recall&rev=26]
+    (Closes: 647538)
+    + debian/control:
+      - change section to text
+      - change package name to printer-driver-min12xxw
+      - add transitional dummy package 'min12xxw'
+    + debian/rules:
+      - install to printer-driver-min12xxw
+      - install upstream changelog only to printer-driver-min12xxw
+      - install debian/changelog to dummy package min12xxw as well.
+  * debian/control:
+    + change synopsis to start with a lower case letter
+    + don't mention the homepage in the long description
+
+ -- Stefan Potyra <sistpoty@ubuntu.com>  Tue, 08 Nov 2011 22:04:56 +0100
+
+min12xxw (0.0.9-5) unstable; urgency=low
+
+  * debian/rules:
+    + use dpkg-buildflags to obtain CFLAGS and LDFLAGS.
+    + add build-arch target
+  * min12xxw.c: printav()
+    + add const to msg
+    + print msg using "%s"
+
+ -- Stefan Potyra <sistpoty@ubuntu.com>  Tue, 11 Oct 2011 20:56:34 +0200
+
+min12xxw (0.0.9-4) unstable; urgency=low
+
+  * debian/control: 
+    + Update Standards-Version to 3.9.2, no changes needed.
+    + Add DM-Upload-Allowed: yes.
+    + Drop Recommands against foomatic-db-engine and foomatic-filters-ppds
+      (Closes: #626289).
+  * debian/source/format: Select version 1.0 for now.
+  * debian/TODO.Debian: Dropped, since Recommends are changed now.
+  * debian/control
+
+ -- Stefan Potyra <sistpoty@ubuntu.com>  Tue, 10 May 2011 20:27:50 +0200
+
+min12xxw (0.0.9-3) unstable; urgency=low
+
+  * Makefile.am: Don't list manpage in both dist_man_MANS and man_MANS,
+    fixing FTBFS (Closes: #543100).
+  * debian/control: Bump standards-version to 3.8.3, no changes needed.
+
+ -- Stefan Potyra <sistpoty@ubuntu.com>  Mon, 24 Aug 2009 19:53:41 +0200
+
+min12xxw (0.0.9-2) unstable; urgency=low
+  
+  * debian/control:
+    - update Recommends for renamed cups packages (patch from Ubuntu, thanks
+      Till Kamppeter).
+    - still recommend on foomatic-filters-ppds (the ppds for the supported
+      printers are in there)
+    - add Homepage field
+    - add VCS-fields
+    - bump standards version to 3.8.0
+    - add automake to build-depends
+  * debian/rules:
+    - reformat a little to not exceed 80 chars for readability
+    - don't ignore errors on make distclean
+    - bootstrap from autotools
+  * debian/esc-m.1: add a space before the intial dash
+  * debian/copyright: 
+    - mention getopt.c, getopt1.c getopt.h as well
+    - add information, that the packaging is licensed as GPL-2+ as well
+  * Makefile.am: don't compile getopt.c, getopt1.c (already provided by libc)
+
+ -- Stefan Potyra <sistpoty@ubuntu.com>  Fri, 30 Jan 2009 19:53:25 +0100
+
+min12xxw (0.0.9-1) unstable; urgency=low
+
+  * Initial release (closes: #334093).
+
+ -- Stefan Potyra <sistpoty@ubuntu.com>  Fri,  6 Jan 2006 14:39:50 +0100
