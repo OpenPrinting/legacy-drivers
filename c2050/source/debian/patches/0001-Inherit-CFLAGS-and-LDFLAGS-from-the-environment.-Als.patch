@@ -1,0 +1,35 @@
+From 9b039767df21eecb2fd87f2906224a4bb7ff70f8 Mon Sep 17 00:00:00 2001
+From: Didier Raboud <odyx@debian.org>
+Date: Fri, 9 Feb 2018 17:15:47 +0100
+Subject: Inherit CFLAGS and LDFLAGS from the environment. Also use CPPFLAGS in
+ the building command
+
+Last-Update: 2014-04-13
+---
+ Makefile | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 727aa49..5fc6601 100644
+--- a/Makefile
++++ b/Makefile
+@@ -10,8 +10,8 @@
+ # Important compiler and linker options
+ CC=gcc
+ LD=gcc
+-CFLAGS=-g -O2
+-LDFLAGS=-g -O2
++CFLAGS+=-g -O2
++LDFLAGS+=-g -O2
+ 
+ # Required libraries
+ LDLIBS=
+@@ -23,7 +23,7 @@ MOD=$(SRC:.c=.o)
+ 
+ # Standard production rule
+ .c.o: 
+-	$(CC) $(CFLAGS) -c $<
++	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
+ 
+ # make all
+ all: c2050

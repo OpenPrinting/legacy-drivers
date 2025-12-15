@@ -1,0 +1,149 @@
+c2050 (0.3b-8) unstable; urgency=medium
+
+  * Bump Standards-Version to 4.1.3 without changes needed
+  * Update Vcs-* fields for the move to salsa.d.o
+  * Initialize git-dpm
+
+ -- Didier Raboud <odyx@debian.org>  Fri, 09 Feb 2018 17:16:22 +0100
+
+c2050 (0.3b-7) unstable; urgency=medium
+
+  * Team upload
+
+  [ Didier Raboud ]
+  * Bump S-V to 3.9.8 without changes needed
+  * Use full hardening
+
+  [ Helmut Grohne ]
+  * Fix FTCBFS: Use provided CC for linking (Closes: #839765)
+
+ -- Didier Raboud <odyx@debian.org>  Wed, 05 Oct 2016 08:06:35 +0200
+
+c2050 (0.3b-6) unstable; urgency=medium
+
+  * Team upload
+
+  * Drop c2050 transitional package (Closes: #806002)
+  * Bump Standards-Version to 3.9.6 without changes needed
+  * Add gbp.conf, adopt DEP-14 layout
+
+ -- Didier Raboud <odyx@debian.org>  Wed, 25 Nov 2015 20:53:56 +0100
+
+c2050 (0.3b-5) unstable; urgency=medium
+
+  * Team upload
+
+  * Move the repository from collab-maint to printing; update the VCS-* fields
+    accordingly
+  * Bump Standards-Version to 3.9.5 without changes needed
+  * Bump debhelper compatibility to 9 and add patch to inherit CFLAGS and
+    LDFLAGS from environment as well as use CPPFLAGS in the building command
+
+ -- Didier Raboud <odyx@debian.org>  Sun, 13 Apr 2014 14:56:54 +0200
+
+c2050 (0.3b-4) unstable; urgency=low
+
+  [ Didier Raboud ]
+  * Rename c2050 to printer-driver-c2050, add transitional package.
+  * Drop superfluous Recommends/Suggests.
+  * Change Section to text and Priority to optional.
+  * Slightly rewrite description.
+
+ -- Marco Nenciarini <mnencia@debian.org>  Fri, 21 Oct 2011 13:16:01 +0200
+
+c2050 (0.3b-3) unstable; urgency=low
+
+  * Install apport-hook only in Ubuntu and derivatives
+
+ -- Marco Nenciarini <mnencia@debian.org>  Tue, 31 May 2011 11:27:39 +0200
+
+c2050 (0.3b-2) unstable; urgency=low
+
+  * Merge changes from Ubuntu. (Closes: #539650, #601261, #626290)
+  * Switch to dpkg-source 3.0 (quilt) format
+  * Add Homepage and Vcs-* control fields
+  * Bump standard version to 3.9.2.0; no changes required
+  * Update build system to use simplified dh8 syntax.
+  * Change maintainer to Debian Printing Team
+  * Add myself as uploader
+
+ -- Marco Nenciarini <mnencia@debian.org>  Mon, 30 May 2011 18:53:18 +0200
+
+c2050 (0.3b-1ubuntu1) maverick; urgency=low
+
+  * debian/control: Cleaned up dependencies: Do not depend on the transitional
+    package gs, the package's name is ghostscript now. Recommend
+    foomatic-db-compressed-ppds and foomatic-db only as alternative. Also do
+    not suggest the obsolete package foomatic-filters-ppds.
+
+  * debian/rules, debian/local/apport-hook.py: Added apport hook.
+
+ -- Till Kamppeter <till.kamppeter@gmail.com>  Tue, 31 Aug 2010 20:24:45 +0200
+
+c2050 (0.3b-1) unstable; urgency=low
+
+  * New upstream release
+    + Merge changes from debian package
+  * Removed debian/c2050.1 and debian/ps2lexmark.i now shipped upstream
+
+ -- Marco Nenciarini <mnencia@debian.org>  Mon, 11 Jun 2007 13:01:32 +0200
+
+c2050 (0.3a-1) unstable; urgency=low
+
+  * New upstream release.
+    + Correct copyright notice to mention Christian Kornblum, the
+      author of c2070 driver.
+
+ -- Marco Nenciarini <mnencia@debian.org>  Sat, 09 Jun 2007 16:29:26 +0200
+
+c2050 (0.3-7) unstable; urgency=low
+
+  * Added watch file
+  * debian/copyright: Updated FSF address
+  * debian/control: Added recommendation for foomati-db and suggestion
+    for foomatic-filters-ppds
+
+ -- Marco Nenciarini <mnencia@debian.org>  Mon, 23 Jan 2006 18:09:31 +0100
+
+c2050 (0.3-6) unstable; urgency=low
+
+  * Bumped standards version.
+  * Changed download url in copyright file
+
+ -- Marco Nenciarini <mnencia@debian.org>  Wed, 22 Jun 2005 12:28:42 +0200
+
+c2050 (0.3-5) unstable; urgency=low
+
+  * Closes: #302953: Improper copyright file
+
+ -- Marco Nenciarini <mnencia@debian.org>  Fri, 17 Jun 2005 18:49:41 +0200
+
+c2050 (0.3-4) unstable; urgency=low
+
+  * Changed the description of package (Closes: #133960)
+
+ -- Marco Nenciarini <mnencia@debian.org>  Tue,  5 Mar 2002 13:51:24 +0100
+
+c2050 (0.3-3) unstable; urgency=low
+
+  * Changed the type of some variables from 'char' to 'signed char' to make
+    it working on arm, powerpc and s390. 
+
+ -- Marco Nenciarini <mnencia@debian.org>  Mon, 14 Jan 2002 15:09:00 +0000
+
+c2050 (0.3-2) unstable; urgency=low
+
+  * Changed priority from optional to extra.
+  * Added gs check to ps2lexmark script.
+
+ -- Marco Nenciarini <mnencia@debian.org>  Fri, 13 Apr 2001 09:51:53 +0000
+
+c2050 (0.3-1) unstable; urgency=low
+
+  * Initial Release. (Closes: #91765)
+
+ -- Marco Nenciarini <mnencia@debian.org>  Fri,  9 Mar 2001 20:08:29 +0100
+
+Local variables:
+mode: debian-changelog
+End:

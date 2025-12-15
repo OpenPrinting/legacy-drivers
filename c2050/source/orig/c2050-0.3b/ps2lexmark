@@ -1,0 +1,24 @@
+#!/bin/sh
+#
+# ps2lexmark translates a postscript file to the Lexmark 2050 Series protocol
+#
+# Copyright 2000-2007, Marco Nenciarini
+# Copyright 1999, Christian Kornblum
+#
+# License: GPL (GNU Public License)
+#
+
+if [ -x /usr/bin/gs ]
+then
+  gs -q -sDEVICE=bitcmyk \
+     -r300 \
+     -dDITHERPPI=150 \
+     -sPAPERSIZE=a4 \
+     -dNOPAUSE \
+     -dSAFER \
+     -dBATCH \
+     -sOutputFile=\|c2050 \
+     -
+else
+  echo "You must have gs to use this script." > /dev/stderr
+fi
