@@ -1,0 +1,36 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH C2050 1 "March 14, 2001"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+c2050 \- Ghostscript bitcymk to Lexmark 2050 Series protocol translator
+.SH SYNOPSIS
+.B c2050
+.SH DESCRIPTION
+.\" TeX users may be more comfortable with the \fB<whatever>\fP and
+.\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
+.\" respectively.
+\fBc2050\fP is a program that filters GhostScript output to the Lexmark
+2050 Series protocol. The input format is bitcmyk. The driver simply reads
+the standard input, converts it and then sends the data to the standard
+output. 
+.SH OPTIONS
+This program have no options.
+.SH SEE ALSO
+.BR ps2lexmark (1),
+.BR gs (1).
+.SH AUTHOR
+This manual page was written by Marco Nenciarini <mnencia@prato.linux.it>.

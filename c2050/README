@@ -1,0 +1,75 @@
+Lexmark 2050 Color Jetprinter Linux Driver
+
+The Lexmark 2050 is a fine printer: two seperate cartridges, up to 600dpi, full
+color printing capabilities and cheap. At least it was cheap, as you cannot buy
+it any longer. But if you already have one and want to use it with Linux, here
+the right driver can be found.
+Unfortunately, Lexmark decided to design the 2050 as a Windows GDI printer. The
+protocol is proprietary, so there is not any documentation available.
+Fortunately, as it is a very simple protocol, it has not been an unsolvable
+problem to reverse engineer it by printing to a file using the Windows driver.
+
+The protocol uses a short initialization sequence to set up the printer and
+load a page. After that, bit patterns with their own header are sent to the
+printer, usually followed by a sequence to transport the paper to the next
+vertical position. The bit patterns have one bit for each pen in the cartridge.
+The bits are in the reverse order of the pens in one column of the sweep; the
+uppermost pen last, then up to the last pen, after that the next column.Certain
+bytes in the header set the horizontal start position and the number of columns
+to print. A checksum, the complete number of bytes for one sweep including the
+header, has to be present in the header to make the printer accept the data.
+
+Color printing is nonetheless a difficult issue. As there are three colors in
+the color cartridge, there is only a third of the pens available for each
+color. There is also a gap inbetween two colors and magenta is disaligned
+as to the other colors. Yet all three colors are printed in one sweep, so there
+have to be some arithmetics.
+Optimization of white spaces is also handled by this driver by reducing the
+sweeps to their minimum width and transporting vertically over completely empty
+lines in just one sequence.
+
+The driver filters GhostScript output to the Lexmark protocol. The input format
+is bitcmyk. The driver simply reads the standard input, converts it and then
+sends the data to the standard output. This has been successfully tested with
+GhostScript 5.10, which is included in Debian 2.2.
+
+-------------------------------------------------------------------------------
+
+INSTALLING DRIVER
+
+After you have downloaded the tarball with the sourcecode, you have to extract
+its contents into a directory of your choice by typing
+
+		tar zxvf c2050-0.1.tar.gz
+
+Then you have to compile the code to get the binary for your system. This is
+done simply by typing
+
+		make
+
+If you are root (you should be root while installing new software in most cases
+anyway) you can now copy the binary to its destination, which is /usr/bin/c2070
+by typing
+
+		make install 
+		
+-------------------------------------------------------------------------------
+
+EXAMPLES
+
+To print Ghostscript example tiger.ps type (/dev/lp0 may be writable by the
+current user):
+
+gs -q -sDEVICE=bitcmyk \
+   -r300 \
+   -dDITHERPPI=150 \
+   -dNOPAUSE \
+   -dSAFER \
+   -dBATCH \
+   -sOutputFile=\|c2050 \
+   /usr/doc/gs/examples/tiger.ps > /dev/lp0
+
+or use ps2lexmark script:
+
+ps2lexmark < /usr/doc/gs/examples/tiger.ps > /dev/lp0
+
