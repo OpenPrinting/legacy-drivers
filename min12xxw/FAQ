@@ -1,0 +1,248 @@
+This FAQ is supposed to answer a lot of questions that users usually ask
+when they run into problems when installing or using the driver. It is
+still under development and answers such questions in no particular order.
+I suggest that you read all sections of this FAQ in case of problems, there
+may be valuable information even in sections where you didn't expect something
+to solve your problem. This is an early version of this FAQ, so suggestions
+for improvents in this FAQ are always welcome.
+
+
+Contents
+
+1. I have downloaded min12xxw, how do I build it?
+2. How can I test if min12xxw and the printer talk to each other?
+3. I've built min12xxw, how do I get my documents to print?
+4. When I print multiple documents one right after the other, some pages are
+   incomplete, blank or missing. What's happening?
+5. Graphics printouts are too dark/show 'banding' instead of smoothly varying
+   shades of grey. Can't one do this better?
+
+
+
+1. I have downloaded min12xxw, how do I build it?
+
+Unpack the archive containing min12xxw:
+
+	gunzip -dc min12xxw-x.y.z.tar.gz | tar xvf -
+
+Replace x.y.z by the version number appropriate for the release you have.
+This should leave you with a directory with the sources of min12xxw named
+min12xxw-x.y.z. In order to use the driver, you need to build it first.
+You'll need a C compiler and a make utility (these are usually available on
+most Linux systems. If not, use the installation program that came with your
+distribution to install them (they can usually be found in a category called
+something like development)). To build the driver, type:
+
+	cd min12xxw-x.y.z
+	./configure
+	make
+
+The first command brings you into the directory into which the sources were
+unpacked, the second has a look at the characeristics of your system from the
+point of view of a programmer to adapt the min12xxw sources to your system and
+the last command actually builds min12xxw. To be able to use it, you need to
+install it onto your system in a place where it can be easily found by other
+programs. To do so, you need to become root (log in as root and cd to the
+directory where you unpacked the min12xxw sources or use su or sudo):
+
+	make install
+
+Afterwards, you may want to tidy up after the build process:
+
+	make clean
+
+
+2. How can I test if min12xxw and the printer talk to each other?
+
+Now you can test if your PC and your printer talk to each other. Connect your
+printer to your PC and type one of the following lines:
+
+	min12xxw -m 1300W -d /dev/lp0 -s
+	min12xxw -m 1300W -d /dev/usb/lp0 -s
+
+Use the first line if you connected it to a parallel port, the second if you
+connected it via USB. You should also adapt the 1300W to the printer model you
+are actually using (e.g. if you have a 1250W, it should read ... -m 1250W ...)
+If you have more than one printer connected, or have several parallel ports,
+you may also have to use something like /dev/lp1 or /dev/usb/lp2 instead.
+Usually, the defaults are just fine. Note that you have to be root to use the
+driver in this way because it talks directly to the printer. You should see a
+message indicating the printer model, status, and how many pages it has
+already printed in its life. (See below for an example.) Please note that on
+other operating systems than Linux, the device file for the printer might be
+called differently (i.e. not something like /dev/lp0). Also, your OS might not
+support reading from a printer port. Some very old parallel ports do in fact
+not allow this because of different hardware used back then. If you have a
+a newer computer (anything sold after 1995, probably), you almost certainly
+have a parallel port that can read back from the printer. If you keep getting
+an error message, you have probably some kind of problem with the connection.
+Check again if all cables are securely attached and the printer is switched
+on. If this still doesn't help, ask someone to find out what is wrong with the
+connection (it might well be something on the software side of your PC). I
+can't do anything about this sort of problem from far away...
+If all goes well, you should see something like:
+
+mschiller5:~ # min12xxw -m 1200W -d /dev/usb/lp0 -s
+printer status: UMFG:MINOLTA-QMS;CMD:NA;MDL:PagePro 1200W;CLS:PRINTER;DES:MINOLTA-QMS PagePro 1200W;
+controller firmware version: 1A04
+page counter: 3255 pages
+mschiller5:~ # 
+
+This means that the driver talks to your PC.
+
+Please do also note that the procedure described above may or may not work on
+other operating systems. If you know how to make things work on your platform,
+feedback would be greatly appreciated.
+
+
+3. I've built min12xxw, how do I get my documents to print?
+
+Now the next question is how to make your applications print. I can't give you
+details on how to do this because details differ from distribution to
+distribution. What I'll give here is a description what happens below the
+surface and some hints where to turn to for help.
+
+We'll start with describing what happens with your print job on a normal Linux
+system when the printer is correctly installed. You application usually will
+produce a description of what is supposed to appear on paper. This description
+is done in a programming language called PostScript. This description is
+forwarded to the printer spooler. It puts all print jobs on the system into a
+queue and sends them to the printer one after the other. On their way there,
+they may need to be processed in order to make the desciption understandable
+for the printer. Clever (and usually expensive) printers understand
+postscript, but unfortunately, the 1[23]xxW series do not. A postscript
+interpreter called ghostscript reads the description and produces a bitmap
+which basically says which points on paper should become black an which should
+be left white. min12xxw takes this bitmap (which is not in a form the printer
+will understand) and convert it to something the printer will grasp. This is
+then sent to the printer which should start printing right away (assuming that
+it is powered up, of course).
+
+To make the printer work on your system, you have to tell the printer spooler
+how to run this postprocessing chain on the data that is sent by your
+applications. If you have a recent Linux distribution, you'll probably run
+CUPS as printer spooler, because it is easier to set up. Your distribution
+probably ships with a package containing CUPS, maybe it was already installed
+automatically. CUPS has the advantage that it reads files which describe how
+to run this postprocessing chain. The only thing you have to do is to download
+this description and make the configuration software of you distribution feed
+it into CUPS. Have a look at www.linuxprinting.org, they distribute these
+descriptions. They are called PPD files. The also have generic instructions on
+how to tell your distribution's configuration program to set up the printer.
+(I can't give specific steps here as this differs from distribution to
+distribution.) Once you have that set up, you should be able to print. Try
+
+	echo Hello, world! | lpr
+
+from the command line. This should produce a page containing "Hello, world!"
+in a typewriter like font. If this works, you should also be able to print
+from your applications.
+
+Older systems often have LPRng or even some older lpr installed. Configuration
+is considerably more work there, even if it offers a great deal of
+flexibility. If you use LPRng, you'll probably know how to set it up, so I
+won't give much detail here. All I want to say is that the manual page of
+min12xxw will probably give you enough details to get things going. You can
+access the manual page with:
+
+	man min12xxw
+
+This manual page will also give you the neccessary details to print without
+a spooling system for testing purposes, see the example given in the man
+page and tailor it to your situation (adjust printer model, resolution,
+paper size and tray used, and the filenames).
+
+
+4. When I print multiple documents one right after the other, some pages are
+   incomplete, blank or missing. What's happening?
+
+This problem is known and I can see no easy fix for it. What happens is the
+following: The PC feeds the printer with print data for a print job. The
+printer takes this data into it's buffer and produces output. At the same
+time, it signals the PC that it is ready for new data. When the PC has the
+data for the next job ready, it starts sending it. However, the people at
+Minolta seem to have decided that the start of each print job sort of resets
+the printer and cancels printing the current page. That is why the previous
+print job might be truncated. In a windoof environment, the print spooler can
+monitor the printer status an decide to wait a little longer to send the data.
+The print spoolers used on Linux are not designed to behave like that, they
+rely on a well-behaved printer which is actually ready for new data when it
+says so. As I don't intend to write a printer spooler specifically for this
+type of printer, I can only suggest two workarounds:
+The first is to wait until the current job is ready before you send the next
+job. The second is to print all of the jobs to files, which you cat into lpr:
+
+	cat file1 file2 file3 ... | lpr
+
+This will save you from waiting by making one big print job out of many small
+ones. While this is fine for single user systems, big multi user systems with
+a fair amount of things to be printed will probably not find these suggestions
+particularly useful. Unfortunately, I don't know what to do about this, the
+problem is in the printer protocol, and I can't change it. Maybe one could
+implement a sleeping cycle in the print spooler after each job, but this is
+quite a lot of work and will probably no be included in standard
+distributions. Upgrading your system's software would therefore mean having to
+start modifying the source of the spooler again...
+
+
+5. Graphics printouts are too dark/show 'banding' instead of smoothly varying
+   shades of grey. Can't one do this better?
+
+This comes from the fact that ghostscript that is used to render the output,
+producing a black-and-white bitmap, does not know all the peculiarities of
+underlying device, that is our printer in this case. For example, when the
+toner is fixated on the paper (using heat - that is why the sheets of paper
+come out still warm...), it is somewhat smeared out and occupies a somewhat
+larger area than ghostscript's idealized model expects. That is why the
+output appears to be slightly too dark. Also, when working with shades of
+grey on a black and white device, you have to approximate the grey levels by
+effectively reducing the resolution and use many dots, some white, some black
+to represent a grey shade in the reduced resolution (the process is usually
+called dithering). While ghostscript's default dithering settings are quite
+good for a large amount of applications we need to tweak them a little.
+
+If you use CUPS, the maintainer of the PPD files has promised me to add these
+tweaks to the PPD files. They should be available shortly on
+<http://www.linuxprinting.org>. For those of you who use LPRng or something
+similar, here are the details of how to do it per hand:
+
+- You have to prepend the postscript input with a little postscript program
+  that does a gamma correction, rendering the images a little brighter.
+  This fragment looks as follows:
+
+	%!
+	/.fixtransfer {
+	  currentcolortransfer 4 {
+	    mark exch
+	    dup type dup /arraytype eq exch /packedarraytype eq or
+	    1 index xcheck and { /exec load } if
+	    1.0 /exp load
+	    ] cvx 4 1 roll
+	  } repeat setcolortransfer
+	} bind odef
+	.fixtransfer
+	/setpagedevice { setpagedevice .fixtransfer } bind odef
+
+  Note the line "1.0 /exp load". You'll have to replace the number in this
+  line depending on the gamma factor that you want. To be exact, you have to
+  substitute the reciprocal of the gamma factor, i.e. for a gamma factor of
+  2.0, you have to replace 1.0 by 0.5. These factors a given in the table
+  below.
+
+- You also have to call ghostscript with a special option, namely
+  -dDITHERPPI=LPI, where LPI is a number given in the table below. This
+  option fine-tunes how ghostscript will "reduce" resolution to gain dots to
+  simulate grey levels. (LPI is short for lines per inch - this gives you
+  an idea how the resolution is being decreased for simulating greyscale...)
+
+- Unfortunately, gamma factor and LPI depend on the resolution and econo mode
+  being used or not. The values given below may not be optimal, but seem to be
+  good for most practical uses. They were found by much experimentation.
+
+  resolution    1200  1200x600  600  300  1200  1200x600  600  300
+  econo mode                                *      *       *    *
+  gamma          1.8    1.6     1.6  1.6   1.2    1.0     1.0  1.0
+  LPI            105     90      75   60   105     90      75   60
+
+  If you find better settings, please let me know.
+

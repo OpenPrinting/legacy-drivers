@@ -1,0 +1,15 @@
+NEWS
+
+Oct  8 2004	Updated the FAQ to include a paragraph on color banding
+		issues and gamma correction. Thanks to Eric Rucker
+		<bhtooefr@gmail.com> for bringing this issue to my attention.
+		If you have this problem, look into the FAQ, it explains how
+		this is caused and what to do about it.		
+
+Sep 26 2004	Wrote a little FAQ document. I hope that it answers the most
+		frequently asked questions and if actually helpful.
+
+Sep  7 2004	min12xxw now uses autoconf to adapt to different OSs and
+		machines. It does also include replacements for getline
+		getopt_long library functions. Please note that you have
+		to configure min12xxw now before you can build it.
