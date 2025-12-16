@@ -44,4 +44,9 @@ Printer driver for **Lexmark 2050 Color Jetprinter**
 
 Filter to convert a Postscript file to Lexmark 2050 format. This driver allows you to print at 300dpi in color on A4 paper.
 
+### min12xxw
+
+Printer driver for **(Konica) Minolta PagePro 1[234]xxW**
+
+A printer driver for the (Konica) Minolta PagePro 1200W, 1250W, 1300W, 1350W, and 1400W.
 
