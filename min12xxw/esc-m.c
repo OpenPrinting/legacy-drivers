@@ -87,7 +87,7 @@ static void dump50(unsigned char *data)
 	printf("ESC 50: select resolution and paper type:\n");
 
 	if (lb != 8) {
-		printf("\tExpected 8 data bytes for ESC 0x50 command, recieved %d.\n", lb);
+		printf("\tExpected 8 data bytes for ESC 0x50 command, received %d.\n", lb);
 		dumpraw(data);
 		return;
 	}
@@ -162,7 +162,7 @@ static void dump51(unsigned char *data)
 	printf("ESC 51: start new page and set paper format:\n");
 
 	if (lb != 22) {
-		printf("\tExpected 22 data bytes for ESC 0x51 command, recieved %d.\n", lb);
+		printf("\tExpected 22 data bytes for ESC 0x51 command, received %d.\n", lb);
 		dumpraw(data);
 		return;
 	}
@@ -260,7 +260,7 @@ static void dump52(unsigned char *data)
 	printf("ESC 52: send raster data:\n");
 
 	if (lb != 6) {
-		printf("\tExpected 6 data bytes for ESC 0x52 command, recieved %d.\n", lb);
+		printf("\tExpected 6 data bytes for ESC 0x52 command, received %d.\n", lb);
 		dumpraw(data);
 		return;
 	}

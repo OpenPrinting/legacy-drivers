@@ -721,11 +721,11 @@ static struct map resolutions[] = {
 /* this procedure is used by help() below to print available somethings
  * in a nice and painless way from the maps above
  * see help() below and everything will become clearer */
-static void printav(char *msg, struct map *m, int defid)
+static void printav(const char *msg, struct map *m, int defid)
 {
 	int i, n;
 	
-	n = printf(msg);
+	n = printf("%s", msg);
 	/* print all available somethings from our map */
 	for (i = 0; m[i].str != NULL; i++) {
 		/* in case we had to start a new line below, we need to
