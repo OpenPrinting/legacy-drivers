@@ -1,0 +1,67 @@
+revision history:
+
+v. 0.0.0	(Jun  9 2004) initial revision based on Adam's driver
+
+v. 0.0.1	(Jun 10 2004) fixed a bug when printing multipage
+		documents directly to the printer (the printer rejects
+		the data if the pauses between pages due to data processing
+		on the host are	too long, solution: buffer output in
+		temporary file)
+
+v. 0.0.2	(Jun 14 2004) added correct treatment of margins
+
+v. 0.0.3	(Jun 19 2004) added support for reading data from printer
+		as well as a toner-saving mode, fixed a bug in 300 dpi
+		output - this will be the version initially released to
+		the public
+
+v. 0.0.4	(Jun 20 2004) made the raster data compression even
+		faster and improved the compression ratio somewhat
+
+v. 0.0.5	(Jul 18 2004) little speedup in compression routine
+		initial support for 13xxW series printers based on
+		looking at output of windoof driver for 13xxW printers
+		and suggestions and much help from David Hamilton
+		<dhamilto@angel.homeip.net>
+
+v. 0.0.6	(Oct  8 2004) min12xxw is now using GNU autoconf to adapt
+		to different OSs/machines. I also added replacements for
+		getline/getopt_long functions for systems that don't have
+		them. (This was inspired by an e-mail from David Hupp
+		<David@Hupp.com> who ran into problems trying to build on
+		FreeBSD - we can't leave those FreeBSD people without a
+		driver, can we?) Apparently this does also fix build problems
+		on Mac OS X. min12xxw now has an FAQ document which should
+		answer some frequently asked questions. I also made some
+		tiny optimizations which should increase raster data
+		compression speed a tiny little bit. Also, a temporary file
+		to buffer the output is only created when not writing to a
+		pipe or a regular file.
+
+v. 0.0.7	(Apr 11 2005) some minor cleanups and fixes in the code,
+		resulting in cleaner support for BSD-like systems which have
+		fgetln instead of getline. Min12xxw used to build on MaxOS X,
+		now it works on Mac OS X as well. ;) No functional changes.
+
+v. 0.0.8	(Aug  5 2005) a few fixes making the code (hopefully) 64-bit
+		clean. Check for gettext in libintl or standard C library is
+		now done - compiling on NetBSD should be possible now. Apart
+		from that no functional changes.
+
+v. 0.0.9	(Dec 31 2005) a few code cleanups here and there, fixed a bug
+		that was triggered by pages with very small dimensions (thanks
+		go to Ben Cooper for his bug report), initial support for the
+		1400W model (thanks go to Krishnaprasad for asking me to do
+		it, and to Konica-Minolta in the Netherlands because it was
+		the only web site that I managed to download a windoof driver
+		from so I could have a look at the raw printer data produced
+		by the windoof driver, besides I wish to thank the qemu
+		developers for writing a virtual machine that allows one to
+		drink a tea or two but not to grow a beard while waiting for
+		the windoof 98 installation to complete on a G3 330 MHz)
+		also updated esc-m, an utility to dump the raw data format
+		used by all supported printers in a more human-readable way
+		still, esc-m remains a hack and should only be used to
+		analyse and debug raw data if really neccessary, for example
+		raw data produced by windoof drivers for new models that
+		min12xxw does not (yet) support
