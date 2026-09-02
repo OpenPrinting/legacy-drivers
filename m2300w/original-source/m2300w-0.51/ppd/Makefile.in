@@ -1,0 +1,65 @@
+#
+# $Header: /cvsroot/m2300w/m2300w/ppd/Makefile.in,v 1.7 2005/10/06 19:55:04 gfuer Exp $
+#
+# Copyright (C) 2004 Gerhard Fuernkranz
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+
+INSTALL		= @INSTALL@
+@SET_MAKE@
+
+INSTROOT	=
+NAME		= @PACKAGE_NAME@
+VERSION		= @PACKAGE_VERSION@
+PREFIX		= @prefix@
+CUPS_PPDS	= @CUPS_PPDS@
+PPDNAME		= @PPDNAME@
+PPDNAME2	= @PPDNAME2@
+PRINTERDB	= $(INSTROOT)/usr/share/YaST2/data/printerdb
+
+all: $(PPDNAME) $(PPDNAME2)
+
+install: all
+	# remove stuff left over from old 0.1 driver
+	rm -f $(INSTROOT)$(CUPS_PPDS)/Minolta/2300w.ppd
+	rm -f $(INSTROOT)$(CUPS_PPDS)/Minolta/2300w.ppd.gz
+	rm -f $(INSTROOT)$(CUPS_PPDS)/minolta/2300w.ppd
+	rm -f $(INSTROOT)$(CUPS_PPDS)/minolta/2300w.ppd.gz
+	$(INSTALL) -d -m 755 $(INSTROOT)$(CUPS_PPDS)/Minolta; \
+	$(INSTALL) -m 644 $(PPDNAME) $(INSTROOT)$(CUPS_PPDS)/Minolta; \
+	$(INSTALL) -m 644 $(PPDNAME2) $(INSTROOT)$(CUPS_PPDS)/Minolta; \
+	$(INSTALL) -d -m 755 $(PRINTERDB)
+	$(INSTALL) -m 644 $(PPDNAME) $(PRINTERDB)
+	$(INSTALL) -m 644 $(PPDNAME2) $(PRINTERDB)
+	if test -z "$(INSTROOT)" -a -x /etc/init.d/cups ; then \
+	    if ps -ef | grep -v grep | grep /usr/sbin/cupsd >/dev/null ; then \
+		/etc/init.d/cups restart ; \
+	    fi ; \
+	fi
+	@if test -z "$(INSTROOT)"; then \
+	    echo "************************************************************" ;\
+	    echo "*** Please remove all printer queues which are associated" ;\
+	    echo "*** with the m2300w driver from your spooler's configuartion" ;\
+	    echo "*** and reinstall them from the scratch" ;\
+	    echo "************************************************************" ;\
+	fi
+
+clean:
+	rm -f $(PPDNAME).gz $(PPDNAME2).gz
+
+distclean: clean
+	rm -f Makefile
+

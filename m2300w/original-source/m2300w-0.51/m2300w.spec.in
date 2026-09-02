@@ -1,0 +1,171 @@
+#
+# $Header: /cvsroot/m2300w/m2300w/m2300w.spec.in,v 1.12 2005/10/06 19:55:03 gfuer Exp $
+#
+# Copyright (C) 2004  Gerhard Fuernkranz
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+
+%define name		@PACKAGE_NAME@
+%define version		@PACKAGE_VERSION@
+%define release		@RELEASE@
+
+%define prefix		@prefix@
+%define foomatic_db	@FOOMATIC_DB@
+%define cups_ppds	@CUPS_PPDS@
+%define ppdname		@PPDNAME@
+%define ppdname2	@PPDNAME2@
+
+Name:		%{name}
+Copyright:	GPL
+Group:		Hardware/Printing
+Autoreqprov:	on
+Version:	%{version}
+Release:	%{release}
+Serial:		%(perl -e 'print time')
+Summary:	Konica Minolta magicolor 2300W and 2400W Printer Driver
+Summary(de):	Konica Minolta magicolor 2300W und 2400W Druckertreiber
+URL:		http://m2300w.sf.net
+Distribution:	linux
+Vendor:		The m2300w Team
+Packager:	The m2300w Team <http://m2300w.sourceforge.net>
+
+#BuildRoot:	@abs_top_builddir@/INSTROOT
+BuildRoot:	%{_tmppath}/%{name}-root
+
+Source0:	%{name}-%{version}.tar.gz
+
+%description
+This is an open source Linux printer driver for the Konica Minolta
+magicolor 2300W and 2400W color laser printers. It requires ghostscript
+and foomatic. It is recommended to use this driver in conjunction
+with CUPS.
+
+%description -l de
+Ein freier Linux Druckertreiber für die Farblaserdrucker Konica Minolta
+magicolor 2300W und 2400W. Zum Betrieb werden ghostscript und foomatic
+benötigt. Als Spooler wird CUPS empfohlen.
+
+%prep
+
+if [ "$M2300W_MAKE" != y ]; then
+# %setup needs to start at the beginnig of the line!
+%setup -q
+    PATH=$PATH:`pwd`/foomatic ./configure --prefix=%{prefix}
+fi
+
+%build
+
+if [ "$M2300W_MAKE" != y ]; then
+    make CFLAGS="$RPM_OPT_FLAGS"
+fi
+
+%install
+
+if [ "$M2300W_MAKE" != y ]; then
+    make install INSTROOT=$RPM_BUILD_ROOT
+fi
+
+%pre
+
+PATH=/usr/bin:/bin:/usr/local/bin:/opt/bin:$PATH
+export PATH
+GS=`type -p gs`
+if test $? -ne 0 -o ! -f "$GS" ; then
+    echo "ERROR: Cannot not find gs."
+    echo "       Ghostscript is required to run the m2300w driver."
+    exit 1
+else
+    echo "Found ghostscript: $GS"
+fi
+$GS -sDEVICE=nullpage -dNOPAUSE -dBATCH -c "(Version=) print revision ="
+if test $? -ne 0 ; then
+    echo "ERROR: $GS does not work"
+    exit 1
+fi
+
+# remove old foomatic DB options
+# left over from previous m2300w release
+rm -f %{foomatic_db}/source/opt/m2300w-*.xml
+
+%post
+
+# remove stuff left over from the old 0.1 driver
+rm -f %{cups_ppds}/Minolta/2300w.ppd
+rm -f %{cups_ppds}/Minolta/2300w.ppd.gz
+rm -f %{cups_ppds}/minolta/2300w.ppd
+rm -f %{cups_ppds}/minolta/2300w.ppd.gz
+rm -rf %{prefix}/share/%{name}/crd
+
+# install foomatic-rip if necessary
+if test ! -f /usr/bin/foomatic-rip ; then
+    echo "Installing /usr/bin/foomatic-rip"
+    cp  %{prefix}/share/%{name}/%{version}/foomatic/foomatic-rip \
+        /usr/bin/foomatic-rip
+    chmod 755 /usr/bin/foomatic-rip
+fi
+if test -d /usr/lib/cups/filter ; then
+    if test ! -f /usr/lib/cups/filter/foomatic-rip ; then
+	rm -f /usr/lib/cups/filter/foomatic-rip
+	ln -s /usr/bin/foomatic-rip /usr/lib/cups/filter/foomatic-rip
+    fi
+fi
+if test -d /usr/lib/ppr ; then
+    test -d /usr/lib/ppr/lib || mkdir -m 755 /usr/lib/ppr/lib
+    test -d /usr/lib/ppr/interfaces || mkdir -m 755 /usr/lib/ppr/interfaces
+    rm -f /usr/lib/ppr/lib/foomatic-rip
+    rm -f /usr/lib/ppr/interfaces/foomatic-rip
+    ln -s /usr/bin/foomatic-rip /usr/lib/ppr/lib
+    ln -s /usr/bin/foomatic-rip /usr/lib/ppr/interfaces
+fi
+
+# restart CUPS
+if ps -ef | grep -v grep | grep /usr/sbin/cupsd > /dev/null ; then
+    if test -x /etc/init.d/cups ; then /etc/init.d/cups restart ; fi
+fi
+echo "**************************************************************"
+echo "*** Please read %{prefix}/share/doc/%{name}-%{version}/..."
+echo "**************************************************************"
+echo "*** Please remove all printer queues which are associated"
+echo "*** with the m2300w driver from your spooler's configuration"
+echo "*** and reinstall them from the scratch."
+echo "**************************************************************"
+
+%files
+%defattr(-,root,root)
+%{prefix}/bin/m2300w
+%{prefix}/bin/m2400w
+%{prefix}/bin/m2300w-wrapper
+%{prefix}/share/%{name}/%{version}
+# %{foomatic_db}/source
+# %{cups_ppds}/Minolta
+%{foomatic_db}/source/*/*
+%{cups_ppds}/Minolta/%{ppdname}
+%{cups_ppds}/Minolta/%{ppdname2}
+/usr/share/YaST2/data/printerdb/%{ppdname}
+/usr/share/YaST2/data/printerdb/%{ppdname2}
+%doc %{prefix}/share/doc/%{name}-%{version}
+
+%changelog
+* Wed Oct 05 2005 Gerhard Fuernkranz <gfuer@users.sourceforge.net>
+  Added support for the 2400W printer model which was contributed
+  by Thomas Rohringer.
+
+* Wed Sep 06 2004 Gerhard Fuernkranz <gfuer@users.sourceforge.net>
+  Don't restart CUPS if cupsd is not running
+
+* Wed Aug 04 2004 Gerhard Fuernkranz <gfuer@users.sourceforge.net>
+  Revised RPM build stuff, inspired by ideas from Herber Huebner
+

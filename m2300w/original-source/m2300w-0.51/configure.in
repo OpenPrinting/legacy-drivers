@@ -1,0 +1,108 @@
+dnl --------------------------------------------------------------------------
+dnl
+dnl $Header: /cvsroot/m2300w/m2300w/configure.in,v 1.13 2005/10/16 20:16:02 gfuer Exp $
+dnl
+dnl Copyright (C) 2004  Gerhard Fuernkranz
+dnl
+dnl This program is free software; you can redistribute it and/or modify
+dnl it under the terms of the GNU General Public License as published by
+dnl the Free Software Foundation; either version 2 of the License, or
+dnl (at your option) any later version.
+dnl
+dnl This program is distributed in the hope that it will be useful,
+dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+dnl GNU General Public License for more details.
+dnl
+dnl You should have received a copy of the GNU General Public License
+dnl along with this program; if not, write to the Free Software
+dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+dnl
+dnl --------------------------------------------------------------------------
+
+dnl Initialize autoconf and specify version
+
+AC_INIT(m2300w,0.51)
+RELEASE=1
+AC_SUBST(RELEASE)
+
+PPDNAME=magicolor_2300W-m2300w.ppd
+PPDNAME2=magicolor_2400W-m2400w.ppd
+FULL_PPDNAME=Minolta-$PPDNAME
+FULL_PPDNAME2=Minolta-$PPDNAME2
+
+AC_SUBST(PPDNAME)
+AC_SUBST(PPDNAME2)
+AC_SUBST(FULL_PPDNAME)
+AC_SUBST(FULL_PPDNAME2)
+
+dnl --------------------------------------------------------------------------
+
+AC_PREFIX_DEFAULT(/usr)
+
+AC_PROG_CC
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+
+AC_CHECK_LIB(m,floor)
+
+AC_PATH_PROG(GZIP,gzip,,[/usr/bin:/bin:/usr/local/bin:/opt/bin:$PATH])
+if test -z "$GZIP"; then
+    echo "Could not locate gzip"
+    exit 1
+fi
+
+dnl --------------------------------------------------------------------------
+dnl check for CUPS PPD directory
+dnl --------------------------------------------------------------------------
+
+DATASEARCHPATH=/usr/share:/usr/local/share:/usr/lib:/usr/local/lib:/opt
+if test x$uname = xIRIX; then
+    DATASEARCHPATH="/usr/freeware/share:$DATASEARCHPATH"
+fi
+
+AC_PATH_DIRS(CUPS_PPDS,cups/model,/usr/share/cups/model,$DATASEARCHPATH)
+
+dnl --------------------------------------------------------------------------
+dnl check for GHOSTSCRIPT
+dnl --------------------------------------------------------------------------
+
+AC_PATH_PROG(GS,gs,,[/usr/bin:/bin:/usr/local/bin:/opt/bin:$PATH])
+if test -z "$GS"; then
+    echo "This driver requires ghostscript."
+    echo "Please install ghostscript first."
+    exit 1
+fi
+
+echo "testing $GS..."
+$GS -sDEVICE=nullpage -dNOPAUSE -dBATCH -c "(Version=) print revision ="
+if test $? -ne 0 ; then
+    echo "$GS does not work"
+    exit 1
+fi
+echo "ok"
+
+dnl --------------------------------------------------------------------------
+dnl check for FOOMATIC
+dnl --------------------------------------------------------------------------
+
+AC_PATH_PROG(FOOMATIC_RIP,foomatic-rip,,[/usr/bin:/bin:/usr/local/bin:/opt/bin:$PATH])
+if test -z "$FOOMATIC_RIP"; then
+    echo "ERROR: This driver requires foomatic-rip."
+    echo "Please install the 'foomatic-filters' package first."
+    echo "See http://www.linuxprinting.org/foomatic.html"
+    echo "(Some distributions, e.g. SuSE, deliver foomatic-rip with CUPS)"
+    exit 1
+fi
+
+AC_PATH_PROG(FOOMATIC_PPDFILE,foomatic-ppdfile,,[/usr/bin:/bin:/usr/local/bin:/opt/bin:$PATH])
+
+AC_PATH_DIRS(FOOMATIC_DB,foomatic/db,/usr/share/foomatic/db,$DATASEARCHPATH)
+
+dnl --------------------------------------------------------------------------
+dnl create output files
+dnl --------------------------------------------------------------------------
+
+AC_OUTPUT(Makefile m2300w.spec src/Makefile src/m2300w-wrapper ppd/Makefile psfiles/Makefile foomatic/Makefile)
+

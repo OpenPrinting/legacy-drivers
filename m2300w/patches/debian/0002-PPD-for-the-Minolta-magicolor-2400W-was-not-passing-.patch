@@ -1,0 +1,31 @@
+From dfb07257733ddb1037c9a48ad0412ddd9ceba4ba Mon Sep 17 00:00:00 2001
+From: Till Kamppeter <till.kamppeter@gmail.com>
+Date: Sat, 10 Feb 2018 16:39:10 +0100
+Subject: PPD for the Minolta magicolor 2400W was not passing cupstestppd.
+
+Last-Update: 2007-03-14
+---
+ ppd/magicolor_2400W-m2400w.ppd | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/ppd/magicolor_2400W-m2400w.ppd b/ppd/magicolor_2400W-m2400w.ppd
+index 7525ac9..084aff0 100644
+--- a/ppd/magicolor_2400W-m2400w.ppd
++++ b/ppd/magicolor_2400W-m2400w.ppd
+@@ -139,11 +139,11 @@ aft.Gray "
+ *OpenUI *Resolution/Resolution: PickOne
+ *FoomaticRIPOption Resolution: enum CmdLine A
+ *OrderDependency: 100 AnySetup *Resolution
+-*DefaultResolution: 1200x600
+-*Resolution 1200x600/1200x600 dpi: "%% FoomaticRIPOptionSetting: Resolution=1200x600"
+-*FoomaticRIPOptionSetting Resolution=1200x600: "-r 2 "
+-*Resolution 2400x600/2400x600 dpi: "%% FoomaticRIPOptionSetting: Resolution=2400x600"
+-*FoomaticRIPOptionSetting Resolution=2400x600: "-r 3 "
++*DefaultResolution: 1200x600dpi
++*Resolution 1200x600dpi/1200x600 dpi: "%% FoomaticRIPOptionSetting: Resolution=1200x600dpi"
++*FoomaticRIPOptionSetting Resolution=1200x600dpi: "-r 2 "
++*Resolution 2400x600dpi/2400x600 dpi: "%% FoomaticRIPOptionSetting: Resolution=2400x600dpi"
++*FoomaticRIPOptionSetting Resolution=2400x600dpi: "-r 3 "
+ *CloseUI: *Resolution
+ 
+ *OpenUI *Multipage/Multipage: PickOne

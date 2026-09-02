@@ -1,0 +1,24 @@
+From 06081f12abed295542adf34f45a42908d177b267 Mon Sep 17 00:00:00 2001
+From: Till Kamppeter <till.kampetter@gmail.com>
+Date: Sat, 10 Feb 2018 16:39:11 +0100
+Subject: Adds "-dNOINTERPOLATE" to the Ghostscript command line. This
+
+ makes the page rendering by Ghostscript significantly faster.
+Last-Update: 2009-06-24
+---
+ src/m2300w-wrapper.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/m2300w-wrapper.in b/src/m2300w-wrapper.in
+index 1f1a94b..14325c0 100755
+--- a/src/m2300w-wrapper.in
++++ b/src/m2300w-wrapper.in
+@@ -465,7 +465,7 @@ else
+     GSBIN=gs
+ fi
+ 
+-GS="$GSBIN -q -dBATCH -dSAFER -dQUIET -dNOPAUSE -dMaxBitmap=134217728"
++GS="$GSBIN -q -dBATCH -dSAFER -dQUIET -dNOPAUSE -dNOINTERPOLATE -dMaxBitmap=134217728"
+ 
+ cat >> /tmp/m2300w.log <<EOF
+ 

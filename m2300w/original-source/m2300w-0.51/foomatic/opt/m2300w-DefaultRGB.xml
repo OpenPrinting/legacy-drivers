@@ -1,0 +1,83 @@
+<option type="enum" id="opt/m2300w-DefaultRGB">
+
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+
+    <!-- needed to use "DefRGB" here, to make CUPS happy -->
+    <arg_shortname><en>DefRGB</en></arg_shortname>
+    <arg_longname><en>DefaultRGB</en></arg_longname>
+
+    <arg_execution>
+	<arg_group>PrintoutMode</arg_group>
+	<arg_order>340</arg_order>
+	<arg_spot>A</arg_spot>
+	<arg_required />
+	<arg_substitution />
+	<arg_proto>-o DefaultRGB=%s </arg_proto>
+    </arg_execution>
+
+    <constraints>
+	<constraint sense="true">
+	<driver>m2300w</driver>
+	<arg_defval>ev/m2300w-DefaultRGB-sRGB</arg_defval>
+	</constraint>
+	<constraint sense="true">
+	<driver>m2400w</driver>
+	<arg_defval>ev/m2300w-DefaultRGB-sRGB</arg_defval>
+	</constraint>
+    </constraints>
+
+    <enum_vals>
+	<enum_val id="ev/m2300w-DefaultRGB-sRGB">
+	    <ev_driverval>sRGB</ev_driverval>
+	    <ev_shortname><en>sRGB</en></ev_shortname>
+	    <ev_longname><en>Interpret as sRGB (preferred)</en></ev_longname>
+	    <comments> 
+		<en>
+Interpret /DeviceRGB colors in printed documents as RGB values
+in the sRGB color space. This setting should be appropriate
+for most typical consumer applications and purposes.
+		</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-DefaultRGB-AdobeRGB">
+	    <ev_driverval>AdobeRGB</ev_driverval>
+	    <ev_shortname><en>AdobeRGB</en></ev_shortname>
+	    <ev_longname><en>Interpret as AdobeRGB</en></ev_longname>
+	    <comments> 
+		<en>
+Interpret /DeviceRGB colors in printed documents as
+RGB values in the AdobeRGB color space.
+		</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-DefaultRGB-gimp-print">
+	    <ev_driverval>gimp-print</ev_driverval>
+	    <ev_shortname><en>gimp-print</en></ev_shortname>
+	    <ev_longname><en>For printing PS files created by gimp</en></ev_longname>
+	    <comments> 
+		<en>
+If you are printing sRGB images from gimp, using gimp's File -&gt; Print
+dialogue, then select this setting.  Do not use the sRGB setting in this
+case, since gimp mangles colors during printing, and this settings
+compensates gimp's changes to the colors.
+		</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-DefaultRGB-builtin">
+	    <ev_driverval>builtin</ev_driverval>
+	    <ev_shortname><en>builtin</en></ev_shortname>
+	    <ev_longname><en>Use default built into ghostscript</en></ev_longname>
+	    <comments> 
+		<en>
+Use ghostscript's default remapping of /DeviceRGB to CIE-based colors.
+		</en>
+	    </comments> 
+	</enum_val>
+
+    </enum_vals>
+</option>
+

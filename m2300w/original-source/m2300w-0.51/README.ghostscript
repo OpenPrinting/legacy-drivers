@@ -1,0 +1,91 @@
+
+The m2300w Driver and Ghostscript
+=================================
+
+The m2300w driver requires that Ghostscript is installed on the system
+(as /usr/bin/gs), and the correct operation of the driver heavily
+depends on the correct functioning of Ghostscript.
+
+Basically, the m2300w driver is supposed to work with different versions
+of Ghostscript:
+
+    * GNU Ghostscript 7.xx <http://www.ghostscript.com/doc/gnu/index.htm>
+    * ESP Ghostscript 7.xx <http://www.cups.org/ghostscript.php>
+    * AFPL Ghostscript 8.xx <http://www.ghostscript.com/doc/AFPL/index.htm>
+    * and likely also with several other ones
+
+However, the color matching of the m2300w driver is based on CIE-based
+color rendering and PostScript level 3 color management features, which
+seem to work best with AFPL Ghostscript 8.xx. For printing of images, gs
+8.xx also gives better color rendering, with e.g. less banding artifacts
+in color gradients.
+
+We've also encountered a few PostScript documents, which did not print
+correctly in conjunction with our driver framwork and gs 7.xx (due to an
+apparent bug in gs 7.xx), but which did work fine with gs 8.xx. But you
+shouldn't overestimate the latter problem, since every Ghostscript
+version is buggy, and gs 8.xx may have different bugs. We'll also
+attempt to find a workaround for this problem.
+
+Current Linux distributions usually include either GNU Ghostscript 7.xx
+or ESP Ghostscript 7.xx. The apparent reason why they do not include gs
+8.xx yet, seems to be that AFPL Ghostscript 8.xx is not distributed
+under the terms of the GNU GPL, but under the terms of the AFPL license
+<http://www.ghostscript.com/doc/cvs/Public.htm>, which does not fit with
+the business models of Linux vendors. The AFPL license basically grants
+free usage, but limits redistribution.
+
+AFPL Ghostscript 8.xx is available from http://www.ghostscript.com. The
+drawback is, you need to compile it from the sources. If you are an
+experienced Linux guru, this won't be a problem for you. But if you are
+a Linux newbie and/or don't feel able to compile and install AFPL
+Ghostscript 8.xx yourself without help, then rather live with the
+ghostscript version that comes with your Linux distribution and DON'T
+consider upgrading ghostscript.
+
+
+Binary RPMs of AFPL Ghostscript 8.xx
+
+For the convenience of all m2300w users who do not want or do not have
+the know-how to build ghostscript from the sources, we have built a
+binary RPM package of AFPL Ghostscript 8.xx which we distribute below
+under the terms of the Aladdin Free Public License
+<http://www.ghostscript.com/doc/cvs/Public.htm>. Don't download the
+package, if you don't agree with the licensing terms.
+
+This RPM package was built on SuSE Linux 8.1, but it will likely also
+work with other Linux distributions which support packages in RPM format.
+
+It is considered as "goodie" and is not part of the m2300w driver. If
+the package works for you, then your're lucky, otherwise just don't use
+it and compile and install ghostscript 8.xx yourself, or live with the
+ghostscript version of your Linux distribution.
+
+The m2300w-ghostscript package only contains Ghostscript 8.xx, but it
+does not contain any fonts. Therefore you always need to install the
+ghostscript packages from your Linux distributions in additition to
+m2300w-ghostscript. If the m2300w-ghostscript package is installed, then
+the m2300w driver still executes /usr/bin/gs (from the Linux
+distribution) in order to locate the installed fonts, and then runs
+/usr/share/m2300w/gs/bin/gs to "rip" the PostScript documents.
+
+
+RPM Download:
+
+    * http://m2300w.sourceforge.net/gs/m2300w-ghostscript-8.14-2.i386.rpm
+
+
+========================
+!!! IMPORTANT NOTICE !!!
+========================
+
+Ghostscript is not part of the m2300w driver, but a separate product. In
+fact, it is a very complex product. It is maintained at
+http://www.ghostscript.com. Please understand, that we cannot and DO NOT
+PROVIDE SUPPORT FOR GHOSTSCRIPT. So please don't ask the m2300w team for
+help if you e.g. attempt to build ghostscript from the sources and run
+into problems. Sorry for this inconvenience.
+
+------------------------------------------------------------------------
+Last updated: 2004-06-29 gfuer@users.sourceforge.net
+

@@ -1,0 +1,23 @@
+From 30ae4768957c5bd438b391bc1492168a4db1a83a Mon Sep 17 00:00:00 2001
+From: Didier Raboud <odyx@debian.org>
+Date: Sat, 10 Feb 2018 16:39:13 +0100
+Subject: Replace `let' bashism with arithmetic expansion
+
+Last-Update: 2013-12-06
+---
+ src/m2300w-wrapper.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/m2300w-wrapper.in b/src/m2300w-wrapper.in
+index 14325c0..91ac753 100755
+--- a/src/m2300w-wrapper.in
++++ b/src/m2300w-wrapper.in
+@@ -375,7 +375,7 @@ case "$PAPER" in
+ *) error "Unknown paper code $PAPER";;
+ esac
+ 
+-let resX=$resX*$RESMUL;
++$((resX*=$RESMUL));
+ PAPERSIZE="-g$resX"x"$resY";
+ PAPERCODE="-p $paper";
+ 

@@ -1,0 +1,28 @@
+From 2d00aa45fe0aa54d8562e0c79b437648f490b075 Mon Sep 17 00:00:00 2001
+From: Didier Raboud <odyx@debian.org>
+Date: Sat, 10 Feb 2018 16:39:12 +0100
+Subject: Search foomatic-rip in /usr/lib/cups/filter as this is the
+
+ needed filter, not the binary in /usr/bin.
+Last-Update: 2013-12-06
+---
+ configure.in | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/configure.in b/configure.in
+index 10976f3..97b0574 100644
+--- a/configure.in
++++ b/configure.in
+@@ -87,10 +87,10 @@ dnl --------------------------------------------------------------------------
+ dnl check for FOOMATIC
+ dnl --------------------------------------------------------------------------
+ 
+-AC_PATH_PROG(FOOMATIC_RIP,foomatic-rip,,[/usr/bin:/bin:/usr/local/bin:/opt/bin:$PATH])
++AC_PATH_PROG(FOOMATIC_RIP,foomatic-rip,,[/usr/lib/cups/filter:/usr/bin:/bin:/usr/local/bin:/opt/bin:$PATH])
+ if test -z "$FOOMATIC_RIP"; then
+     echo "ERROR: This driver requires foomatic-rip."
+-    echo "Please install the 'foomatic-filters' package first."
++    echo "Please install the 'foomatic-filters' or 'cups-filters' (>= 1.0.42) package first."
+     echo "See http://www.linuxprinting.org/foomatic.html"
+     echo "(Some distributions, e.g. SuSE, deliver foomatic-rip with CUPS)"
+     exit 1

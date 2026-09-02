@@ -1,0 +1,58 @@
+#
+# $Header: /cvsroot/m2300w/m2300w/src/Makefile.in,v 1.3 2005/10/06 19:55:04 gfuer Exp $
+#
+# Copyright (C) 2004  Gerhard Fuernkranz
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+
+CC	= @CC@
+CFLAGS	= @CFLAGS@
+LIBS	= @LIBS@
+INSTALL	= @INSTALL@
+@SET_MAKE@
+
+INSTROOT=
+NAME	= @PACKAGE_NAME@
+VERSION	= @PACKAGE_VERSION@
+PREFIX	= @prefix@
+BINDIR	= $(INSTROOT)$(PREFIX)/bin
+SHARE	= $(INSTROOT)$(PREFIX)/share/$(NAME)/$(VERSION)
+
+PROGS	= m2300w m2400w m2300w-wrapper
+
+all: m2300w m2400w
+
+m2300w: m2300w.c
+	$(CC) $(CFLAGS) -o m2300w m2300w.c $(LIBS)
+
+m2400w: m2400w.c
+	$(CC) $(CFLAGS) -o m2400w m2400w.c $(LIBS)
+
+install: all $(PROGS)
+	chmod 755 m2300w-wrapper
+	rm -f $(BINDIR)/m2300w $(BINDIR)/m2300w_wrapper
+	$(INSTALL) -d -m 755 $(BINDIR)
+	$(INSTALL) -d -m 755 $(SHARE)
+	for P in $(PROGS) ; do \
+	    $(INSTALL) -m 755 $$P $(BINDIR); \
+	done
+
+clean:
+	rm -f m2300w m2400w
+
+distclean: clean
+	rm -f Makefile m2300w-wrapper
+

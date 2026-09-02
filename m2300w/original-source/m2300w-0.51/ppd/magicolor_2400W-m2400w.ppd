@@ -1,0 +1,300 @@
+*PPD-Adobe: "4.3"
+*%
+*% For information on using this, and to obtain the required backend
+*% script, consult http://www.linuxprinting.org/
+*%
+*% This file is published under the GNU General Public License
+*%
+*% PPD-O-MATIC (3.0.0 or newer) generated this PPD file. It is for use with 
+*% all programs and environments which use PPD files for dealing with
+*% printer capability information. The printer must be configured with the
+*% "foomatic-rip" backend filter script of Foomatic 3.0.0 or newer. This 
+*% file and "foomatic-rip" work together to support PPD-controlled printer
+*% driver option access with arbitrary free software printer drivers and
+*% printing spoolers.
+*%
+*% To save this file on your disk, wait until the download has completed
+*% (the animation of the browser logo must stop) and then use the
+*% "Save as..." command in the "File" menu of your browser or in the 
+*% pop-up manu when you click on this document with the right mouse button.
+*% DO NOT cut and paste this file into an editor with your mouse. This can
+*% introduce additional line breaks which lead to unexpected results.
+*%
+*% You may save this file as 'Minolta-magicolor_2400W-m2400w.ppd'
+*%
+*%
+*FormatVersion:	"4.3"
+*FileVersion:	"1.1"
+*LanguageVersion: English 
+*LanguageEncoding: ISOLatin1
+*PCFileName:	"M2400W.PPD"
+*Manufacturer:	"KONICA MINOLTA"
+*Product:	"(mc2400W)"
+*cupsVersion:	1.0
+*cupsManualCopies: True
+*cupsModelNumber:  2
+*cupsFilter:	"application/vnd.cups-postscript 0 foomatic-rip"
+*%pprRIP:        foomatic-rip other
+*ModelName:     "Minolta magicolor 2400W"
+*ShortNickName: "Minolta magicolor 2400W m2400w"
+*NickName:      "Minolta magicolor 2400W Foomatic/m2400w (recommended)"
+*PSVersion:	"(3010.000) 550"
+*PSVersion:	"(3010.000) 651"
+*PSVersion:	"(3010.000) 652"
+*PSVersion:	"(3010.000) 653"
+*PSVersion:	"(3010.000) 704"
+*PSVersion:	"(3010.000) 705"
+*PSVersion:	"(3010.000) 800"
+*LanguageLevel:	"3"
+*ColorDevice:	True
+*DefaultColorSpace: RGB
+*FileSystem:	False
+*Throughput:	"1"
+*LandscapeOrientation: Plus90
+*TTRasterizer:	Type42
+
+
+
+
+*VariablePaperSize: False
+
+*FoomaticIDs: Minolta-magicolor_2400W m2400w
+*FoomaticRIPCommandLine: "m2300w-wrapper -M 2400W %A"
+
+*OpenGroup: General/General
+
+*OpenUI *PrintoutMode/Printout Mode: PickOne
+*FoomaticRIPOption PrintoutMode: enum CmdLine A
+*OrderDependency: 160 AnySetup *PrintoutMode
+*DefaultPrintoutMode: Auto
+*PrintoutMode Draft/Draft (economy): "%% FoomaticRIPOptionSetting: PrintoutMode=Draft"
+*FoomaticRIPOptionSetting PrintoutMode=Draft: "-o PrintoutMode=Draft "
+*PrintoutMode Draft.Gray/Draft grayscale (economy): "%% FoomaticRIPOptionSetting: PrintoutMode=Draft.Gray"
+*FoomaticRIPOptionSetting PrintoutMode=Draft.Gray: "-o PrintoutMode=Dr&&
+aft.Gray "
+*End
+*PrintoutMode Photo/Photo: "%% FoomaticRIPOptionSetting: PrintoutMode=Photo"
+*FoomaticRIPOptionSetting PrintoutMode=Photo: "-o PrintoutMode=Photo "
+*PrintoutMode Auto/Automatic (B/W and color): "%% FoomaticRIPOptionSetting: PrintoutMode=Auto"
+*FoomaticRIPOptionSetting PrintoutMode=Auto: "-o PrintoutMode=Auto "
+*PrintoutMode Gray/Grayscale: "%% FoomaticRIPOptionSetting: PrintoutMode=Gray"
+*FoomaticRIPOptionSetting PrintoutMode=Gray: "-o PrintoutMode=Gray "
+*CloseUI: *PrintoutMode
+
+*OpenUI *PageSize/Page Size: PickOne
+*FoomaticRIPOption PageSize: enum CmdLine A
+*OrderDependency: 120 AnySetup *PageSize
+*DefaultPageSize: A4
+*PageSize Letter/Letter: "%% FoomaticRIPOptionSetting: PageSize=Letter"
+*FoomaticRIPOptionSetting PageSize=Letter: "-p 27 "
+*PageSize A4/A4: "%% FoomaticRIPOptionSetting: PageSize=A4"
+*FoomaticRIPOptionSetting PageSize=A4: "-p 4 "
+*PageSize A5/A5: "%% FoomaticRIPOptionSetting: PageSize=A5"
+*FoomaticRIPOptionSetting PageSize=A5: "-p 8 "
+*PageSize Legal/Legal: "%% FoomaticRIPOptionSetting: PageSize=Legal"
+*FoomaticRIPOptionSetting PageSize=Legal: "-p 25 "
+*CloseUI: *PageSize
+
+*OpenUI *PageRegion: PickOne
+*OrderDependency: 120 AnySetup *PageRegion
+*DefaultPageRegion: A4
+*PageRegion Letter/Letter: "%% FoomaticRIPOptionSetting: PageSize=Letter"
+*PageRegion A4/A4: "%% FoomaticRIPOptionSetting: PageSize=A4"
+*PageRegion A5/A5: "%% FoomaticRIPOptionSetting: PageSize=A5"
+*PageRegion Legal/Legal: "%% FoomaticRIPOptionSetting: PageSize=Legal"
+*CloseUI: *PageRegion
+
+*DefaultImageableArea: A4
+*ImageableArea Letter/Letter: "11.3385826771654 11.3385826771654 600.661417322835 780.661417322835"
+*ImageableArea A4/A4: "11.3385826771654 11.3385826771654 583.661417322835 830.661417322835"
+*ImageableArea A5/A5: "11.3385826771654 11.3385826771654 408.661417322835 583.661417322835"
+*ImageableArea Legal/Legal: "11.3385826771654 11.3385826771654 600.661417322835 996.661417322835"
+
+*DefaultPaperDimension: A4
+*PaperDimension Letter/Letter: "612 792"
+*PaperDimension A4/A4: "595 842"
+*PaperDimension A5/A5: "420 595"
+*PaperDimension Legal/Legal: "612 1008"
+
+*OpenUI *MediaType/Media Type: PickOne
+*FoomaticRIPOption MediaType: enum CmdLine A
+*OrderDependency: 140 AnySetup *MediaType
+*DefaultMediaType: Standard
+*MediaType Carton/Carton: "%% FoomaticRIPOptionSetting: MediaType=Carton"
+*FoomaticRIPOptionSetting MediaType=Carton: "-m 1 "
+*MediaType Envelope/Envelope: "%% FoomaticRIPOptionSetting: MediaType=Envelope"
+*FoomaticRIPOptionSetting MediaType=Envelope: "-m 3 "
+*MediaType Labels/Labels: "%% FoomaticRIPOptionSetting: MediaType=Labels"
+*FoomaticRIPOptionSetting MediaType=Labels: "-m 6 "
+*MediaType Letterhead/Letterhead: "%% FoomaticRIPOptionSetting: MediaType=Letterhead"
+*FoomaticRIPOptionSetting MediaType=Letterhead: "-m 4 "
+*MediaType Postcard/Postcard: "%% FoomaticRIPOptionSetting: MediaType=Postcard"
+*FoomaticRIPOptionSetting MediaType=Postcard: "-m 5 "
+*MediaType Standard/Standard Paper: "%% FoomaticRIPOptionSetting: MediaType=Standard"
+*FoomaticRIPOptionSetting MediaType=Standard: "-m 0 "
+*MediaType Transparency/Transparency: "%% FoomaticRIPOptionSetting: MediaType=Transparency"
+*FoomaticRIPOptionSetting MediaType=Transparency: "-m 2 "
+*CloseUI: *MediaType
+
+*OpenUI *Resolution/Resolution: PickOne
+*FoomaticRIPOption Resolution: enum CmdLine A
+*OrderDependency: 100 AnySetup *Resolution
+*DefaultResolution: 1200x600
+*Resolution 1200x600/1200x600 dpi: "%% FoomaticRIPOptionSetting: Resolution=1200x600"
+*FoomaticRIPOptionSetting Resolution=1200x600: "-r 2 "
+*Resolution 2400x600/2400x600 dpi: "%% FoomaticRIPOptionSetting: Resolution=2400x600"
+*FoomaticRIPOptionSetting Resolution=2400x600: "-r 3 "
+*CloseUI: *Resolution
+
+*OpenUI *Multipage/Multipage: PickOne
+*FoomaticRIPOption Multipage: enum CmdLine A
+*OrderDependency: 170 AnySetup *Multipage
+*DefaultMultipage: none
+*Multipage 2up/2up: "%% FoomaticRIPOptionSetting: Multipage=2up"
+*FoomaticRIPOptionSetting Multipage=2up: " -2 "
+*Multipage 4up/4up: "%% FoomaticRIPOptionSetting: Multipage=4up"
+*FoomaticRIPOptionSetting Multipage=4up: " -4 "
+*Multipage none/none: "%% FoomaticRIPOptionSetting: Multipage=none"
+*FoomaticRIPOptionSetting Multipage=none: "  "
+*CloseUI: *Multipage
+
+*CloseGroup: General
+
+*OpenGroup: Debug/Debug
+
+*OpenUI *Debug/Debug Level: PickOne
+*FoomaticRIPOption Debug: enum CmdLine A
+*OrderDependency: 500 AnySetup *Debug
+*DefaultDebug: Off
+*Debug 1/Debug level 1: "%% FoomaticRIPOptionSetting: Debug=1"
+*FoomaticRIPOptionSetting Debug=1: "-d "
+*Debug 2/Debug level 2: "%% FoomaticRIPOptionSetting: Debug=2"
+*FoomaticRIPOptionSetting Debug=2: "-d -d "
+*Debug 3/Debug level 3: "%% FoomaticRIPOptionSetting: Debug=3"
+*FoomaticRIPOptionSetting Debug=3: "-d -d -d "
+*Debug Off/Debugging turned off: "%% FoomaticRIPOptionSetting: Debug=Off"
+*FoomaticRIPOptionSetting Debug=Off: " "
+*CloseUI: *Debug
+
+*CloseGroup: Debug
+
+*OpenGroup: PrintoutMode/Printout Mode
+
+*OpenUI *Quality/Print Quality: PickOne
+*FoomaticRIPOption Quality: enum CmdLine A
+*OrderDependency: 200 AnySetup *Quality
+*DefaultQuality: @PrintoutMode
+*Quality Draft/Draft (economy): "%% FoomaticRIPOptionSetting: Quality=Draft"
+*FoomaticRIPOptionSetting Quality=Draft: "-o Quality=Draft "
+*Quality Normal/Normal: "%% FoomaticRIPOptionSetting: Quality=Normal"
+*FoomaticRIPOptionSetting Quality=Normal: "-o Quality=Normal "
+*Quality @PrintoutMode/Controlled by PrintoutMode: "%% FoomaticRIPOptionSetting: Quality=@PrintoutMode"
+*FoomaticRIPOptionSetting Quality=@PrintoutMode: "-o Quality=@Printout&&
+Mode "
+*End
+*CloseUI: *Quality
+
+*OpenUI *ColorMode/Color Mode: PickOne
+*FoomaticRIPOption ColorMode: enum CmdLine A
+*OrderDependency: 300 AnySetup *ColorMode
+*DefaultColorMode: @PrintoutMode
+*ColorMode Color/Color: "%% FoomaticRIPOptionSetting: ColorMode=Color"
+*FoomaticRIPOptionSetting ColorMode=Color: "-o ColorMode=Color "
+*ColorMode Gray/Grayscale: "%% FoomaticRIPOptionSetting: ColorMode=Gray"
+*FoomaticRIPOptionSetting ColorMode=Gray: "-o ColorMode=Gray "
+*ColorMode @PrintoutMode/Controlled by PrintoutMode: "%% FoomaticRIPOptionSetting: ColorMode=@PrintoutMode"
+*FoomaticRIPOptionSetting ColorMode=@PrintoutMode: "-o ColorMode=@Prin&&
+toutMode "
+*End
+*CloseUI: *ColorMode
+
+*OpenUI *ColorProfile/Color Profile (CRD): PickOne
+*FoomaticRIPOption ColorProfile: enum CmdLine A
+*OrderDependency: 320 AnySetup *ColorProfile
+*DefaultColorProfile: @PrintoutMode
+*ColorProfile Photo/Photo (use max. black toner): "%% FoomaticRIPOptionSetting: ColorProfile=Photo"
+*FoomaticRIPOptionSetting ColorProfile=Photo: "-o ColorProfile=Photo "
+*ColorProfile Photo-kh/Photo (use less black toner): "%% FoomaticRIPOptionSetting: ColorProfile=Photo-kh"
+*FoomaticRIPOptionSetting ColorProfile=Photo-kh: "-o ColorProfile=Phot&&
+o-kh "
+*End
+*ColorProfile AutoColor/Automatic (general purpose): "%% FoomaticRIPOptionSetting: ColorProfile=AutoColor"
+*FoomaticRIPOptionSetting ColorProfile=AutoColor: "-o ColorProfile=Aut&&
+oColor "
+*End
+*ColorProfile None/None (turn off color management): "%% FoomaticRIPOptionSetting: ColorProfile=None"
+*FoomaticRIPOptionSetting ColorProfile=None: "-o ColorProfile=None "
+*ColorProfile @PrintoutMode/Controlled by PrintoutMode: "%% FoomaticRIPOptionSetting: ColorProfile=@PrintoutMode"
+*FoomaticRIPOptionSetting ColorProfile=@PrintoutMode: "-o ColorProfile&&
+=@PrintoutMode "
+*End
+*ColorProfile User1/User defined CRD #1: "%% FoomaticRIPOptionSetting: ColorProfile=User1"
+*FoomaticRIPOptionSetting ColorProfile=User1: "-o ColorProfile=User1 "
+*ColorProfile User2/User defined CRD #2: "%% FoomaticRIPOptionSetting: ColorProfile=User2"
+*FoomaticRIPOptionSetting ColorProfile=User2: "-o ColorProfile=User2 "
+*ColorProfile User3/User defined CRD #3: "%% FoomaticRIPOptionSetting: ColorProfile=User3"
+*FoomaticRIPOptionSetting ColorProfile=User3: "-o ColorProfile=User3 "
+*ColorProfile User4/User defined CRD #4: "%% FoomaticRIPOptionSetting: ColorProfile=User4"
+*FoomaticRIPOptionSetting ColorProfile=User4: "-o ColorProfile=User4 "
+*ColorProfile User5/User defined CRD #5: "%% FoomaticRIPOptionSetting: ColorProfile=User5"
+*FoomaticRIPOptionSetting ColorProfile=User5: "-o ColorProfile=User5 "
+*CloseUI: *ColorProfile
+
+*OpenUI *DefRGB/DefaultRGB: PickOne
+*FoomaticRIPOption DefRGB: enum CmdLine A
+*OrderDependency: 340 AnySetup *DefRGB
+*DefaultDefRGB: sRGB
+*DefRGB AdobeRGB/Interpret as AdobeRGB: "%% FoomaticRIPOptionSetting: DefRGB=AdobeRGB"
+*FoomaticRIPOptionSetting DefRGB=AdobeRGB: "-o DefaultRGB=AdobeRGB "
+*DefRGB builtin/Use default built into ghostscript: "%% FoomaticRIPOptionSetting: DefRGB=builtin"
+*FoomaticRIPOptionSetting DefRGB=builtin: "-o DefaultRGB=builtin "
+*DefRGB gimp-print/For printing PS files created by gimp: "%% FoomaticRIPOptionSetting: DefRGB=gimp-print"
+*FoomaticRIPOptionSetting DefRGB=gimp-print: "-o DefaultRGB=gimp-print&&
+ "
+*End
+*DefRGB sRGB/Interpret as sRGB (preferred): "%% FoomaticRIPOptionSetting: DefRGB=sRGB"
+*FoomaticRIPOptionSetting DefRGB=sRGB: "-o DefaultRGB=sRGB "
+*CloseUI: *DefRGB
+
+*CloseGroup: PrintoutMode
+
+
+*% Generic boilerplate PPD stuff as standard PostScript fonts and so on
+
+*DefaultFont: Courier
+*Font AvantGarde-Book: Standard "(001.006S)" Standard ROM
+*Font AvantGarde-BookOblique: Standard "(001.006S)" Standard ROM
+*Font AvantGarde-Demi: Standard "(001.007S)" Standard ROM
+*Font AvantGarde-DemiOblique: Standard "(001.007S)" Standard ROM
+*Font Bookman-Demi: Standard "(001.004S)" Standard ROM
+*Font Bookman-DemiItalic: Standard "(001.004S)" Standard ROM
+*Font Bookman-Light: Standard "(001.004S)" Standard ROM
+*Font Bookman-LightItalic: Standard "(001.004S)" Standard ROM
+*Font Courier: Standard "(002.004S)" Standard ROM
+*Font Courier-Bold: Standard "(002.004S)" Standard ROM
+*Font Courier-BoldOblique: Standard "(002.004S)" Standard ROM
+*Font Courier-Oblique: Standard "(002.004S)" Standard ROM
+*Font Helvetica: Standard "(001.006S)" Standard ROM
+*Font Helvetica-Bold: Standard "(001.007S)" Standard ROM
+*Font Helvetica-BoldOblique: Standard "(001.007S)" Standard ROM
+*Font Helvetica-Narrow: Standard "(001.006S)" Standard ROM
+*Font Helvetica-Narrow-Bold: Standard "(001.007S)" Standard ROM
+*Font Helvetica-Narrow-BoldOblique: Standard "(001.007S)" Standard ROM
+*Font Helvetica-Narrow-Oblique: Standard "(001.006S)" Standard ROM
+*Font Helvetica-Oblique: Standard "(001.006S)" Standard ROM
+*Font NewCenturySchlbk-Bold: Standard "(001.009S)" Standard ROM
+*Font NewCenturySchlbk-BoldItalic: Standard "(001.007S)" Standard ROM
+*Font NewCenturySchlbk-Italic: Standard "(001.006S)" Standard ROM
+*Font NewCenturySchlbk-Roman: Standard "(001.007S)" Standard ROM
+*Font Palatino-Bold: Standard "(001.005S)" Standard ROM
+*Font Palatino-BoldItalic: Standard "(001.005S)" Standard ROM
+*Font Palatino-Italic: Standard "(001.005S)" Standard ROM
+*Font Palatino-Roman: Standard "(001.005S)" Standard ROM
+*Font Symbol: Special "(001.007S)" Special ROM
+*Font Times-Bold: Standard "(001.007S)" Standard ROM
+*Font Times-BoldItalic: Standard "(001.009S)" Standard ROM
+*Font Times-Italic: Standard "(001.007S)" Standard ROM
+*Font Times-Roman: Standard "(001.007S)" Standard ROM
+*Font ZapfChancery-MediumItalic: Standard "(001.007S)" Standard ROM
+*Font ZapfDingbats: Special "(001.004S)" Standard ROM
+

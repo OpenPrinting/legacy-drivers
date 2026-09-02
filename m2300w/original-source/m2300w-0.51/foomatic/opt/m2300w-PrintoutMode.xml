@@ -1,0 +1,76 @@
+<option type="enum" id="opt/m2300w-PrintoutMode">
+
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+
+    <arg_shortname><en>PrintoutMode</en></arg_shortname>
+    <arg_longname><en>Printout Mode</en></arg_longname>
+
+    <arg_execution>
+	<arg_group>General</arg_group>
+	<arg_order>160</arg_order>
+	<arg_spot>A</arg_spot>
+	<arg_required />
+	<arg_substitution />
+	<arg_proto>-o PrintoutMode=%s </arg_proto>
+    </arg_execution>
+
+    <constraints>
+	<constraint sense="true">
+	<driver>m2300w</driver>
+	<arg_defval>ev/m2300w-PrintoutMode-Auto</arg_defval>
+	</constraint>
+	<constraint sense="true">
+	<driver>m2400w</driver>
+	<arg_defval>ev/m2300w-PrintoutMode-Auto</arg_defval>
+	</constraint>
+    </constraints>
+
+    <enum_vals>
+	<enum_val id="ev/m2300w-PrintoutMode-Auto">
+	    <ev_driverval>Auto</ev_driverval>
+	    <ev_shortname><en>Auto</en></ev_shortname>
+	    <ev_longname><en>Automatic (B/W and color)</en></ev_longname>
+	    <comments> 
+		<en>Print pages with only black text in B/W, otherwise in color</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-PrintoutMode-Gray">
+	    <ev_driverval>Gray</ev_driverval>
+	    <ev_shortname><en>Gray</en></ev_shortname>
+	    <ev_longname><en>Grayscale</en></ev_longname>
+	    <comments> 
+		<en>Force printing in grayscale</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-PrintoutMode-Photo">
+	    <ev_driverval>Photo</ev_driverval>
+	    <ev_shortname><en>Photo</en></ev_shortname>
+	    <ev_longname><en>Photo</en></ev_longname>
+	    <comments> 
+		<en>Print in color, using the &quot;Photo&quot; color profile</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-PrintoutMode-Draft">
+	    <ev_driverval>Draft</ev_driverval>
+	    <ev_shortname><en>Draft</en></ev_shortname>
+	    <ev_longname><en>Draft (economy)</en></ev_longname>
+	    <comments> 
+		<en>Economy mode to save toner, approx. newspaper quality</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-PrintoutMode-Draft.Gray">
+	    <ev_driverval>Draft.Gray</ev_driverval>
+	    <ev_shortname><en>Draft.Gray</en></ev_shortname>
+	    <ev_longname><en>Draft grayscale (economy)</en></ev_longname>
+	    <comments> 
+		<en>Grayscale economy mode to save toner</en>
+	    </comments> 
+	</enum_val>
+    </enum_vals>
+</option>
+

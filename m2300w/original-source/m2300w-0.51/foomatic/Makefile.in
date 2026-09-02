@@ -1,0 +1,53 @@
+
+INSTALL		= @INSTALL@
+@SET_MAKE@
+
+INSTROOT	=
+
+NAME    	= @PACKAGE_NAME@
+VERSION 	= @PACKAGE_VERSION@
+PREFIX  	= @prefix@
+SHARE   	= $(INSTROOT)$(PREFIX)/share/$(NAME)/$(VERSION)
+
+DB		= @FOOMATIC_DB@
+SRC		= $(INSTROOT)$(DB)/source
+
+PPDNAME		= @PPDNAME@
+PPDNAME2	= @PPDNAME2@
+FOOMATIC_PPDFILE= @FOOMATIC_PPDFILE@
+
+all:
+
+install:
+	rm -rf $(SRC)/opt/m2300w-*.xml
+	for DIR in opt driver printer ; do \
+	    $(INSTALL) -d -m 755 $(SRC)/$$DIR ; \
+	    for F in $$DIR/*.xml ; do \
+		$(INSTALL) -m 644 $$F $(SRC)/$$DIR ; \
+	    done ; \
+	done
+	$(INSTALL) -d -m 755 $(SHARE)/foomatic
+	$(INSTALL) -m 755 foomatic-rip $(SHARE)/foomatic
+
+ppd:
+	@if test -n "$(INSTROOT)"; then \
+	    echo "ERROR: 'make ppd' not supported with INSTROOT=..." ; \
+	    exit 1 ; \
+	fi
+	@if test -z "$(FOOMATIC_PPDFILE)" ; then \
+	    echo "ERROR: foomatic-ppdfile is required to rebuild the PPD" ; \
+	    exit 1 ; \
+	fi
+	test -w ../ppd/$(PPDNAME)
+	$(FOOMATIC_PPDFILE) -d m2300w -p Minolta-magicolor_2300W \
+		> ../ppd/$(PPDNAME)
+	test -w ../ppd/$(PPDNAME2)
+	$(FOOMATIC_PPDFILE) -d m2400w -p Minolta-magicolor_2400W \
+		> ../ppd/$(PPDNAME2)
+	@echo "PPD successfully created"
+
+clean:
+
+distclean: clean
+	rm -f Makefile
+

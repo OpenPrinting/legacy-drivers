@@ -1,0 +1,11 @@
+--- a/src/m2300w-wrapper.in
++++ b/src/m2300w-wrapper.in
+@@ -375,7 +375,7 @@
+ *) error "Unknown paper code $PAPER";;
+ esac
+ 
+-let resX=$resX*$RESMUL;
++resX=$((resX * RESMUL))
+ PAPERSIZE="-g$resX"x"$resY";
+ PAPERCODE="-p $paper";
+ 
