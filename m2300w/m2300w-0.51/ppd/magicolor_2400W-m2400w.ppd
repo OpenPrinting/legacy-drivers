@@ -139,11 +139,11 @@ aft.Gray "
 *OpenUI *Resolution/Resolution: PickOne
 *FoomaticRIPOption Resolution: enum CmdLine A
 *OrderDependency: 100 AnySetup *Resolution
-*DefaultResolution: 1200x600
-*Resolution 1200x600/1200x600 dpi: "%% FoomaticRIPOptionSetting: Resolution=1200x600"
-*FoomaticRIPOptionSetting Resolution=1200x600: "-r 2 "
-*Resolution 2400x600/2400x600 dpi: "%% FoomaticRIPOptionSetting: Resolution=2400x600"
-*FoomaticRIPOptionSetting Resolution=2400x600: "-r 3 "
+*DefaultResolution: 1200x600dpi
+*Resolution 1200x600dpi/1200x600 dpi: "%% FoomaticRIPOptionSetting: Resolution=1200x600dpi"
+*FoomaticRIPOptionSetting Resolution=1200x600dpi: "-r 2 "
+*Resolution 2400x600dpi/2400x600 dpi: "%% FoomaticRIPOptionSetting: Resolution=2400x600dpi"
+*FoomaticRIPOptionSetting Resolution=2400x600dpi: "-r 3 "
 *CloseUI: *Resolution
 
 *OpenUI *Multipage/Multipage: PickOne

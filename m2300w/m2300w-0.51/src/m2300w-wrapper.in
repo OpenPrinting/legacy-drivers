@@ -465,7 +465,7 @@ else
     GSBIN=gs
 fi
 
-GS="$GSBIN -q -dBATCH -dSAFER -dQUIET -dNOPAUSE -dMaxBitmap=134217728"
+GS="$GSBIN -q -dBATCH -dSAFER -dQUIET -dNOPAUSE -dNOINTERPOLATE -dMaxBitmap=134217728"
 
 cat >> /tmp/m2300w.log <<EOF
 
