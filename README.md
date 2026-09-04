@@ -60,3 +60,8 @@ Filter to convert HP PCL (Printer Command Language) output to Canon CaPSL (Canon
 
 The driver requires a Canon laser printer supporting CaPSL level III or higher.
 
+### m2300w
+
+Printer driver for **Konica Minolta magicolor 2300W and 2400W**
+
+A legacy Linux printer driver for the Konica Minolta magicolor 2300W and 2400W color laser printers. The driver is intended to be used with Foomatic and supports printing through CUPS.
