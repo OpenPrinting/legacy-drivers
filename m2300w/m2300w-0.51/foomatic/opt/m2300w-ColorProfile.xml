@@ -1,0 +1,135 @@
+<option type="enum" id="opt/m2300w-ColorProfile">
+
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+
+    <arg_shortname><en>ColorProfile</en></arg_shortname>
+    <arg_longname><en>Color Profile (CRD)</en></arg_longname>
+
+    <arg_execution>
+	<arg_group>PrintoutMode</arg_group>
+	<arg_order>320</arg_order>
+	<arg_spot>A</arg_spot>
+	<arg_required />
+	<arg_substitution />
+	<arg_proto>-o ColorProfile=%s </arg_proto>
+    </arg_execution>
+
+    <constraints>
+	<constraint sense="true">
+	<driver>m2300w</driver>
+	<arg_defval>ev/m2300w-ColorProfile-@PrintoutMode</arg_defval>
+	</constraint>
+	<constraint sense="true">
+	<driver>m2400w</driver>
+	<arg_defval>ev/m2300w-ColorProfile-@PrintoutMode</arg_defval>
+	</constraint>
+    </constraints>
+
+    <enum_vals>
+	<enum_val id="ev/m2300w-ColorProfile-@PrintoutMode">
+	    <ev_driverval>@PrintoutMode</ev_driverval>
+	    <ev_shortname><en>@PrintoutMode</en></ev_shortname>
+	    <ev_longname><en>Controlled by PrintoutMode</en></ev_longname>
+	    <comments> 
+		<en>ColorProfile derived from PrintoutMode</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-ColorProfile-AutoColor">
+	    <ev_driverval>AutoColor</ev_driverval>
+	    <ev_shortname><en>AutoColor</en></ev_shortname>
+	    <ev_longname><en>Automatic (general purpose)</en></ev_longname>
+	    <comments> 
+		<en>
+Prints pages with only black text in B/W, and color pages in color
+(this has slight impacts on the darkness of black and dark colors)
+		</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-ColorProfile-Photo">
+	    <ev_driverval>Photo</ev_driverval>
+	    <ev_shortname><en>Photo</en></ev_shortname>
+	    <ev_longname><en>Photo (use max. black toner)</en></ev_longname>
+	    <comments> 
+		<en>
+Optimized for printing photos, produces deep, dark color.
+Black generation uses as much black toner as possible.
+		</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-ColorProfile-Photo-kh">
+	    <ev_driverval>Photo-kh</ev_driverval>
+	    <ev_shortname><en>Photo-kh</en></ev_shortname>
+	    <ev_longname><en>Photo (use less black toner)</en></ev_longname>
+	    <comments> 
+		<en>
+Optimized for printing photos, produces deep, dark color.
+Black generation uses less black toner.
+		</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-ColorProfile-None">
+	    <ev_driverval>None</ev_driverval>
+	    <ev_shortname><en>None</en></ev_shortname>
+	    <ev_longname><en>None (turn off color management)</en></ev_longname>
+	    <comments> 
+		<en>
+Print without color management. This is not recommended for normal
+printing. If you want to profile your printer (with 3rd party software)
+then you need to print the color test charts using this print mode.
+		</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-ColorProfile-User1">
+	    <ev_driverval>User1</ev_driverval>
+	    <ev_shortname><en>User1</en></ev_shortname>
+	    <ev_longname><en>User defined CRD #1</en></ev_longname>
+	    <comments> 
+		<en>Select user defined CRD #1</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-ColorProfile-User2">
+	    <ev_driverval>User2</ev_driverval>
+	    <ev_shortname><en>User2</en></ev_shortname>
+	    <ev_longname><en>User defined CRD #2</en></ev_longname>
+	    <comments> 
+		<en>Select user defined CRD #2</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-ColorProfile-User3">
+	    <ev_driverval>User3</ev_driverval>
+	    <ev_shortname><en>User3</en></ev_shortname>
+	    <ev_longname><en>User defined CRD #3</en></ev_longname>
+	    <comments> 
+		<en>Select user defined CRD #3</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-ColorProfile-User4">
+	    <ev_driverval>User4</ev_driverval>
+	    <ev_shortname><en>User4</en></ev_shortname>
+	    <ev_longname><en>User defined CRD #4</en></ev_longname>
+	    <comments> 
+		<en>Select user defined CRD #4</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-ColorProfile-User5">
+	    <ev_driverval>User5</ev_driverval>
+	    <ev_shortname><en>User5</en></ev_shortname>
+	    <ev_longname><en>User defined CRD #5</en></ev_longname>
+	    <comments> 
+		<en>Select user defined CRD #5</en>
+	    </comments> 
+	</enum_val>
+
+    </enum_vals>
+</option>
+

@@ -1,0 +1,52 @@
+#
+# $Header: /cvsroot/m2300w/m2300w/psfiles/Makefile.in,v 1.6 2004/08/02 22:19:49 gfuer Exp $
+#
+# Copyright (C) 2004  Gerhard Fuernkranz
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+
+INSTALL	= @INSTALL@
+@SET_MAKE@
+
+INSTROOT=
+NAME	= @PACKAGE_NAME@
+VERSION	= @PACKAGE_VERSION@
+PREFIX	= @prefix@
+SHARE	= $(INSTROOT)$(PREFIX)/share/$(NAME)/$(VERSION)
+PSFILES	= $(SHARE)/psfiles
+
+FILES	= prolog.ps epilogue.ps \
+	  screen1200.ps screen2400.ps \
+	  defrgb-AdobeRGB.csa defrgb-builtin.csa \
+	  defrgb-gimp-print.csa defrgb-sRGB.csa \
+	  CHP410-1200-Photo.crd \
+	  CHP410-1200-Photo-kh.crd \
+	  CHP410-1200-AutoColor.crd \
+	  CHP410-1200-Draft.crd
+
+all:
+
+install: $(FILES)
+	$(INSTALL) -d -m 755 $(PSFILES)
+	for F in $(FILES) ; do \
+	    $(INSTALL) -m 644 $$F $(PSFILES); \
+	done
+
+clean:
+
+distclean: clean
+	rm -f Makefile
+

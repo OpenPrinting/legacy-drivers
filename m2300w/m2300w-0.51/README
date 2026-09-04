@@ -1,0 +1,340 @@
+
+What is m2300w?
+---------------
+
+    The m2300w driver is an open source Linux driver for the
+    Konica Minolta magicolor 2300W and 2400W color laser printers.
+
+    The driver is basically intended for being used in conjunction with
+    "foomatic" (see http://www.linuxprinting.org/foomatic.html), which
+    is a database-driven system for integrating free software printer
+    drivers with common spoolers under Unix, like CUPS, LPRng, LPD,
+    GNUlpr, PPR, PDQ, CPS, and direct printing.
+
+
+Copyright and Licensing
+-----------------------
+
+    The m2300w driver is free software. You can redistribute it
+    and/or modify it under the terms of the GNU General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    Though we do our best to avoid that, there is a small residual
+    risk, that the use of this driver may damage your printer.
+    It is a fact, that laser printer engines CAN BE damaged if
+    they are not driven appropriately (for instance, putting down
+    far too much toner on the paper can actually contaminate or
+    even damage the fuser, etc.).
+
+    IN NO EVENT WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO
+    MAY MODIFY AND/OR REDISTRIBUTE THE PROGRAM AS PERMITTED ABOVE,
+    BE LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL,
+    INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR
+    INABILITY TO USE THE PROGRAM (INCLUDING DAMAGES TO THE PRINTER),
+    EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGES.
+
+
+What's new in 0.5?
+------------------
+
+    The m2300w driver now also supports the magicolor 2400W.
+
+    Special thanks go to Thomas Rohringer for contributing
+    the backend for the 2400W.
+
+
+What's new in 0.4?
+------------------
+
+    Version 0.4 contains no new features. It only resolves
+    the following bugs:
+
+    - 1022300 Should not start CUPS automatically
+
+      Now CUPS is only restarted, if it cupsd is running, thus
+      avoiding the start of CUPS, if it was not running previously.
+
+    - 1034790 m2300w does not work with gs 8.15
+
+      A workaround for the ghostscript problem
+      http://bugs.ghostscript.com/show_bug.cgi?id=687702 has been
+      implemented. Now m2300w 0.4 now can be used in conjunction
+      with the new ghostscript versions >= 8.15.
+
+
+What's new in 0.3?
+------------------
+
+    This is the 3rd pre-release of the driver.
+
+    * Reworked print modes
+
+      - Added AutoColor mode, which detects pages containing only black
+        text, and prints these pages in B/W, which is much faster, while
+        color pages are still printed in color.
+
+      - Added a Draft mode for saving toner
+
+      - Recreated all color profiles
+
+      - Added an option to specify how to interpret /DeviceRGB
+        colors in the PostScript documents being printed
+
+      - Added a "PrintoutMode" option for selecting the most
+        common print modes with a single paramter
+
+    * Improved checks for required prerequisites
+
+    * Added workaround for several problems of gs 7.xx
+
+    * Added full RPM build capability
+
+    * The RPM now installs foomatic-rip, if missing on the system
+
+
+Installation
+------------
+
+    Please refer to the instructions in the INSTALL file.
+
+
+Driver options
+--------------
+
+    Please refer to the foomatic documentation and/or your spooler's
+    documentation, how to speficy driver options in conjunction with
+    a particular spooler.
+
+    For instance with CUPS, you can preset the default options for
+    a particular printer queue in the "Configure Printer" dialog
+    of the CUPS web interface, or you can also override individual
+    options for one particular print job at the "lp" command line, like
+
+	lp -d myprinter -o MediaType=Carton -o ColorProfile=Photo ...
+
+
+    Options supported by the m2300w driver:
+
+    PageSize ............ Select the page size.
+			  Default: A4
+
+	A4 .............. Select A4 paper.
+	A5 .............. Select A5 paper.
+	Legal ........... Select Legal paper.
+	Letter .......... Select Letter paper.
+
+    MediaType ........... Select the media type (analog to the Windows
+			  driver). According to the printer docs, for paper
+			  up to 90g/m2, use "Standard", for paper thicker
+			  than 90g/m2, use "Carton". Otherwise, use the
+			  type which corresponds to your medium. Selecting
+			  a wrong type may damage the fuser.
+			  Default: Standard
+
+	Carton .......... Select "Carton" media type.
+	Envelope ........ Select "Envelope" media type.
+	Labels .......... Select "Labels" media type.
+	Letterhead ...... Select "Letterhead" media type.
+	Postcard ........ Select "Postcard" media type.
+	Standard ........ Select "Standard" media type.
+	Transparency .... Select "Transparency" media type.
+
+    Multipage ........... Select the printing of several logical pages on
+    			  a single sheet of paper (n-up printing). The
+			  program "psnup" needs to be installed on your
+			  system in order that you can use this feature.
+			  Default: none
+
+	none ............ Disable n-up printing.
+	2up ............. Print two pages on one sheet.
+	4up ............. Print four pages on one sheet.
+
+    PrintoutMode ........ Allows the selection of the most common
+			  print modes with a single option.
+			  Default: Auto
+
+	Auto ............ Automatically detects pages containing black
+			  text only, and print such pages in B/W, all
+			  other pages are printed in color.
+	Gray ............ Force printing in grayscale.
+	Photo ........... Print in color using the "Photo" color profile.
+	Draft ........... Economy mode to save toner, approx. newspaper
+			  quality.
+	Draft.Gray ...... Grayscale economy mode.
+
+    Quality ............. Selects the print quality.
+			  Default: @PrintoutMode
+
+	@PrintoutMode ... Controlled by PrintoutMode
+	Normal .......... Normal print quality.
+	Draft ........... Economy mode to save toner. The option ColorProfile
+			  is ignored with Quality=Draft - there exists only
+			  a single color profile for draft mode.
+
+    ColorMode ........... Selects B/W or color printing
+			  Default: @PrintoutMode
+
+	@PrintoutMode ... Controlled by PrintoutMode
+	Gray ............ Force printing in grayscale
+	Color ........... Print in color
+
+    ColorProfile ........ Select the color profile (CRD) to use.
+			  The included color profiles have been made for
+			  "Premium Choice Laser Paper" CHP410, using
+			  the "MediaType=Carton" option, and therefore
+			  will give the best color reproduction on this
+			  paper brand. However, the profiles work reasonalby
+			  well for other paper types too (e.g. normal copier
+			  paper).
+			  The option ColorProfile is ignored in conjunction
+			  with "Quality=Draft", there exists only a single
+			  color profile for draft mode.
+			  Default: @PrintoutMode
+
+	@PrintoutMode ... Controlled by PrintoutMode
+	AutoColor ....... Automatically detects pages containing black
+			  text only, and print such pages in B/W, all
+			  other pages are printed in color. This slightly
+			  impacts the darkness of black and dark colors,
+			  since black is printed with black toner only.
+	Photo ........... Optimized for printing photos, produces deep,
+			  dark colors. The black generation uses as much
+			  black toner as possible.
+	Photo-kh ........ Another profile optimized for printing photos.
+			  The black generation uses less black toner than
+			  'Photo'. The 'Photo' mode will give more neutral
+			  grayscales, but for some images, 'Photo-kh' may
+			  look more pleasing. Judge yourself and choose the
+			  photo mode you like better.
+	None ............ Turn off CIE-based color matching. This setting
+			  is useful, if you want to print test charts for
+			  making your own color profiles using 3rd party
+			  software. It is rather not useful otherwise.
+	User[1-5] ....... User defined CRD #1-5. This settings requires
+			  that you supply your self-made CRD files as
+			  /usr/share/m2300w/<version>/psfiles/User[1-5].crd
+
+    DefRGB .............. This option defines, how /DeviceRGB colors
+			  in printed PostScript documents are interpreted,
+			  i.e. which RGB color space is assumed for these
+			  RGB colors.
+			  (Actually I wanted to call this option "DefaultRGB"
+			  to comply with the PostScript terminology, but
+			  CUPS does not like option names starting with
+			  the prefix "Default")
+			  Default: sRGB
+
+	sRGB ............ IEC 61966-2.1 Default RGB colour space - sRGB
+	AdobeRGB ........ Adobe RGB (1998)
+	gimp-print ...... Use this setting if you are printing an sRGB
+			  image from gimp (using the File->Print dialog).
+			  Unfortunately, gimp mangles the image colors
+			  during printing, and using this option setting
+			  attempts to compensate for that.
+	builtin ......... Does not install a CSA for DefaultRGB, but use
+			  Ghostscript's builtin default (which is rather
+			  unspecific, since it is not documented which
+			  color space ghostscript assumes by default).
+
+    Debug ............... Select the debug level.
+			  Default: off
+
+	off ............. Turn off debugging output.
+	1 ............... Select debug level 1.
+	2 ............... Select debug level 2.
+	3 ............... Select debug level 3.
+
+
+Ghostscript issues
+------------------
+
+    Please refer to README.ghostscript or to
+    http://m2300w.sourceforge.net/gs/
+
+
+Restrictions
+------------
+
+    * Currently only the high (1200x600) resolution is supported
+
+    * Color profiles need to be revised for grayscale printing
+
+    * There is no status monitor available, see (1)
+
+    * Printing with the Duplex Unit is not supported, see (1)
+
+    * Replacing consumables (toner) is not supported by the driver,
+      but needs to be done under Windows, see (1)
+
+    * In order to recover from an error condition (yellow error lamp
+      on the printer) it is mostly necessary to cancel the print job
+      and to turn the printer off, and then on again after a short
+      pause, see (1).
+
+      An exception is "out of paper", in this case you just need to
+      refill the paper tray, and then the print job will continue.
+
+    * DO NOT press the "Cancel" button on the printer, otherwise
+      the printer will end up in an error condition (yellow lamp),
+      see (1)
+
+    * DO NOT submit print jobs while the printer is turned off or
+      while the printer is still warming up, otherwise either your
+      print job will be lost, or the printer may even end up in
+      an error condition (yellow lamp), see (1)
+
+      On the other hand, it is not a problem to submit a new print
+      job when the printer has entered energy saving mode. The printer
+      wakes up, when the new job arrives, see (1)
+
+    Footnote (1):
+    It is not likely that this restriction can be removed in the near
+    future, since this would require bidirectional communication with
+    the printer and decoding/reverse-engneering of the protocol spoken
+    between the driver and the printer.
+
+
+Debugging and reporting problems of the m2300w driver
+-----------------------------------------------------
+
+    Please report problems at http://sourceforge.net/projects/m2300w/
+
+    For debugging purposes, m2300w-wrapper creates the following file
+    in your /tmp directory:
+
+	- /tmp/m2300w.log
+
+    If a debug level >= 2 is selected, additionally the following
+    files are created:
+
+	- /tmp/m2300w_gsout.pbm
+	- /tmp/m2300w.prn
+
+    Please always attach /tmp/m2300w.log to your bug report.
+
+    Please also save /tmp/m2300w_gsout.pbm and /tmp/m2300w.prn, since
+    we might need them for the diagnosis of your problem. If we need
+    these files, we'll let you know. But don't attach them a priori
+    to the bug report, since these files are VERY LARGE.
+
+    IMPORTANT SECURITY ADVISORY:
+
+    /tmp/m2300w_gsout.pbm and /tmp/m2300w.prn contain the data
+    of your last print job. Do not send them, if your print
+    job did contain confident data.
+
+    CUPS debugging:
+
+    If there are problems in conjunction with CUPS, it can be
+    useful to turn on CUPS debugging by setting "LogLevel debug"
+    in /etc/cups/cupsd.conf. It is necessary to restart CUPS after
+    modifying this file. The debugging output will appear in
+    /var/log/cups/error_log.
+

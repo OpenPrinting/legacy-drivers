@@ -1,0 +1,26 @@
+From f843e8da800a36d325bf67cbfb4b70f0dd9b76ba Mon Sep 17 00:00:00 2001
+From: Didier Raboud <odyx@debian.org>
+Date: Sat, 10 Feb 2018 16:39:09 +0100
+Subject: Include CPPFLAGS in CFLAGS, as well as LDFLAGS in LIBS to ensure
+ dpkg-buildflags is respected
+
+Last-Update: 2013-12-06
+---
+ src/Makefile.in | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/Makefile.in b/src/Makefile.in
+index 5b6fb7c..9b9a0d5 100644
+--- a/src/Makefile.in
++++ b/src/Makefile.in
+@@ -19,8 +19,8 @@
+ #
+ 
+ CC	= @CC@
+-CFLAGS	= @CFLAGS@
+-LIBS	= @LIBS@
++CFLAGS	= @CFLAGS@ @CPPFLAGS@
++LIBS	= @LDFLAGS@ @LIBS@
+ INSTALL	= @INSTALL@
+ @SET_MAKE@
+ 

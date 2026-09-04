@@ -1,0 +1,58 @@
+<option type="enum" id="opt/m2300w-Quality">
+
+    <!-- A multilingual <comments> block can appear here, too;
+         it should be treated as documentation for the user. -->
+
+    <arg_shortname><en>Quality</en></arg_shortname>
+    <arg_longname><en>Print Quality</en></arg_longname>
+
+    <arg_execution>
+	<arg_group>PrintoutMode</arg_group>
+	<arg_order>200</arg_order>
+	<arg_spot>A</arg_spot>
+	<arg_required />
+	<arg_substitution />
+	<arg_proto>-o Quality=%s </arg_proto>
+    </arg_execution>
+
+    <constraints>
+	<constraint sense="true">
+	<driver>m2300w</driver>
+	<arg_defval>ev/m2300w-Quality-@PrintoutMode</arg_defval>
+	</constraint>
+	<constraint sense="true">
+	<driver>m2400w</driver>
+	<arg_defval>ev/m2300w-Quality-@PrintoutMode</arg_defval>
+	</constraint>
+    </constraints>
+
+    <enum_vals>
+	<enum_val id="ev/m2300w-Quality-@PrintoutMode">
+	    <ev_driverval>@PrintoutMode</ev_driverval>
+	    <ev_shortname><en>@PrintoutMode</en></ev_shortname>
+	    <ev_longname><en>Controlled by PrintoutMode</en></ev_longname>
+	    <comments> 
+		<en>Quality derived from PrintoutMode</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-Quality-Draft">
+	    <ev_driverval>Draft</ev_driverval>
+	    <ev_shortname><en>Draft</en></ev_shortname>
+	    <ev_longname><en>Draft (economy)</en></ev_longname>
+	    <comments> 
+		<en>Economy mode to save toner, approx. newspaper quality</en>
+	    </comments> 
+	</enum_val>
+
+	<enum_val id="ev/m2300w-Quality-Normal">
+	    <ev_driverval>Normal</ev_driverval>
+	    <ev_shortname><en>Normal</en></ev_shortname>
+	    <ev_longname><en>Normal</en></ev_longname>
+	    <comments> 
+		<en>Normal print quality</en>
+	    </comments> 
+	</enum_val>
+    </enum_vals>
+</option>
+

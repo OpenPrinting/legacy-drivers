@@ -1,0 +1,166 @@
+
+How to Build and Install the m2300w Driver:
+===========================================
+
+Prerequisites:
+--------------
+
+    1. Ghostscript
+
+       Please refer to README.ghostscript or to
+       http://m2300w.sourceforge.net/gs/
+
+    2. Foomatic (see http://www.linuxprinting.org/foomatic.html)
+
+       Foomatic is a database-driven system for integrating free
+       software printer drivers (like the m2300w driver) with common
+       spoolers under Unix. It supports CUPS, LPRng, LPD, GNUlpr, PPR,
+       PDQ, CPS, and direct printing.
+
+       Although m2300w-wrapper could be theoretically invoked directly,
+       it is basically designed for being invoked from foomatic's universal
+       print filter "foomatic-rip".
+       
+       Therefore, m2300w requires "foomatic-rip" as prerequisite. Some
+       Linux distributions (e.g. SuSE) include foomatic-rip, while it
+       is missing in other distributions (e.g. RedHat 9).
+
+       To verify whether "foomatic-rip" is installed on your system,
+       you can check, if the file /usr/bin/foomatic-rip and the
+       symbolic link /usr/lib/cups/filter/foomatic-rip exist.
+       
+       If they do not exist, then get the latest "foomatic-filters"
+       package from http://www.linuxprinting.org/download/foomatic and
+       install it on your system.
+
+       For your convenience, starting with version 0.3, the pre-built
+       m2300w RPM package (see below) installs a foomatic-rip binary,
+       if it is missing on the system. If you build the driver from
+       the sources, then you need to build and install "foomatic-filters"
+       yourself.
+
+    3. Spooler
+
+       Basically, m2300w is expected to work with all spoolers supported
+       by foomatic. However, the preferred spooler is CUPS, and m2300w
+       has only been tested in conjunction with CUPS.
+
+    4. Psnup
+
+       If you intend to use the n-up feature of the driver, the program
+       "psnup" needs to be installed on your system.
+
+
+Using the pre-built RPM:
+------------------------
+
+    We are also providing a pre-built RPM for download. This RPM was
+    built on SuSE Linux 8.1, but since it does not depend on particular
+    SuSE features, there is a good chance, that it may also work with
+    other Linux distributions, which support RPM.
+
+    1. Make sure that all prerequisites are installed (see above)
+
+    2. download m2300w-<version>.rpm from
+       http://sourceforge.net/project/showfiles.php?group_id=108751
+
+    3. install or upgrade the rpm package (needs to be done as root)
+
+	$ su
+	Password: ********
+    	$ rpm -U m2300w-<version>.rpm
+
+    4. Run cups config to install a new printer
+
+       If you are upgrading from a previous version of the m2300w
+       driver, then REMOVE all printer queues which are associated
+       with the m2300w driver and reinstall them from the scratch.
+
+
+Building and installing the driver from the source distribution:
+----------------------------------------------------------------
+
+    1. Make sure that all prerequisites are installed (see above)
+
+    2. Download m2300w-<version>.tar.gz from
+       http://sourceforge.net/project/showfiles.php?group_id=108751
+
+    3. Unpack the archive:
+
+       $ tar zxvf m2300w-<version>.tar.gz
+       	   or
+       $ gzip -dc m2300w-<version>.tar.gz | tar xvf -
+       (if you are not using GNU tar)
+
+    4. Enter the top-level directory and run "configure"
+
+       $ cd m2300w-<version>
+       $ ./configure
+
+    5. Run make
+
+       $ make
+
+    6. Install the files (needs to be done as root)
+
+	$ su
+	Password: ********
+	# make install
+
+    7. Run cups config to install a new printer
+
+       If you are upgrading from a previous version of the m2300w
+       driver, then REMOVE all printer queues which are associated
+       with the m2300w driver and reinstall them from the scratch.
+
+
+Building the RPM package from the source distribution:
+------------------------------------------------------
+
+    The spec file included in the distribution only supports
+    packaging of the files. You CANNOT use rpm to BUILD the driver
+    with the supplied spec file. In order to build a RPM package
+    from the source distribution, perform the following steps:
+
+    1. Download m2300w-<version>.tar.gz from
+       http://sourceforge.net/project/showfiles.php?group_id=108751
+
+    2. Unpack the archive:
+
+       $ tar zxvf m2300w-<version>.tar.gz
+       	   or
+       $ gzip -dc m2300w-<version>.tar.gz | tar xvf -
+       (if you are not using GNU tar)
+
+    3. Enter the top-level directory and run "configure"
+
+       $ cd m2300w-<version>
+       $ ./configure
+
+    4. Run make to build the RPM
+
+       $ make rpm
+
+       The resulting RPM package is placed in rpm's built-in standard
+       location, usually /usr/src/packages/RPMS/i386 (or similar).
+       Make sure that this directory is writeable for your user id
+       if you don't run "make rpm" as "root".
+
+
+Building the binary RPM package from the source RPM:
+----------------------------------------------------
+
+    1. Download source RPM package m2300w-<version>-<release>.src.rpm
+
+    2. Install the source RPM package
+
+       # rpm -i m2300w-<version>-<release>.src.rpm
+
+    3. Build the binary RPM package
+    
+       # cd /usr/src/packages/SPECS
+       # rpm -bb m2300w-<version>-<release>.spec
+
+       The resulting RPM package is placed in rpm's built-in standard
+       location, usually /usr/src/packages/RPMS/i386 (or similar).
+

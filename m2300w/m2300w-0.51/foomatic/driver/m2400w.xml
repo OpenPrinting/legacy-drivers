@@ -1,0 +1,16 @@
+<driver id="driver/m2400w">
+    <name>m2400w</name>
+    <url>http://m2300w.sf.net/</url>
+    <execution>
+	<nopjl />
+	<filter />
+	<prototype>m2300w-wrapper -M 2400W %A</prototype>
+    </execution>
+    <comments><en>
+This is an open source driver developed for the
+Minolta magicolor 2400W color laser printer.
+    </en></comments>
+    <printers>
+	<printer><id>printer/Minolta-magicolor_2400W</id></printer>
+    </printers>
+</driver>
