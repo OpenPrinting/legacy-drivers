@@ -56,6 +56,12 @@ Printer driver for **Lexmark 500, Z51, and Z82**
 
 Ghostscript device (removed from Ghostscript in 9.05) generating the proprietary bitmap format of these Lexmark inkjet printers. Preserved from Ghostscript 9.04; builds against current Ghostscript with the included OpenPrinting patch.
 
+### dmprt
+
+Generic printer driver for **dot matrix printers** (Epson ESC/P 24-pin by default)
+
+Ghostscript device (removed from Ghostscript after 9.52) that reads the printer commands from dviprt printer definition files, so it can drive any printer that dviprt supports. Preserved from Ghostscript 9.52; a patch for current Ghostscript will follow.
+
 ### cjet
 
 Printer driver for **Canon CaPSL level III+ laser printers**
