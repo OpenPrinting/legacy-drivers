@@ -1,3 +1,6 @@
+# It is highly appreciated if you could give a <⭐ star> to this repo before contribution or use.
+
+
 # Contributing to legacy-drivers
 
 Thank you for helping preserve historical Linux printer drivers.
