@@ -56,6 +56,12 @@ Printer driver for **Lexmark 500, Z51, and Z82**
 
 Ghostscript device (removed from Ghostscript in 9.05) generating the proprietary bitmap format of these Lexmark inkjet printers. Preserved from Ghostscript 9.04; builds against current Ghostscript with the included OpenPrinting patch.
 
+### cp50
+
+Printer driver for **Mitsubishi CP50 colour printer**
+
+Ghostscript device (removed from Ghostscript in 9.23). Preserved from Ghostscript 9.22, where it builds and runs; it does not compile against current Ghostscript without changes.
+
 ### cjet
 
 Printer driver for **Canon CaPSL level III+ laser printers**
