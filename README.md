@@ -62,6 +62,12 @@ Printer driver for **Mitsubishi CP50 colour printer**
 
 Ghostscript device (removed from Ghostscript in 9.23). Preserved from Ghostscript 9.22, where it builds and runs; it does not compile against current Ghostscript without changes.
 
+### omni
+
+Printer driver for **IBM Omni Driver Framework**
+
+Ghostscript contrib device (removed from Ghostscript in 9.21). Preserved from Ghostscript 9.20 for reference; it does not build on 9.20 or current Ghostscript and needs the external Omni library.
+
 ### cjet
 
 Printer driver for **Canon CaPSL level III+ laser printers**
