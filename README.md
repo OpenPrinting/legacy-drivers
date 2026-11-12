@@ -68,6 +68,12 @@ Printer driver for **IBM Omni Driver Framework**
 
 Ghostscript contrib device (removed from Ghostscript in 9.21). Preserved from Ghostscript 9.20 for reference; it does not build on 9.20 or current Ghostscript and needs the external Omni library.
 
+### dmprt
+
+Printer driver for **dot matrix printers (generic, uses dviprt printer definition files)**
+
+Ghostscript device (removed from Ghostscript after 9.52). Preserved from Ghostscript 9.52; it does not compile even there, as noted in the removal commit.
+
 ### cjet
 
 Printer driver for **Canon CaPSL level III+ laser printers**
