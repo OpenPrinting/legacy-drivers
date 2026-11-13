@@ -1,0 +1,22 @@
+Begin3
+Title:          ml85p
+Version:        0.2.0
+Entered-date:   03/11/2002
+Description:    A driver for the Samsung ML-85G, a GDI printer (winprinter).
+				It works by piping data to it from ghostscript at the
+				ppmraw format.
+				The driver works at full speed and resolution (600x600 dpi)
+				but have no other bells-and-whistles. It is considered
+				alpha-level software. 
+Keywords:       GDI winprinter device driver ghostscript 
+Author:         rildo@pragana.net (Rildo Pragana) 
+Maintained-by:  rildo@pragana.net (Rildo Pragana)
+Primary-site:   ibiblio.org/pub/Linux/hardware/drivers 
+                30kB ml85p-0.2.0.tar.gz
+Alternate-site: 
+Original-site:  pragana.net
+                30kB ml85p-0.2.0.tar.gz
+Platforms:      Linux, *BSD (with x86 cpu) 
+Copying-policy: GPL 
+End
+

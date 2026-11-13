@@ -1,0 +1,5 @@
+#!/bin/sh
+/usr/bin/gs -q -dNOPAUSE -r600x300 -sPAPERSIZE=a4 -sDEVICE=pbmraw \
+	-sOutputFile=\|"/usr/bin/lbp460 -c $1 $2 $3 $4 $5 $6 $7 $8 $9" - 
+#2> /dev/null 
+

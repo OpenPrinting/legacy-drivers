@@ -1,0 +1,8 @@
+#!/bin/sh
+#/usr/bin/gs -q -dNOPAUSE -r600x600 -sPAPERSIZE=a4 -sDEVICE=pbmraw \
+#	-sOutputFile=/tmp/pages.pbm - 2> /tmp/ml.log 
+#/usr/bin/gs -q -dNOPAUSE -r600x600 -sPAPERSIZE=a4 -sDEVICE=pbmraw \
+#	-sOutputFile=\|/usr/local/bin/ml85p\ \-sn - 2> /tmp/ml.log 
+/usr/bin/gs -q -dNOPAUSE -r600x600 -sPAPERSIZE=a4 -sDEVICE=pbmraw \
+	-sOutputFile=\|/usr/local/bin/ml85p - 2> /dev/null 
+

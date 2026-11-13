@@ -1,0 +1,2 @@
+# Samsung ML-85G laser winprinter
+lp:lp=/dev/null:sd=/var/spool/lpd:sh:mx#0:of=/usr/local/bin/ml85-print

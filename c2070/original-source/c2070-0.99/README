@@ -1,0 +1,160 @@
+
+
+
+
+****** Lexmark 2070 Color Jetprinter Linux Driver ******
+Linux_Printing_Howto here you might find the right driver for your printer - if
+it is not a Lexmark 2070. Right now there does not seem to exist a 100%
+compatible printer.
+***** Download *****
+c2070_source_and_documentation
+***** Introduction *****
+The Lexmark 2070 is a fine printer: two seperate cartridges, up to 600dpi, full
+color printing capabilities and cheap. At least it was cheap, as you cannot buy
+it any longer. But if you already have one and want to use it with Linux, here
+the right driver can be found.
+Unfortunately, Lexmark decided to design the 2070 as a Windows GDI printer. The
+protocol is proprietary, so there is not any documentation available.
+Fortunately, as it is a very simple protocol, it has not been an unsolvable
+problem to reverse engineer it by printing to a file using the Windows driver.
+The protocol uses a short initialization sequence to set up the printer and
+load a page. After that, bit patterns with their own header are sent to the
+printer, usually followed by a sequence to transport the paper to the next
+vertical position. The bit patterns have one bit for each pen in the cartridge.
+The bits are in the order of the pens in one column of the sweep; the uppermost
+pen first, then down to the last pen, after that the next column. Certain bytes
+in the header set the horizontal start position and the number of columns to
+print. A checksum, the complete number of bytes for one sweep including the
+header, has to be present in the header to make the printer accept the data.
+Color printing is nonetheless a difficult issue. As there are three colors in
+the color cartridge, there is only a third of the pens available for each
+color. There is also a gap inbetween two colors. Yet all three colors are
+printed in one sweep, so there have to be some arithmetics. The black cartridge
+appears to be misadjusted to the colors, so it can only be used partially. So
+there is one black sweep after two color sweeps.
+Optimization of white spaces is also handled by this driver by reducing the
+sweeps to their minimum width and transporting vertically over completely empty
+lines in just one sequence.
+The driver filters GhostScript output to the Lexmark protocol. The input format
+has changed to bitcmyk, which means you have to change your apsfilter
+accordingly. The driver simply reads the standard input, converts it and then
+sends the data to the standard output. This has been successfully tested with
+GhostScript 5.10, which is included in SuSE 6.2. Right now, you should not use
+this driver for printing just black and white pages, as this is done much
+faster by
+the_older_Lexmark2070_B/W_driver.
+***** Installation *****
+After you have downloaded the tarball with the sourcecode, you have to extract
+its contents into a directory of your choice by typing
+tar -xzf c2070-0.99.tar.gz
+Then you have to compile the code to get the binary for your system. This is
+done simply by typing
+make
+If you are root (you should be root while installing new software in most cases
+anyway) you can now copy the binary to its destination, which is /usr/bin/c2070
+by typing
+make install
+You should now modify your apsfilter, as this driver is designed to work with
+the BSD printing system. There might exist other possibilities, but please do
+not ask me about them. A good basic apsfilter can be found in SuSE Linux 6.2,
+but I guess that other distibutors use quite similar files. You can download my
+readily modified apsfilter for SuSE 6.2 (and probably other distibutions) here.
+You can also modify it yourself.
+Warning! Before you change the apsfilter, backup the original file!
+You have to modify two sections of the apsfilter in order to make the new
+driver work with it. These sections might differ slightly in your filter! All
+modifications are in bold letters. Your apsfilter is linked to several places,
+probably at least to "/usr/lib/apsfilter/bin/apsfilter".
+...
+...
+...
+case $PRINTER in
+	PS_*dpi)
+	    r="${PRINTER#PS_}" ; r="${r%dpi}" ; setres $r
+	    [ `echo $r|grep -cE '^([0-9]+|[0-9]+x[0-9]+)$'` -eq 0 ] && setres 300
+	    [ -n "$DPI" ] && setres $DPI
+	    ;;
+	PS_*)			setres 300        ;;
+	cdj*|*desk*|djet*)	setres 300 -r     ;;
+	dnj*c)			setres 300 -r     ;;
+	hpdj)			setres 300 -r     ;;
+	ljet4l)			setres 300        ;;
+	ljet4)			setres 600        ;;
+	lj4dith)		setres 600        ;;
+	laserjet|ljet[23]*)	setres 300        ;;
+	paintjet|pj*)		setres 300        ;;
+	necp6)			setres 360        ;;
+	bj10e|bj200|bjc[68]00)	setres 360 -r     ;;
+	stcolor|st800)		setres 360 -r     ;;
+	eps9*)			setres 240x216 -r ;;
+	epson)			setres 360x180 -r ;;
+	epsonc)			setres 360x180 -r ;;
+	*\.upp)			setres 300 -r     ;;
+	ppa1000|ppa[87]20)	setres 600 -r     ;;
+	c2070)                  setres 300 -r     ;;
+	*)			setres 300 -r     ;;
+esac
+...
+...
+...
+case $PRINTER in
+	*\.upp)	# PRINTER = option file (e.g. unified printer driver)
+		# Note: A resolution in the option file overwrites
+		#       the given resolution. This is a `must be'.
+		HAVE_GS="$HAVE_GS ${GS_RESOL} @${PRINTER}"
+		;;
+	ppa1000|ppa[87]20)
+		# PRINTER = pbmraw gs device + post filter pbm2ppa
+		#
+		HAVE_GS="$HAVE_GS -sDEVICE=pbmraw ${GS_RESOL}"
+		#
+		findfilter pbm2ppa PBMTOPPA
+		OUTPIPE="$HAVE_PBMTOPPA -v ${PRINTER#ppa}|$PRINT_RAW"
+		#
+		;;
+	lex*)	# PRINTER = pbmraw gs device + post filter pbm2l7k
+		#
+		HAVE_GS="$HAVE_GS -sDEVICE=pbmraw ${GS_RESOL}"
+		#
+		findfilter pbm2l7k PBMTOLEX
+		case $PRINTER in
+			*7000)	OUTPIPE="$HAVE_PBMTOLEX -m 0 |$PRINT_RAW" ;;
+			*5700)	OUTPIPE="$HAVE_PBMTOLEX -m 1 |$PRINT_RAW" ;;
+			*)	OUTPIPE="$HAVE_PBMTOLEX      |$PRINT_RAW" ;;
+		esac
+		;;
+	c2070)
+		# PRINTER = bitcmyk gs device + post filter c2070
+		HAVE_GS="$HAVE_GS -dDITHERPPI=150 -sDEVICE=bitcmyk ${GS_RESOL}"
+		#
+		findfilter c2070 CMYKTO2070
+		OUTPIPE="$HAVE_CMYKTO2070|$PRINT_RAW"
+		;;
+	*)	# PRINTER = ghostscript device
+         	HAVE_GS="$HAVE_GS -sDEVICE=${PRINTER} ${GS_RESOL}"
+	        ;;
+esac
+...
+...
+...
+It is probably a good idea to copy the modifications directly from this
+document to your apsfilter. You should test the apsfilter by simply executing
+it and looking for any error messages. You should get some error messages when
+trying this anyway, but a syntax error indicates that is is your fault. You can
+monitor the correct execution later by watching the list of active processes
+after launching a print job.
+The -dDITHERPPI parameter of GhostScript controls the graininess of the output.
+If you want your own Andy Warhol graphic, you might want to set this to 10 ;-).
+The GhostScript standard setting is 60, which looks really grainy. You should
+experiment with this parameter to find the best setting.
+Finally, you have to create your printer's queues. This can be done more or
+less easily using /usr/lib/apsfilter/bin/SETUP. You should configure a
+"c2070 a4 color 300" at (in most cases) "/dev/lp0".
+Now it should be done. Try to print now, curse and try again ;-).
+***** Copyright and License *****
+This driver and documentation have been written by Christian Kornblum in
+October, 1999. It is protected by the GNU Public License, which you should have
+received a copy of along with this package.
+===============================================================================
+You are welcome to contact me if you have any questions or ideas!
+kornblum@studst.fh-muenster.de

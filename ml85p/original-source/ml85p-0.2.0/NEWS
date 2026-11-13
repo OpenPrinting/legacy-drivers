@@ -1,0 +1,16 @@
+2002Mar11 - Fixes for vulnerabilities in creating temp files.
+2000Aug22 - Automatic reset feature added.
+2000Aug21 - Fixup of some problems when the page to be printed was almost
+			empty. This new driver have now a dynamic compression band,
+			varying band size to not disturb the printer's engine (fixed
+			bands don't work well). I have already printed almost half-thousand
+			pages after this improvement, with no failures or crashes.
+2000Aug20 - Correction on the compressing algorithm, as it had a bug that
+            made some pages to shift (use cmpanal.c to detect and recover the
+			bitmaps, and to check the band size)
+			Modified the driver so we can reset once and print without
+			resetting every time there is something to be printed.
+2000Aug18 - Better support for paper sizes. Optimized printing speed (now
+			detection of end-of-page is right). Removed a bug that caused only
+			first page be printed, and some other fixes.
+

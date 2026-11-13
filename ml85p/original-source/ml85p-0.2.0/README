@@ -1,0 +1,21 @@
+Hello dear fellow hacker,
+
+This is my contribution to the free software world regarding GDI printers.
+The driver is release under GPL and you may find interesting to follow a
+series of articles about dissecting GDI printers (those infamous winprinters)
+in my homepage 
+	http://pragana.net - "Adventures in Linux Programming".
+
+This software only works with the Samsung ML-85G.
+
+To install it, first run make then make install and edit your /etc/printcap,
+like the given example.
+It support both A4 and letter sized paper, just changing your ghostscript
+command.
+
+Now it have a probing for the printer, resetting it if it was never reseted
+before, so there is no need to manually setup it again.
+
+Rildo Pragana <rildo@pragana.net>
+Adventures in Linux Programming http://pragana.net
+
