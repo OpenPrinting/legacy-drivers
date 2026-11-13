@@ -1,0 +1,4 @@
+#!/bin/sh
+zcat ./printer-test-page.ps.gz |/usr/bin/gs -q -dNOPAUSE -r600x600 \
+	-sPAPERSIZE=a4 -sDEVICE=pbmraw \
+	-sOutputFile=\|/usr/bin/lbp660 -

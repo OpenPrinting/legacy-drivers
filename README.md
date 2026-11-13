@@ -89,3 +89,35 @@ The driver requires a Canon laser printer supporting CaPSL level III or higher.
 Printer driver for **Konica Minolta magicolor 2300W and 2400W**
 
 A legacy Linux printer driver for the Konica Minolta magicolor 2300W and 2400W color laser printers. The driver is intended to be used with Foomatic and supports printing through CUPS.
+
+### lbp660
+
+Printer driver for **Canon LBP-660 and LBP-460**
+
+**Version:** 0.3.1
+
+Driver for these Canon GDI laser printers, which talks to the printer directly over the parallel port. Preserved from the original release, taken from the Wayback Machine; `lbp660.c` and `lbp460.c` compile with current gcc, untested on hardware.
+
+### c2070
+
+Printer driver for **Lexmark 2070 Color Jetprinter**
+
+**Version:** 0.99
+
+Filter to convert Ghostscript `bitcmyk` output to the Lexmark 2070 format, printing in CMYK at 300 dpi. Preserved from the original release, taken from the Wayback Machine; compiles with current gcc, untested on hardware.
+
+### ml85p
+
+Printer driver for **Samsung ML-85G**
+
+**Version:** 0.2.0
+
+Driver for this Samsung GDI laser printer, which talks to the printer directly over the parallel port. Preserved from the original release, taken from the Wayback Machine; the driver does not compile with current gcc without changes.
+
+### lpstyl
+
+Printer driver for **Apple StyleWriter and Color StyleWriter**
+
+**Version:** 0.9.9
+
+Driver for Apple StyleWriter printers (StyleWriter I, II, III, 1200 and Color StyleWriter 1500, 2200, 2400, 2500), with optional AppleTalk support. Preserved from the original release, taken from the Wayback Machine; it does not compile with current gcc without changes.

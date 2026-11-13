@@ -1,0 +1,6 @@
+16-Aug-04 : Fixed lbp*60-test (0.2.2)
+04-Aug-04 : Fixed page length
+13-Jul-04 : Support for LBP-460 automated install (0.2.1)
+12-Jul-04 : Fixed a status/control problem (was reading on cables which doesn't exists) (0.2)
+23-Jun-04 : First working release (0.1)
+
