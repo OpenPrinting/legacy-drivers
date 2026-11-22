@@ -1,0 +1,832 @@
+#!/bin/sh
+# The next line is executed by /bin/sh, but not tcl \
+exec wish "$0" ${1+"$@"}
+
+# change this to select the proper printer model
+set settings(model) 0 ;# 0 = 300dpi , 1 = 200dpi
+
+###########################################################################
+# don't change nothing below this, unless you know what you're doing
+#
+if {[catch {set realfile [file readlink $argv0]}]} {
+	set realfile $argv0
+}
+set dir [file dirname $realfile]/BWidget-1.3.1
+
+tclPkgSetup $dir BWidget 1.3.1 {
+{arrow.tcl source {ArrowButton ArrowButton::create ArrowButton::use}}
+{labelframe.tcl source {LabelFrame LabelFrame::create LabelFrame::use}}
+{labelentry.tcl source {LabelEntry LabelEntry::create LabelEntry::use}}
+{bitmap.tcl source {Bitmap::get Bitmap::use}}
+{button.tcl source {Button Button::create Button::use}}
+{buttonbox.tcl source {ButtonBox ButtonBox::create ButtonBox::use}}
+{combobox.tcl source {ComboBox ComboBox::create ComboBox::use}}
+{label.tcl source {Label BWLabel::create BWLabel::use}}
+{entry.tcl source {Entry Entry::create Entry::use}}
+{pagesmgr.tcl source {PagesManager PagesManager::create PagesManager::use}}
+{notebook.tcl source {NoteBook NoteBook::create NoteBook::use}}
+{panedw.tcl source {PanedWindow PanedWindow::create PanedWindow::use}}
+{scrollw.tcl source {ScrolledWindow ScrolledWindow::create ScrolledWindow::use}}
+{scrollview.tcl source {ScrollView ScrollView::create ScrollView::use}}
+{scrollframe.tcl source {ScrollableFrame ScrollableFrame::create ScrollableFrame::use}}
+{progressbar.tcl source {ProgressBar ProgressBar::create ProgressBar::use}}
+{progressdlg.tcl source {ProgressDlg ProgressDlg::create ProgressDlg::use}}
+{passwddlg.tcl source {PasswdDlg PasswdDlg::create PasswdDlg::use}}
+{dragsite.tcl source {DragSite::register DragSite::include DragSite::use}}
+{dropsite.tcl source {DropSite::register DropSite::include DropSite::use}}
+{separator.tcl source {Separator Separator::create Separator::use}}
+{spinbox.tcl source {SpinBox SpinBox::create SpinBox::use}}
+{titleframe.tcl source {TitleFrame TitleFrame::create TitleFrame::use}}
+{mainframe.tcl source {MainFrame MainFrame::create MainFrame::use}}
+{listbox.tcl source {ListBox ListBox::create ListBox::use}}
+{tree.tcl source {Tree Tree::create Tree::use}}
+{color.tcl source {SelectColor SelectColor::menu SelectColor::dialog}}
+{dynhelp.tcl source {DynamicHelp::configure DynamicHelp::use DynamicHelp::register DynamicHelp::include}}
+{dialog.tcl source {Dialog Dialog::create Dialog::use}}
+{messagedlg.tcl source {MessageDlg MessageDlg::create MessageDlg::use}}
+{font.tcl source {SelectFont SelectFont::create SelectFont::use SelectFont::loadfont}}
+{widgetdoc.tcl source {Widget::generate-doc Widget::generate-widget-doc}}
+{xpm2image.tcl source {xpm-to-image}}
+}
+namespace eval ::BWIDGET {}
+set ::BWIDGET::LIBRARY $dir
+source [file join $dir widget.tcl]
+source [file join $dir init.tcl]
+source [file join $dir utils.tcl]
+
+
+image create photo logo0 -data "
+R0lGODdhIAAgAPQAAAAAAAAAggAA/wCCAACCggD/AAD//yAgQSBBQWFBQYIAAIIAgoKCgqJB
+QaLD/88wMMPDgsPD//8AAP8A////AP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+ACwAAAAAIAAgAAAF4aAkVpU4SmRZmqhKtuvrvi1sz2gus6ou7ymX6Qe8rYa9mbJmvNlgRx+O
+KIUGr9isdsvtCr6CbbiLHVfMV3RQvU6xSWMz+JuVa8PsNxwMd+PRcVcAAH1uZ4d7hngkg42E
+gId2cWEAAo6XanKLkV+Vlo0MoYRkFZemoQyOXaaOqKmmWaytorKDQbWDqLi1AwOXuruXpYO9
+vQDAAAXBqhCNxo7Ky8IQzZcS0qwk1NXY2SmD27hzn4OTfODUu+SGfWbo3KyWZ3+BaOi1ke2K
+ggDwtop8JGERxm5ToXykEu35Mw9MCAA7"
+
+image create photo logo1 -data "
+R0lGODlhIQAiAPIBAP8AAP///wAAAISChACCAAD/AMbDxgAA/yH5BAAAAAAALAAAAAAhACIA
+AAP+CAARgAAQEBgBAYAAEAEYERCBAQERCAERgQEQARgREIEBAREYEBCBEAEBCAABgRAQEQgR
+AYEQEQEYEQCAERARGBAQgBEBEQgAAIEBAREIERGAEREQGAARgRABERgQEIEBAREYAQCAAREB
+GBEQgRAREAgRAYEREREYERGBERERGBERgRERIhgREYEREREYERGBERERGBEhgiIiERgREYER
+EREYERGBESEiKCIigiIRERgREYEREREYESKCIiIiKDMjgRERERgREYERIiIoIiKCMjMiKBIR
+gRERERghIoIiIiI4MyOCIiISGBERgSEiIigiIoIzIyIoIiKCIhERGCL+IoIiIiI4MyKCIiIi
+KCIigSIiQkgiIoIzIyIoIiKCIiIiKBIhgkJEJDgzIoIlIiIoIiKCIiISGCYihCQiIlgiIoIi
+IiIoIiKCIhFmKCIigiAiIigiIoIiIiIoIhKBYWYiKCIigiIiIigiIoIiIhEYESKGZiIiKCIi
+giIiIigiEYEREREYImaGIiIiKCIigiISERgREYERESEoZiaCIiIiKCISgRERERgREYERIWJo
+IiKCIiIRGBERgRERERgREYEhYiIoIhKBERERGBERgRERERgREYIiIhEYERGBERERGBERgRER
+ERgREYEREREYERGBERERGBERgREREXh3EYeTd3cReBcRhxcRdxgREYERcRF4EXGBERdxGBdx
+gRdxERgREYEXcREYFxGBERcXGBcXgRcRERgRd4cRERcYEXGBcREXeBEXgREREXgRcYFxERF4
+EXGBcXEReBERgRFxERhxF4ERd3cYcReBcRcRGBERgRERERgREYEREREYERGBERERGBERgRER
+ERgREYEREREYERGRADs="
+
+
+##### Default values
+option add *ComboBox*font {Courier 12}
+
+set model(0) "PentaxPocketJetII"
+set model(1) "PentaxPocketJet200"
+set model(label,0) "Pentax PocketJet II"
+set model(label,1) "Pentax PocketJet 200"
+
+set settings(driverpath) /usr/local/pentaxpj
+set settings(spooldir) /var/spool/lpd
+set settings(showport) "/dev/lp0     (LPT1)"
+set settings(port) /dev/lp0 ;# LPT1
+set settings(headerpage) 0 	;# No Header Page
+set settings(paper) 0 		;# Letter
+set settings(density) 7 	;# default density (0-10)
+set settings(quality) 0 	;# Text Mode
+set settings(feedmode) 1 	;# Fixed Page Mode
+set settings(extrafeed) 300 ;# 1 in.
+set settings(tofile) 0		;# save to file flag
+set settings(tofilename) "/tmp/output.lp" ;# default output file
+set settings(redhat) 0
+
+set paperlist {Letter Legal A4 Rollpaper Custom}
+set custompaperindex 4
+
+set paper(0) "Paper size: Letter 8.50\" by 11.00\" (216mm by 279mm)"
+set paper(1) "Paper size: Legal 8.50\" by 14.00\" (216mm by 356mm)"
+set paper(2) "Paper size: A4 8.27\" by 11.69\" (210mm by 297mm)"
+set paper(3) "Paper size: Rollpaper 8.50\" by ???\" (216mm by ???mm)"
+set paper(4) "Paper size: Custom \$paper(width)\" by \$paper(height)\" (\[in2mm \$paper(width)\]mm by \[in2mm \$paper(height)\]mm)"
+set paper(width) 8.50
+set paper(height) 11.00
+
+set custom(labelw) "\[ 393 .. 850 \]"
+set custom(labelh) "\[ 100 .. 1400\]"
+set custom(width) 850
+set custom(height) 1100
+set custom(unity) in
+
+
+##### Procedures
+proc restart_lpd {} {
+	# RedHat is different! Just run the script at its init.d directory
+	# but warn our user
+	if {[file exists /etc/init.d/lpd]} {
+		if {[tk_messageBox -type okcancel -message "It seems you are running \
+a Red Hat system, and it handles daemon differently. \
+After any change in the printcap file, you need to restart the lpd daemon. \
+Would you like me to restart lpd?"] == "ok"} {
+			exec /etc/init.d/lpd restart	
+			return
+		} 
+	}
+	# locate lpd in sys processes
+	foreach pr [glob /proc/\[0-9\]*] {
+		set f [open [file join $pr cmdline] r]
+		set cmd [read $f]
+		close $f
+		if {[regexp {([^ \t]*lpd)([^ \t]+.*|$)} $cmd lpdcmd]} {
+			set pid [file tail $pr]
+			#puts "$pid: $cmd"
+			exec kill -9 $pid
+			eval exec $lpdcmd
+			return
+		}
+	}
+	tk_messageBox -message "Sorry, but there is no spooler daemon running \
+on this system. Please install or start lpd and try again. \
+Your configuration will be saved but there is no way to actually print." \
+		-type ok
+}
+
+proc testpage {} {
+	global settings
+	eval exec zcat $settings(driverpath)/test-page.ps.gz | \
+		$settings(driverpath)/pentaxpj_sh [gencmdline] -p $settings(port) &
+}
+
+proc savesettings {{done 1}} {
+	global settings paper nb 
+	if {$settings(redhat)} {
+		switch -glob $settings(port) {
+		/dev/ttyS* {
+			file attributes $settings(port) -permissions 0666
+		}
+		}
+	}
+	foreach tab {General Paper Advanced} {
+		if {![leave_$tab]} {
+			$nb raise $tab
+			return
+		}
+	}
+	set cmdline #[gencmdline] 
+	set config "array set settings {
+model		$settings(model)
+driverpath  $settings(driverpath)
+showport    \"$settings(showport)\"
+port        $settings(port)
+headerpage  $settings(headerpage)
+paper       $settings(paper)
+density     $settings(density)
+quality     $settings(quality)
+feedmode    $settings(feedmode)
+extrafeed   $settings(extrafeed)
+width       $paper(width)
+height      $paper(height)
+tofile      $settings(tofile)
+tofilename  $settings(tofilename)
+spooldir    $settings(spooldir)
+}"
+	set cfgn /etc/pentaxpj.conf
+	set fd [open $cfgn w]
+	puts $fd $cmdline
+	puts $fd $config
+	close $fd
+	catch {file attributes $cfgn -permissions a+rw}
+	saveprintcap
+	catch {restart_lpd}
+	if {$done} {
+		exit
+	} else {
+		parseprintcap
+	}
+}
+
+proc gencmdline {} {
+	global settings paper 
+	set cmdline ""
+	if {$settings(model) == 1} {
+		append cmdline "-2 "
+	}
+	set dpi [expr $settings(model) ? 200 : 300]
+	switch $settings(paper) {
+		0 {
+			#if {$settings(model) == 1} {
+			#	append cmdline "-H 2133 "
+			#} else {
+			#	append cmdline "-H 3200 "
+			#}
+			append cmdline "-s letter "
+			append cmdline "-g [expr int(8.5*$dpi)]x[expr int(11.0*$dpi)] "
+		}
+		1 {
+			#if {$settings(model) == 1} {
+			#	append cmdline "-H 2733 "
+			#} else {
+			#	append cmdline "-H 4100 "
+			#}
+			append cmdline "-s legal "
+			append cmdline "-g [expr int(8.5*$dpi)]x[expr int(14.0*$dpi)] "
+		}
+		2 {
+			#if {$settings(model) == 1} {
+			#	append cmdline "-W 200 "
+			#	append cmdline "-H 2200 "
+			#} else {
+			#	append cmdline "-W 300 "
+			#	append cmdline "-H 3300 "
+			#}
+			append cmdline "-s a4 "
+			append cmdline "-g [expr int(8.27*$dpi)]x[expr int(11.69*$dpi)] "
+		}
+		3 {
+			if {$settings(model) == 1} {
+				append cmdline "-H 20000 "
+			} else {
+				append cmdline "-H 30000 "
+			}
+		}
+		4 {
+			if {$settings(model) == 1} {
+				set w [expr int($paper(width) * 200.0 / 8.0 - 8)]
+				set h [expr int($paper(height) * 200.0 - 67)]
+			} else {
+				set w [expr int($paper(width) * 300.0 / 8.0 - 10)]
+				set h [expr int($paper(height) * 300.0 - 100)]
+			}
+			append cmdline "-W $w "
+			append cmdline "-H $h "
+			append cmdline "-g [expr int($paper(width)*$dpi)]x[expr \
+				int($paper(height)*$dpi)]"
+		}
+	}
+	if {$settings(quality) == 0} {
+		append cmdline "-T "
+	}
+	if {$settings(density) != 6} {
+		append cmdline "-d $settings(density) "
+	}
+#	if {$settings(redhat)} {
+#		append cmdline "-p $settings(port) "
+#	}
+	if {$settings(tofile)} {
+		append cmdline "-o $settings(tofilename) "
+	}
+	append cmdline "-f $settings(feedmode) "
+	append cmdline "-a $settings(extrafeed) "
+	return $cmdline
+}
+
+proc in2mm {in} {
+	return [expr round($in * 25.4)]
+}
+
+proc mm2in {mm} {
+	return [format %.2f [expr $mm / 25.4]]
+}
+
+proc convertunity {args} {
+	global custom
+	if {$custom(unity) == "in"} {
+		set custom(labelw) "\[ 393 .. 850 \]"
+		set custom(labelh) "\[ 100 .. 1400\]"
+		set custom(width) [expr round($custom(width) / 2.54)]
+		set custom(height) [expr round($custom(height) / 2.54)]
+	} else {
+		set custom(labelw) "\[ 999 .. 2159\]"
+		set custom(labelh) "\[ 254 .. 3556\]"
+		set custom(width) [expr round($custom(width) * 2.54)]
+		set custom(height) [expr round($custom(height) * 2.54)]
+	}
+}
+
+proc setcustompaper {} {
+	global custom paper custompaperindex
+	if {$custom(unity) == "in"} {
+		if {$custom(width) < 393 || $custom(width) > 850 || \
+			$custom(height) < 100 || $custom(height) > 1400} {
+			tk_dialog .error "Invalid Paper Size" \
+				"Please select valid values for width and height of paper." \
+				error 0 OK
+			return
+		}
+		set paper(width) [format %.2f [expr $custom(width) / 100.0]]
+		set paper(height) [format %.2f [expr $custom(height) / 100.0]]
+	} else {
+		if {$custom(width) < 999 || $custom(width) > 2159 || \
+			$custom(height) < 245 || $custom(height) > 3556} {
+			tk_dialog .error "Invalid Paper Size" \
+				"Please select valid values for width and height of paper." \
+				error 0 OK
+			return
+		}
+		set paper(width) [mm2in [expr $custom(width) / 10.0]]
+		set paper(height) [mm2in [expr $custom(height) / 10.0]]
+	}
+	setpaperlabel
+	destroy .custompaper
+}
+
+proc restorecustom {} {
+	global custom paper
+	set custom(unity) in
+	set custom(width) [expr round($paper(width) * 100)]
+	set custom(height) [expr round($paper(height) * 100)]
+	destroy .custompaper
+}
+
+proc paperchanged {} {
+	global custompaperindex plist paper custom
+	if {[$plist curselection] == $custompaperindex} {
+		toplevel .custompaper
+		set cpaper [frame .custompaper.top]
+		set buttons [frame .custompaper.bot]
+		set size [frame $cpaper.size]
+		set unityt [TitleFrame $cpaper.unity -text Unities]
+		set unity [$unityt getframe]
+		frame $size.w
+		frame $size.h
+		pack [label $size.w.l1 -text width -width 6] \
+			[SpinBox $size.w.sb -text [expr round($paper(width) * 100)] \
+				-range {393 850 1} -width 4 -entrybg white \
+				-textvariable custom(width)] \
+			[label $size.w.l2 -textvariable custom(labelw) -width 14] \
+			-side left -anchor nw -padx 5
+		pack [label $size.h.l1 -text height -width 6] \
+			[SpinBox $size.h.sb -text [expr round($paper(height) * 100)] \
+				-range {100 1400 1} -width 4 -entrybg white \
+				-textvariable custom(height)] \
+			[label $size.h.l2 -textvariable custom(labelh) -width 14] \
+			-side left -anchor nw -padx 5
+		pack [radiobutton $unity.rb1 -text "0.01 inches" -value in \
+			-variable custom(unity)] \
+			[radiobutton $unity.rb2 -text "0.1 milimeters" -value mm \
+			-variable custom(unity)] -anchor nw
+		pack $size.w $size.h -pady 8 -anchor w
+		pack $size $unityt -padx 5 -pady 5 -anchor nw -side left
+		pack $cpaper -anchor nw
+		pack [Separator .custompaper.sep -orient horizontal] -fill x -expand yes
+		pack [button $buttons.cancel -text Cancel -width 8 -underline 0 \
+				-command restorecustom] \
+			[button $buttons.ok -text OK -width 8 -underline 0 \
+				-command setcustompaper] \
+			-side right -anchor ne -padx 5
+		pack $buttons -pady 5 -fill x
+		update
+		wm resizable .custompaper 0 0
+		wm title .custompaper "Custom Paper Size"
+		wm geom .custompaper +[expr [winfo vrootwidth .custompaper]/2 - \
+			[winfo width .custompaper]/2]+[expr \
+			[winfo vrootheight .custompaper]/2 - \
+			[winfo height .custompaper]/2]
+		grab .custompaper
+	}
+	setpaperlabel
+}
+
+proc setpaperlabel {} {
+	global settings paper papersize plist
+	set settings(paper) [$plist curselection]
+	set papersize [subst $paper($settings(paper))]
+}
+
+proc setextrafeedstate {args} {
+	global settings efl efs
+	if {$settings(feedmode)} {
+		$efs configure -state disabled -entrybg gray80
+		$efl configure -state disabled
+	} else {
+		#feedmode = 0 -- No Feed Mode
+		$efs configure -state normal -entrybg white
+		$efl configure -state normal
+	}
+}
+
+proc leave_General {} {
+	global settings
+	set settings(port) [lindex $settings(showport) 0]
+	if {[file exists $settings(port)]} {
+		return 1
+	} else {
+		tk_dialog .error "Invalid Port" \
+			"Please select a valid port." \
+			error 0 OK
+		return 0
+	}
+}
+
+proc leave_Paper {} {
+	global settings
+	if {$settings(extrafeed) < 0 || $settings(extrafeed) > 4200} {
+		tk_dialog .error "Invalid ExtraFeed" \
+			"ExtraFeed value is out of range (0-4200).
+Please select a valid value." \
+			error 0 OK
+		return 0
+	} else {
+		return 1
+	}
+}
+
+proc leave_Advanced {} {
+	return 1
+}
+
+proc set_model {} {
+	global Advanced General Paper model settings ptxt
+	$Advanced.top.logo config -image logo$settings(model)
+	$General.top.logo config -image logo$settings(model)
+	$Paper.top.logo config -image logo$settings(model)
+	$Advanced.top.label config -text $model(label,$settings(model))
+	$General.top.label config -text $model(label,$settings(model))
+	$Paper.top.label config -text $model(label,$settings(model))
+	wm title . $model($settings(model))
+	### activate plain text option only for model 200 (settings(model)=1)
+	set f [$ptxt getframe]
+	if {$settings(model)} {
+		$f.cb config -state normal
+	} else {
+		$f.cb config -state disabled
+		set settings(plain_text) 0
+	}
+}
+
+proc parseprintcap {} {
+	global settings printers pcap pcaplines model pentaxindex
+	
+	set pcap(plines) {}
+	# check if monster created by RedHat exists
+	if {[file exists /etc/printcap.local]} {
+		set settings(redhat) 1
+	}
+	set pcapname /etc/printcap
+	if {[file exists $pcapname]} {
+		set fd [open $pcapname r]
+		set i 0
+		set j 0
+		set neednext 0
+		# read all lines and build pcaplines() array
+		while {![eof $fd]} {
+			set line [string trim [gets $fd]]
+			if {$line == ""} continue
+			if {[string index $line 0] == "#"} {
+				set pcaplines($j) $line
+				incr j
+				continue
+			}
+			if {[string index $line end] == "\\"} {
+				set line [string trim $line {" " \t \n \\ :}]
+				if {!$neednext} {
+					set neednext 1
+					set pcap($i) $line
+					set pcaplines($j) ""
+					if {$line != ""} {
+						lappend pcap(plines) $j
+					}
+					incr j
+				} else {
+					append pcap($i) :$line
+				}
+			} else {
+				set line [string trim $line {:}]
+				if {!$neednext} {
+					set pcap($i) $line
+					set pcaplines($j) ""
+					if {$line != ""} {
+						lappend pcap(plines) $j
+					}
+					incr j
+				} else {
+					set neednext 0
+					append pcap($i) :$line
+				}
+				incr i
+			}
+		}
+		close $fd
+		set values {}
+		set newnames {}
+		set k 0
+		set foundpentax 0
+		# look for pocketjet already configured
+		for {set j 0} {$j < $i} {incr j} {
+			set pcap($j) [split $pcap($j) {:}]
+			set names [split [lindex $pcap($j) 0] {|}]
+			set name0 [lindex $names 0]
+			set name1 [lindex $names 1]
+			if {$name1 != ""} {
+				if {($name1 == $model(0)) || ($name1 == $model(1))} {
+					set foundpentax 1
+					set pentaxindex $j
+				}
+				lappend values $name1
+				if {$name0 == "lp"} {
+					if {![info exist defaultprinter]} {
+						set defaultprinter $j
+					}
+					set newlist [lrange $pcap($j) 1 end]
+					set names [lrange $names 1 end]
+					set pcap($j) ""
+					foreach n $names {
+						append pcap($j) $n|
+					}
+					set pcap($j) [list [string trimright $pcap($j) {|}]]
+					set pcap($j) [concat $pcap($j) $newlist]
+				}
+			} else {
+				if {$name0 == "lp"} {
+					set newlist [lrange $pcap($j) 1 end]
+					if {![info exist defaultprinter]} {
+						set defaultprinter $j
+					}
+					while {[lsearch $newnames \
+						"Printer$k\(named by pentaxsetup\)"] != -1} {
+						incr $k
+					}
+					set pcap($j) [list "Printer$k\(named by pentaxsetup\)"]
+					set pcap($j) [concat $pcap($j) $newlist]
+					lappend values "Printer$k\(named by pentaxsetup\)"
+					lappend newnames "Printer$k\(named by pentaxsetup\)"
+				} else {
+					if {($name0 == $model(0)) || ($name0 == $model(1))} {
+						set foundpentax 1
+						set pentaxindex $j
+					}
+					lappend values $name0
+				}
+			}
+		}
+		if {!$foundpentax} {
+			lappend values $model($settings(model))
+			set pentaxindex $j
+			set num [array size pcaplines]
+			set pcaplines($num) ""
+			lappend pcap(plines) $num
+		}
+		$printers configure -values $values
+		if {[info exists defaultprinter]} {
+			$printers setvalue @$defaultprinter
+		} else {
+			$printers setvalue @0
+		}
+	} else {
+		set pentaxindex 0
+		set pcaplines(0) ""
+		set pcap(plines) [list 0]
+		$printers configure -values [list $model($settings(model))]
+		$printers setvalue @0
+	}
+	
+}
+
+proc saveprintcap {} {
+	global pcap pcaplines printers pentaxindex
+	genpentaxsettings
+	set defaultprinter [$printers getvalue]
+	set newlist [lrange $pcap($defaultprinter) 1 end]
+	set pcap($defaultprinter) [list lp|[lindex $pcap($defaultprinter) 0]]
+	set pcap($defaultprinter) [concat $pcap($defaultprinter) $newlist]
+	set l [llength [lindex [$printers configure -values] 4]]
+	set printer 0
+	set pline [lindex $pcap(plines) 0]
+	set pcapname /etc/printcap
+	if {[catch {open $pcapname w} fd]} {
+			tk_messageBox -type ok -message \
+				"Only the superuser (root) may change print capabilities \
+file (/etc/printcap), so the default printer will not be changed."
+		return
+	}	
+	# to fix a RedHat bug, put first pentax entry
+	putsprinter $pentaxindex $fd
+	for {set i 0} {$i < [array size pcaplines]} {incr i} {
+		if {$i == $pline} {
+			if {$printer != $pentaxindex} {
+				putsprinter $printer $fd
+			}
+			incr printer
+			set pline [lindex $pcap(plines) $printer]
+		} else {
+			puts $fd $pcaplines($i)
+		}
+	}
+	close $fd
+}
+
+proc putsprinter {printer fd} {
+	global pcap
+	set len [llength $pcap($printer)]
+	if {$len >= 3} {
+		puts $fd "[lindex $pcap($printer) 0]:\\"
+		set l [expr $len - 1]
+		for {set i 1} {$i < $l} {incr i} {
+			puts $fd "\t:[lindex $pcap($printer) $i]:\\"
+		}
+		puts $fd "\t:[lindex $pcap($printer) $l]:"
+	} elseif {$len == 2} {
+		puts $fd "[lindex $pcap($printer) 0]:\\"
+		puts $fd "\t:[lindex $pcap($printer) 1]:"
+	} elseif {$len == 1} {
+		puts $fd "[lindex $pcap($printer) 0]:"
+	}
+	return $len
+}
+
+proc genpentaxsettings {} {
+	global pentaxindex model settings pcap
+	if {![file isdirectory $settings(spooldir)]} {
+		if {[catch {file mkdir $settings(spooldir)}]} {
+			tk_messageBox -type ok -message \
+				"I can't create the spool directory. \
+Please check the path given, and if you have privileges for doing so."
+		}
+		if {[catch {file attributes $settings(spooldir) \
+			-group lp -owner root -permissions 776}]} {
+			tk_messageBox -type ok -message \
+				"I can't change spool directory attributes. \
+Please check the path given, and if you have privileges for doing so."
+		}
+	}
+	set pcap($pentaxindex) [list $model($settings(model)) \
+		lp=$settings(port) \
+		sd=$settings(spooldir) mx#0]
+			
+	if {!$settings(plain_text)} {
+		if {$settings(redhat)} {
+			set of "filter=$settings(driverpath)/pentaxpj"
+		} else {
+			set of "of=$settings(driverpath)/pentaxpj"
+		}
+		lappend pcap($pentaxindex) $of 
+	}
+	lappend pcap($pentaxindex) "tr=\\f" 
+	if {!$settings(headerpage)} {
+		lappend pcap($pentaxindex) sh
+	}
+}
+
+####### GUI
+pack [frame .buttons] -fill both -side bottom
+pack [frame .notebook] -side top
+set ok [button .buttons.ok -text OK -width 8 -underline 0 \
+	-command savesettings]
+set cancel [button .buttons.cancel -text Cancel -width 8 -underline 0\
+	-command exit]
+set apply  [button .buttons.apply -text Apply -width 8 \
+	-command {savesettings 0}]
+pack $cancel $apply $ok -side right -padx 5 -pady 5
+pack $cancel $ok -side right -padx 5 -pady 5 -anchor ne
+set nb [NoteBook .notebook.nb -height 0 -width 0 -borderwidth 2]
+foreach page {General Paper Advanced} {
+	$nb insert end $page -text $page -leavecmd leave_$page
+	set $page [$nb getframe $page]
+}
+
+######## General Tab
+frame $General.top
+set logo logo$settings(model)
+pack [label $General.top.logo -image $logo] \
+	[label $General.top.label -text $model($settings(model))] -side left -padx 5
+pack $General.top -anchor n -fill x
+pack [frame $General.line -relief sunken -borderwidth 2\
+	-height 2 -width 350] -pady 10
+frame $General.bottom
+pack [label $General.bottom.portlb -text "Print to the following port:"] \
+	-anchor nw -padx 5
+pack [set port [ComboBox $General.bottom.portcb -entrybg white\
+	-values {
+		"/dev/lp0     (LPT1)"
+		"/dev/lp1     (LPT2)"
+		"/dev/ttyS0   (COM1)"
+		"/dev/ttyS1   (COM2)"
+		"/dev/usb/lp0 (USB1)"
+		"/dev/usb/lp1 (USB2)"
+	} -textvariable settings(showport)]] \
+	-side top -anchor nw -padx 5 -fill x -expand yes
+set def [frame $General.bottom.f1]
+pack [label $def.deflb -text "Default printer:"] -padx 5 -anchor nw
+set printers [ComboBox $def.printerscb -entrybg white -text Unknown -editable 0]
+pack $printers -padx 5 -anchor nw -fill x -expand yes
+pack $def -pady 25 -anchor nw -fill x -expand yes
+pack [set f1 [frame $General.bottom.fout]]
+pack [checkbutton $f1.chk -text "Output to file" \
+	-variable settings(tofile)] \
+	[entry $f1.e -width 30 -bg white -textvariable settings(tofilename)] \
+	-side left -padx 5
+#pack [checkbutton $General.bottom.hp -text "Print header page" \
+#	-variable settings(headerpage) -underline 6] \
+#	-padx 5 -pady 25 -anchor nw
+pack [button $General.bottom.test -text "Print test page" \
+	-command testpage -underline 6] -padx 10 -pady 10 -anchor se
+pack $General.bottom -fill both
+
+
+###### Paper Tab
+frame $Paper.top
+pack [label $Paper.top.logo -image $logo] \
+	[label $Paper.top.label -text $model($settings(model))] \
+	-side left -padx 5
+pack $Paper.top -anchor n -fill x
+pack [frame $Paper.line -relief sunken -borderwidth 2\
+	-height 2 -width 350] -pady 10
+frame $Paper.bottom
+set psize [frame $Paper.bottom.psize]
+pack [label $psize.plabel -textvariable papersize] -anchor nw
+set plist [listbox $psize.paperlist -selectmode browse -height 5 \
+	-bg white -exportselection 0]
+foreach p $paperlist {
+	$plist insert end $p
+}
+pack $plist -anchor nw
+set feedt [TitleFrame $Paper.bottom.feed -text "Form Feed Modes"]
+set feed [$feedt getframe]
+pack [radiobutton $feed.no -variable settings(feedmode) -value 0 \
+	-text "No Feed Mode" -underline 0] \
+	[radiobutton $feed.fixed -variable settings(feedmode) -value 1 \
+	-text "Fixed Page Mode" -underline 0] \
+	[radiobutton $feed.end -variable settings(feedmode) -value 2 \
+	-text "End of Page Mode" -underline 0] \
+	[frame $feed.ef] -padx 5 -anchor nw
+pack [set efl [Label $feed.ef.l -state disabled\
+	-text "No Feed Mode Extra Feed:\n(# Lines at 300 dpi)"]]\
+	[set efs [SpinBox $feed.ef.e -textvariable settings(extrafeed) \
+	-state disabled -width 4 -range {0 4200 1}]] -side left -pady 5
+pack $psize $feedt -pady 15 -padx 5 -fill x
+pack $Paper.bottom -side left -anchor nw -fill x -expand yes
+unset feed feedt
+
+##### Avanced Tab
+frame $Advanced.top
+pack [label $Advanced.top.logo -image $logo] \
+	[label $Advanced.top.label -text $model($settings(model))] -side left -padx 5
+pack $Advanced.top -anchor n -fill x
+pack [frame $Advanced.line -relief sunken -borderwidth 2\
+	-height 2 -width 350] -pady 10
+frame $Advanced.bottom
+# modelo
+set modelt [TitleFrame $Advanced.bottom.mod -text Model]
+set modelfr [$modelt getframe]
+pack [radiobutton $modelfr.200 -text "Pocket Jet 200" \
+		-variable settings(model) -value 1 -command set_model] \
+	[radiobutton $modelfr.ii -text "Pocket Jet II" \
+		-variable settings(model) -value 0 -command set_model] \
+	-side left -expand 1 -fill x
+# plain text 
+set ptxt [TitleFrame $Advanced.bottom.ptxt -text "Plain Text"]
+set ptxtfr [$ptxt getframe]
+pack [checkbutton $ptxtfr.cb -text "output plain text (model 200 only)" \
+		-variable settings(plain_text)] \
+	-side left -expand 1 -fill x
+# densidade, qualidade
+set densityt [TitleFrame $Advanced.bottom.d -text Density]
+set density [$densityt getframe]
+set qualityt [TitleFrame $Advanced.bottom.q -text "Quality Modes"]
+set quality [$qualityt getframe]
+set spldir [frame $Advanced.bottom.s]
+label $spldir.lb -text "Spool directory:"
+entry $spldir.e -width 30 -textvariable settings(spooldir)
+pack $spldir.lb $spldir.e -side left -padx 5
+
+frame $density.f
+set den [scale $density.f.s -variable settings(density) -orient h -length 200 \
+	-from 0 -to 10]
+pack [label $density.f.l1 -text Light] $den [label $density.f.l2 -text Dark] \
+	-side left
+pack $density.f -anchor center
+pack [radiobutton $quality.text -variable settings(quality) -value 0 \
+	-underline 0 -text "Text Mode"] \
+	[radiobutton $quality.graph -variable settings(quality) -value 1 \
+	-underline 0 -text "Graphics Mode"] -padx 5 -anchor nw
+#pack $modelt $densityt $qualityt $spldir -anchor nw -fill x -pady 5 
+pack $modelt $ptxt $densityt $spldir -anchor nw -fill x -pady 15 
+pack $Advanced.bottom -anchor nw -fill x -expand yes
+
+
+####### Load Configuration
+set configfile /etc/pentaxpj.conf
+if {[file exists $configfile]} {
+	source $configfile
+}
+
+parseprintcap
+
+$plist selection set $settings(paper)
+setpaperlabel
+bind $plist <<ListboxSelect>> paperchanged
+setextrafeedstate
+trace variable settings(feedmode) w setextrafeedstate
+trace variable custom(unity) w convertunity
+$nb compute_size
+$nb raise General
+pack $nb -padx 5 -pady 5
+update
+wm resizable . 0 0
+wm title . $model($settings(model))
+wm geom . +[expr [winfo vrootwidth .]/2 - [winfo width .]/2]+[expr \
+	[winfo vrootheight .]/2 - [winfo height .]/2]
+set_model
+

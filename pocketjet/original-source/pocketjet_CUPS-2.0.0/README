@@ -1,0 +1,4 @@
+This is the source tarball of the Pocketjet CUPS filter for *nix. You
+should be able to build and install this driver by following the
+instructions provided in the file named `Install'.
+

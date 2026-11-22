@@ -1,0 +1,10 @@
+--- pocketjet.h.orig	2021-10-23 18:51:29.323466141 +0200
++++ pocketjet.h	2021-10-23 18:51:29.323466141 +0200
+@@ -40,6 +40,7 @@
+ #include <stdlib.h>
+ #include <errno.h>
+ #include <fcntl.h>
++#include <stdio.h>
+ 
+ // limits.h for strtol and friends
+ #include <limits.h>

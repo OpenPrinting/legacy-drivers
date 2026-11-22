@@ -1,0 +1,382 @@
+#!/bin/sh
+# The next line is executed by /bin/sh, but not tcl \
+exec wish "$0" ${1+"$@"}
+
+set dir BWidget-1.3.1
+
+if {"[exec whoami]" != "root"} {
+	tk_messageBox -type ok -message "You must be root to install \
+this software. Please do \"sudo Install\" instead!"
+	exit 1
+}
+
+tclPkgSetup $dir BWidget 1.3.1 {
+{arrow.tcl source {ArrowButton ArrowButton::create ArrowButton::use}}
+{labelframe.tcl source {LabelFrame LabelFrame::create LabelFrame::use}}
+{labelentry.tcl source {LabelEntry LabelEntry::create LabelEntry::use}}
+{bitmap.tcl source {Bitmap::get Bitmap::use}}
+{button.tcl source {Button Button::create Button::use}}
+{buttonbox.tcl source {ButtonBox ButtonBox::create ButtonBox::use}}
+{combobox.tcl source {ComboBox ComboBox::create ComboBox::use}}
+{label.tcl source {Label BWLabel::create BWLabel::use}}
+{entry.tcl source {Entry Entry::create Entry::use}}
+{pagesmgr.tcl source {PagesManager PagesManager::create PagesManager::use}}
+{notebook.tcl source {NoteBook NoteBook::create NoteBook::use}}
+{panedw.tcl source {PanedWindow PanedWindow::create PanedWindow::use}}
+{scrollw.tcl source {ScrolledWindow ScrolledWindow::create ScrolledWindow::use}}
+{scrollview.tcl source {ScrollView ScrollView::create ScrollView::use}}
+{scrollframe.tcl source {ScrollableFrame ScrollableFrame::create ScrollableFrame::use}}
+{progressbar.tcl source {ProgressBar ProgressBar::create ProgressBar::use}}
+{progressdlg.tcl source {ProgressDlg ProgressDlg::create ProgressDlg::use}}
+{passwddlg.tcl source {PasswdDlg PasswdDlg::create PasswdDlg::use}}
+{dragsite.tcl source {DragSite::register DragSite::include DragSite::use}}
+{dropsite.tcl source {DropSite::register DropSite::include DropSite::use}}
+{separator.tcl source {Separator Separator::create Separator::use}}
+{spinbox.tcl source {SpinBox SpinBox::create SpinBox::use}}
+{titleframe.tcl source {TitleFrame TitleFrame::create TitleFrame::use}}
+{mainframe.tcl source {MainFrame MainFrame::create MainFrame::use}}
+{listbox.tcl source {ListBox ListBox::create ListBox::use}}
+{tree.tcl source {Tree Tree::create Tree::use}}
+{color.tcl source {SelectColor SelectColor::menu SelectColor::dialog}}
+{dynhelp.tcl source {DynamicHelp::configure DynamicHelp::use DynamicHelp::register DynamicHelp::include}}
+{dialog.tcl source {Dialog Dialog::create Dialog::use}}
+{messagedlg.tcl source {MessageDlg MessageDlg::create MessageDlg::use}}
+{font.tcl source {SelectFont SelectFont::create SelectFont::use SelectFont::loadfont}}
+{widgetdoc.tcl source {Widget::generate-doc Widget::generate-widget-doc}}
+{xpm2image.tcl source {xpm-to-image}}
+}
+namespace eval ::BWIDGET {}
+set ::BWIDGET::LIBRARY $dir
+source [file join $dir widget.tcl]
+source [file join $dir init.tcl]
+source [file join $dir utils.tcl]
+
+
+image create photo logo -data "
+R0lGODlhdgACAfcAAAAAAIAAAACAAICAAAAAgIAAgACAgMDAwKKNaNXMuwAA/QAA+gAA9wAA
+9QAA8gAA7wAA7QAA6gAA5wAA5QAA4gAA3wAA3QAA2gAA1wAA1QAA0gAAzwAAygAAxwAAxAAA
+wgAAvwAAvAAAugAAtwAAtAAAsgAArwAArAAAqgAApwAApAAAogAAnwAAnAAAlwAAlAAAkQAA
+jwAAjAAAiQAAhwAAhAAAgQAAfwAAfAAAeQAAdwAAdAAAcQAAbwAAbAAAaQAAZAAAYQAAXgAA
+XAAAWQAAVgAAVAAAUQAATgAATAAASQAARgAARAAAQQAAPgAAPAAAOQAANgAAMwAAMQAALgAA
+KwAAKQAAJgAAIwAAIQAAHgAAGwAAGQAAFgAAEwAAZgAAEQAADgAACwAACQAABgAAA+rm3X96
+cH9/fwBMTH+/vwAEAwAzMwAzZgAz/wBmAABmMwBmZgCZAACZMwCZZgDMAADMMwDMZgD/MzMA
+MzMAZgD/ZjMA/zMzMzMzZjNmADNmMwCZmTNmZjOZADOZMwAAmTMzmTOZZjPMADPMMwBmmTNm
+mTPMZjP/ADP/MzP/ZjOZmWYAM5mZmWYAZmYAmQDMmTPMmWYzAGYzM2YzZmYzmQD/mTP/mWZm
+AGZmM2ZmZmaZAAAAzDMAmWYAzGaZM2aZZgAzmTMzzGYzzGaZmWbMAGbMMwBmzDNmzGZmmWbM
+ZmbMmWb/AACZzDOZzGaZzGb/M5kAAJkAMwDMzDPMzGbMzJkAZpkAmZkAzAD/zDP/zGb/mZkz
+AJkzM5kzZjMAzGYA/5kA/wAzzDMz/2Yz/5kzmZkzzJkz/wBm/zNm/2ZmzJlmAJlmM5lmZgCZ
+/zOZ/2aZ/5lmmZlmzJlm/wDM/zPM/2bM/5mZAJmZM5mZZjP//2b/zJmZzJmZ/5nMAGb/ZpnM
+M2Zm/5nMZmb//5nMmZnMzJnM/5n/AJn/M5n/Zpn/mZn/zDMAAGYAAJn//wAzADMzAP/78KCg
+pICAgP8AAAD/AP//AAAA//8A/wD//////yH5BAEAAAAALAAAAAB2AAIBQAj/AA0IHEiwoMGD
+CBMqXMiwocOHECNKnEixosWLGDNq3Mixo8ePIEOKHEmypMmH//4dWMkyJcuXMGPKnAkz5UmM
+KmW6pDlzJ8+fB/AJHYoPwE2ULPHxI8BvKVOhP33+LEq0qlWiRo82zBmUgFen/Ig2/QrWKdSV
+V4UCSMtWrdatSb0ylYuPpVwCXed+5cp2bVuqWN9urUsz5Ve5TvUy5ZvWr9q/ALIKRii1Z1G/
+PwkwvhrZsdoDNicv5NqTKwDSNLF6Vrua88yqkrWiBqpzNm2Zf1kDjm0xMoF9XvFhjEwYaMqz
+MHMrZz0ypfOmzv9FPh7duUTixWNC5q01QIDq4KN7/xdN3iL4o6HLJ8S+ci3415EpYg5albbb
+t+zpX0auvSjK6uoFOFB+Q+XXX3wCJqjgggw26OCDEEYo4YQUVmjhhRhmqOGGHHbo4Ycghiji
+iCSWSFJ0Uf3DoUq2pXjbi4Vxpx5jLsJY2UvL+bcgX2SRVVZw2eHWWI6B7RjXYU+1h9ZQPS6W
+1JA5riXjjC39g6RiS0GFz5X8bGZVa481JqGBpXHpJWxgItggVze+1GKB8/XHWV+1UfmiT9O1
++aRykQnZl3pkThVklTwRiSZ2U2oU2QD77FMUgBEFCpShzDX3XJf/NHVapuGFN15G7BUpoXcB
+mCiSnqBxlU8+1mnU4kqrRv8nIKo+xdrqRogCgONlEObnV6IF0aqqrKbKN9+vxSar7LLMNuvs
+s9BGK+201FZr7bXYZqvtttx26+234IZ7ELGmpmdQdTCWpuGrNbGbbooQkoZqYe6+uyewk9U7
+b0/pQsYgj08N2m66LlGqo4IAN7XUWEDWuGuBBuMrWMI/9qhww3J+GfG/RzIcln5Debxwl3tq
+bKjEEx+pWF1esaTrlkyBdSZWyzmG8lsAY0kAf3l5PDPEfXG2Zm13cYmYzCXDZvKfDsZZps57
+JU0zYJzdXN6NkrYb9ZJzwqlihPu2VDV/AgiQsdKNVYlwbTHVCyd/jYH5GU/S5cuSPvrw63LY
+IO//x+drX9ptr1Sd5Rndl4UD3heygmX9Lt/JEVn4fRitKtxFjrfLM6FcG1y1R4s2erCxm5cW
+uee8ypZS6I5ueutDmT+cm5o3VQddpvxsimmn4k0U6OfkeQfe7bw79ylInU0oPHjHi+v8aLPZ
+am5HO0n/dYI5XeXmq6NDtBPP/whFmvWzRs+qc5UOt1Z7mA2aPs6dD7U9T1ZDlGuvx869JO0K
+3Si9ifzrX/z4g6ruQctX+gtKALm1wOc58IEQjKAEJ0jBClrwghjMoAY3yMEOevCDIAyhCEdI
+whKa8IQoTKEKV8jCFrrwhTCMoQxPgi61WauGd7qeh3ayOgPg0F70ytC8/yAHxO1JiIgrQWIR
+U+WgnCgxVUu8jQHtND+C1QtGsOEYvR53RT8Fzki0USLf+KTFoIRFYFXM4elqVkalgKV0abyN
+3PwFRjOWZWFw5Jzi5tiW+tEwKSLzUcBq1LWTtVEvIvvRGVMDJUPW0Y2I2RkkLxazQcoObY5c
+G1oQmaWqjIWSY/lZmDKJvbgkJktJq+TFREm1mvnxj5v8UXH6RJ9AspKPaHulSXJ2GJbJBZA/
+uiWfRKXJriQGYytpmVKOphmpAS1oWTzkXY4pSWD2SJiNjGYdk2ilolFTKKdcCjYxKbQytq2b
+0ywaksY5SqYtiDgpUic1mznAZ/Kxge90GtG86f8VYcoNn03MSexSVTR2vm9C8xqoYbBJnDwd
+8Yrhe9ug8Ha2qX2JmxwLG2pUk8e+WfSiRgwQavTELolW9JkgrZNoXlWZK5rUo9hJGyOnuMu7
+5U0ne5OiRGPaRy8WSHAHKNsW2Rc2StFyjdqUDRddZrgbbUdXJ/0i/IrYpsJZtTOCWhyi8oVG
+Ky4xSlKiXOP0CUTIRcxvukQeWWsDxzahzm9itUgAdrYz9XW0Sm19K/A44hvRpZUga2VrkPR6
+0JCwTkevc8hAFWfUv4IKAIxqHaTsF1ifzs6xGQnPYc8TqcrWE3HksR2miCedznTqOmtd3NUu
+lRJNtXa0xWseapGDpvLqLC86t3Mtp3gn28fCiUHfKV6neiut2w63VN+6LXFnqKzpgat653Pu
+RzgbL3aRjyP+i64OZ5Q98InvJf8zT4tqpd3yzMcq+4qrQ7pLlDhqB7O+xcfqYIWiJ2E2VLrp
+amFxZt3yduRYTtuv6rhWk++yJLx8zR9NG3cW7U2qftJFCEABpWC0HOhm0CWXh3K1qwkPZF4I
+/tD9tsLeAsv3wP591nmtMqkFKwuBhBls6rDFYfuKa8TMzbGOd8zjHvv4x0AOspCHTOQiG/nI
+SE6ykpfM5CY7+clQjrKUp0xlEAr3yljOspa3zOUupyQgADs="
+
+
+##### Default values
+option add *ComboBox*font {Courier 12}
+
+set glob(numpages) 5
+set glob(curpage) 1
+set glob(res200dpi) 0 ;# 0 = 300dpi , 1 = 200dpi
+set glob(model,0) "Pentax PocketJet II"
+set glob(model,1) "Pentax PocketJet 200"
+set glob(generic) "Pentax PocketJet II/200"
+set glob(driverpath) /usr/local/pentaxpj
+#set glob(title) "$glob(model,$glob(res200dpi)) Installation"
+set glob(title) "Pentax PocketJet II/200 Installation"
+set glob(kde) 1
+
+set kde_template {# KDE Config File
+[KDE Desktop Entry]
+Name[fi]=Sovellus
+Name[hr]=Program
+Name[sl]=Uporabni¹ki program
+Name[pl]=Aplikacja
+Name=PocketJet config tool
+Name[ca]=Aplicacions
+Name[it]=Applicazione
+Name[da]=Anvendelse
+Name[de]=Anwendung
+Name[ja]=¥¢¥×¥ê¥±¡¼¥·¥ç¥ó
+Name[cs]=Aplikace
+Name[sv]=Program
+Name[sk]=Aplikácia
+Name[pt_BR]=Ferramenta de configuração PocketJet
+Name[es]=Aplicaciones
+Name[is]=Forrit
+Name[pt]=Aplicação
+Name[ru]=ðÒÉÌÏÖÅÎÉÅ
+Name[no]=Applikasjon
+Name[hu]=Applikáció
+Name[ro]=Aplicaþie
+Path=
+TerminalOptions=
+Terminal=0
+Icon=$glob(driverpath)/pentax.xpm
+Comment[pt_BR]=
+Exec=$glob(driverpath)/pentaxsetup
+Type=Application
+MimeType=
+SwallowExec=
+SwallowTitle=
+BinaryPattern=
+}
+
+##### Procedures
+proc createshortcuts {} {
+	global glob kde_template
+	set error 0
+	if {$glob(kde)} {
+		if {![file isdirectory ~/Desktop]} {
+			set error 1
+		} else {
+			set f [open ~/Desktop/pentaxpj w]
+			puts $f [subst -nocommand $kde_template]
+			close $f
+		}
+		if {$error} {
+			tk_dialog .msgbox "Shortcut creation error." \
+				"Could not create KDE shortcut.
+Execute $glob(generic) with this command:
+$glob(driverpath)/pentaxsetup" error 0 OK
+			return 0
+		}
+	}
+	return 1
+	
+}
+
+proc savesettings {} {
+	global glob 
+	set cmdline #
+	set config "set settings(driverpath) $glob(driverpath)"
+	set fd [open /etc/pentaxpj.conf w]
+	puts $fd $cmdline
+	puts $fd $config
+	close $fd
+	return 1
+}
+
+proc copyfiles {} {
+	global glob
+	foreach f {pentaxsetup pentaxpj test-page.ps.gz 
+			pentax.xpm BWidget-1.3.1} {
+		if {[catch {file copy -force $f $glob(driverpath)}]} {
+			return $f  
+		}
+	}
+	exec ln -sf $glob(driverpath)/pentaxsetup /usr/bin
+	exec ln -sf $glob(driverpath)/pentaxpj $glob(driverpath)/pentaxpj_sh
+	return ""
+}
+
+proc createdir {} {
+	global glob
+	if {![file exists $glob(driverpath)]} {
+		if {[catch {file mkdir $glob(driverpath)}]} {
+			return 0
+		}
+	} else {
+		if {[catch {file delete -force $glob(driverpath)}]} {
+			return 0
+		}
+		if {[catch {file mkdir $glob(driverpath)}]} {
+			return 0
+		}
+	}
+	return 1
+}
+
+proc install {} {
+	global glob
+	if {![createdir]} {
+		tk_dialog .msgbox "Directory creation error." \
+		"Could not create directory $glob(driverpath).
+Please try installing to another path." error 0 OK
+		set glob(curpage) 2
+		raise .f2
+		return 0
+	}
+	set ftrouble [copyfiles]
+	if {$ftrouble != ""} {
+		tk_dialog .msgbox "File copying error." \
+		"Could not copy file $ftrouble to the directory $glob(driverpath).
+Please verify if it exists and you have write permissions to $glob(driverpath).
+" error 0 OK
+		set glob(curpage) 2
+		raise .f2
+		return 0
+	}
+	if {![savesettings]} {
+		tk_dialog .msgbox "File creation error." \
+		"Could not create the configuration file in directory $glob(driverpath).
+Please verify if you have write permissions to this path." error 0 OK
+		set glob(curpage) 2
+		raise .f2
+		return 0
+	}
+	createshortcuts
+	return 1
+}
+
+proc cancel {} {
+	global glob
+	if {![tk_dialog .msgbox "Installation not complete." "Are you sure you want to exit $glob(title)?" question 1 "Yes" "No"]} {
+		exit
+	}
+}
+
+proc next {} {
+	global glob
+	switch $glob(curpage) {
+		1 {
+			incr glob(curpage)
+			raise .f$glob(curpage)
+			.prev configure -state normal
+		}
+		2 {
+			incr glob(curpage)
+			raise .f$glob(curpage)
+		}
+		3 {
+			incr glob(curpage)
+			raise .f$glob(curpage)
+			.next configure -text Finish
+		}
+		4 {
+			if {[install]} {
+				incr glob(curpage)
+				raise .f$glob(curpage)
+				.next configure -text Exit
+				.prev configure -state disabled
+				.cancel configure -state disabled
+			}
+		}
+		5 {
+			exit
+		}
+		default {
+			incr glob(curpage)
+			raise .f$glob(curpage)
+		}
+	}
+}
+
+proc prev {} {
+	global glob
+	incr glob(curpage) -1
+	switch $glob(curpage) {
+		1 {
+			.prev configure -state disabled
+			raise .f$glob(curpage)
+		}
+		3 {
+			.next configure -text "Next >>"
+			raise .f$glob(curpage)
+		}
+		default {
+			raise .f$glob(curpage)
+		}
+	}
+}
+
+####### GUI
+place [label .logo -image logo] -x 10 -y 10
+place [Separator .sep -orient horizontal] -x 10 -y 280 -width 492
+place [button .cancel -text Cancel -command cancel] \
+	-width 80 -height 30 -anchor se -x 502 -y 324
+place [button .next -text "Next >>" -command next] \
+	-width 80 -height 30 -anchor se -x 412 -y 324
+place [button .prev -text "<< Previous" -command prev -state disabled] \
+	-width 80 -height 30 -anchor se -x 322 -y 324
+for {set i $glob(numpages)} {$i > 0} {incr i -1} {
+	place [frame .f$i] \
+		-anchor ne -x 502 -y 10 -width 360 -height 260
+}
+
+###Page 1
+pack [label .f1.l1 -justify left -wraplength 360 \
+		-text "Welcome to $glob(title).\n\n
+This program will install $glob(generic) drivers on your computer."]	\
+	-anchor nw
+pack [label .f1.l2 -text "Click \"Next >>\" to continue."] \
+	-anchor sw -side bottom
+
+###Page 2
+pack [label .f2.l1 -justify left -wraplength 360 \
+		-text "The software will be installed in the following location:\n"] \
+	[entry .f2.e1 -textvariable glob(driverpath) -bg white -width 70] \
+	[label .f2.l2 -justify left -wraplength 360 \
+		-text "\n\nIf you want to change the location, type a new one in the text box. If the directory doesn't exist, it will be created."] \
+	-ancho nw
+pack [label .f2.l3 \
+	-text "When you are satisfied with the location, click \"Next >>\""] \
+	-anchor sw -side bottom 
+
+###Page 3
+pack [label .f3.l1 -justify left -wraplength 360 \
+		-text "$glob(title) can create the following shortcuts. Uncheck the box associated with any shortcut you don't want to be created.\n\n"] \
+	[checkbutton .f3.cb1 -text "Create KDE shortcut" -variable glob(kde)] \
+	-anchor nw
+pack [label .f3.l2 -text "Click \"Next >>\" to continue."] \
+	-anchor sw -side bottom
+
+###Page 4
+pack [label .f4.l1 -justify left -wraplength 360 \
+		-text "$glob(title) has finished gathering all information neccessary to begin installation."] \
+	-anchor nw
+pack [label .f4.l2 \
+		-text "Click \"Finish\" to conclude the installation process."] \
+	-anchor sw -side bottom
+
+###Page 5
+pack [label .f5.l1 -justify left -wraplength 360 \
+		-text "$glob(generic) drivers was successfully installed on you computer. \n\n"] -anchor nw
+pack [label .f5.l2 -text "Click \"Exit\" to exit $glob(title)."] \
+	-anchor sw -side bottom
+
+raise .f1
+update
+wm resizable . 0 0
+wm title . $glob(title)
+wm geom . =512x334+[expr [winfo vrootwidth .]/2 - [winfo width .]/2]+[expr \
+	[winfo vrootheight .]/2 - [winfo height .]/2]
+
+if {![file exists pentaxpj]} {
+	tk_messageBox -type ok -message "You must run \"make\" before \
+installing PocketJet driver. When the software is made, please come back to
+install it again. Thanks."
+	exit 1
+}
+
