@@ -1,0 +1,81 @@
+Pentax PocketJetII/200 Linux Printer Driver
+October 25, 2002
+
+A. Installation instructions
+1. run "make" to build the driver
+2. run "./Install" and follow screen instructions
+3. run "pentaxsetup" and set the printer settings as desired.
+4. To choose PJ200 printer instead of PJII, use at the "Advanced" screen
+5. For PJ200, there is an option to print 'text only' data. This requires
+   that you have a new version of the PJ200 printer. This option will not work
+   on older versions of the PJ200 printer.
+
+B. Using the driver with LPD spooler
+1. The "pentaxsetup" program will set the printer to use the LPD spooler.
+   It will modify the /etc/printcap file, and restart LPD.
+   The driver filter is called "pentaxpj".
+2. To print from any print-enabled Linux application, you should choose
+   to print to "lpr", and select POSTSCRIPT as the data format.
+3. IMPORTANT: In any Linux application, you MUST be certain that the PostScript data
+   is formatted properly for the same PAPER SIZE that the "pentaxsetup" is configured to use.
+   To do this, you should check the options available in the application for setting
+   the paper size.
+4. When the driver is used this way, it will find the default settings you created with the
+   "pentaxsetup" program stored in the file "/etc/pentaxpj.conf". You may see the "command line"
+   automatically generated on the very first line of this config file, after the "#".
+
+C. Using the driver at the command line
+1. You may NOT use "pentaxpj" at the command line. If it is called this way, then all comand line
+   parameters are ignored, and it will load the default configuration from the config file, and send
+   the print data to "stdout", which will likely not be desirable.
+2. Instead, you MUST use "pentaxpj_sh".
+   The driver looks to see if it is called as "pentaxpj_sh", and if so, then it will
+   first load the "default" settings from the config file. Then, it will check your extra 
+   command line parameters and use these to override any settings from the config file.
+   Mostly, you will want to specify the "output port" with "-p device" when using the driver this way,
+   otherwise, data will be sent to stdout.
+
+3. Here is a summary of the "command line options" available:
+	usage: pentaxpj_sh -[2RPTvdWHopcwlinh] file
+	option summary:
+	-2         set 200x200 pixel resolution
+	-R         reset printer and exit
+	-P         print raw pbm file
+	-T         text quality (default graphics)
+	-d dens    set density
+	-f mode    set feed mode (0 (No Feed),1 (Fixed Page), or 2 (End of Page))
+	-a lines   "extra feed" for "No feed"(-f 0) mode only
+	-W width   set paper width (* 8 pixels units) (use only for custom size page)
+	-H height  set paper height in pixels (use only for custom size page)
+	-g geom    set ghostscript geometry <width>x<height>
+	-o file    send output to a file
+	-p device  send output to a device (e.g. /dev/lp0)
+	-s paper   set paper size (letter, a4, or legal) (please use this to set standard paper sizes)
+	-v, -vv    verbose, more verbose
+        -?         list the command line options available
+	other options specific of lpd (ignored)
+
+4. Notice that -P will allow printing raw PBM data instead of the normal PostScript data.
+This is useful to print already existing bitmap data, such as may be useful for receiving a FAX.
+
+
+D. Other tidbits about the Driver
+
+1. The printer data format requires "bitmap" data as is specified by the PJII/PJ200 specification.
+   So, generally, the driver will take "PostScript" as input, use "GhostScript" to convert the data to raw bitmap,
+   and then the driver additionally will format the bitmap as required by the PJII/200 raster language.
+
+2. GhostScript is used to format the data according to a complete pre-defined standard page size, using the GS "geometry".
+   Then, data from the bitmap is "discarded" according to the printer's defined "unprintable regions".
+   In some cases, valid data may be discarded, but every effort has been made to minimize this data loss.
+   On Windows print architecture, the printable area may be specified so that this does not occur.
+   Linux printing architecture does not seem to have such a concept available.
+
+3. It is VERY important that the PS data generated matches the paper size as selected by the driver.
+   Otherwise, you may see some very strange results with significant amounts of data being discarded.
+
+
+
+
+
+

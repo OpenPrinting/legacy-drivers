@@ -1,0 +1,361 @@
+2003-07-15 16:05  root
+
+	* Makefile, pentaxpj.c, pentaxpj.h: Small fix for PSDATA_TIMEOUT,
+	for it doesn't wait time enough for a image "piped" by our
+	companion scanner (dsmobile). This was a requirement by a customer
+	that wants to use the printer/scanner combination as a copier
+	machine.
+
+2002-11-02 09:21  root
+
+	* pentaxpj.c: Added a test for remaining skip lines (yc) at cmdff()
+	before sending an empty line, to avoid requesting a blank
+	additional page. Only significant in old (slower) CPUs.
+
+2002-10-25 19:11  root
+
+	* README, pentaxpj.c, pentaxsetup: Incorporating changes made by
+	Rob Roy (PTC).
+
+2002-10-24 23:53  root
+
+	* pentaxpj.c, pentaxsetup: Small fixes.
+
+2002-10-24 23:16  root
+
+	* pentaxpj.c, pentaxsetup: Several minor bug fixes: paper lenght
+	for A4 (2272 or 3406, instead of the default value for A4); save
+	"-s" option in configuration for known paper sizes; eject paper at
+	the end of job.
+
+2002-10-24 15:39  root
+
+	* pentaxpj.c, pentaxpj.h, pentaxsetup: Added option in pentaxsetup
+	to bypass our driver (no filter), for model 200 printers only
+	(direct text output).
+
+2002-10-23 23:13  root
+
+	* pentaxsetup: Change title of main toplevel to match the model
+	chosen.
+
+2002-10-23 23:08  root
+
+	* pentaxpj.c, pentaxsetup: Removed bug with /etc/printcap parsing
+	(model change).
+
+2002-10-22 22:57  root
+
+	* pentaxpj.c: Removed nasty bug with the page height. It was not
+	taking the skipped lines into account!
+
+2002-10-21 17:38  root
+
+	* pentaxpj.c: Added "potential firmware bug fix" (as reported in
+	PTC docs) when resetting printer.
+
+2002-09-27 13:08  root
+
+	* pentaxsetup: Removed quality setting from GUI. It remains in the
+	command line driver, for legacy reasons.
+
+2002-09-27 11:33  root
+
+	* Install, pentaxsetup: Modified to have both models (II/200) in a
+	single program. Added radiobuttons to select model at runtime.
+
+2002-09-27 11:33  root
+
+	* pentax.xpm: Modified icon (generic logo) for kde desktops.
+
+2002-09-27 10:21  root
+
+	* Install: [no log message]
+
+2002-09-20 07:48  root
+
+	* pentaxsetup: Minor string changes.
+
+2002-09-18 22:58  root
+
+	* pentaxsetup: Added check for /etc/printcap change by a regular
+	user, and a dialog saying the user don't have permission to do so.
+
+2002-09-18 22:34  root
+
+	* pentaxsetup: Modified pentaxsetup to change file permissions of
+	/etc/pentaxpj.conf, so a regular user may change them.	Also,
+	changed printer descriptions (no blanks inside) for saving at
+	/etc/printcap.
+
+2002-03-01 21:26  root
+
+	* pentaxpj.c: Changes in PAGE_TOP_SKIP and fnd_gs() for printing
+	bitmap (pbm) files.
+
+2002-03-01 11:51  root
+
+	* pentaxpj.c: Small change in tcdrain() arguments.
+
+2002-02-17 10:07  root
+
+	* pentaxpj.c: Change tcflush() to tcdrain() and enable
+	postprocessing serial channel.
+
+2002-02-05 09:21  root
+
+	* pentaxpj.c, pentaxsetup: Changes in LOW_LATENCY and code to set
+	permissions of serial port under RH.
+
+2002-01-22 15:14  root
+
+	* pentaxpj.c, pentaxsetup: Added paper size (option -s), with
+	arguments "a4", "letter", or "legal".
+
+2002-01-17 19:28  root
+
+	* pentaxpj.c: Corrected a misplaced cast (thanks Rob Roy!), in
+	default page sizes calculation.
+
+2002-01-16 22:23  root
+
+	* pentaxpj.c, pentaxpj.h, pentaxsetup: Changes for geometry
+	settings of gs command.
+
+2002-01-15 23:52  root
+
+	* .gdbinit, pentaxpj.c, pentaxpj.h, pentaxsetup: Modified to have
+	separate settings for paper size under ghostscript and
+	pentaxpj/pentaxpj_sh. The driver operates now just on the real
+	printing area.
+
+2002-01-13 19:28  root
+
+	* pentaxpj.c: Added option (-g<width>x<height>) to ghostscript
+	command.
+
+2002-01-11 07:09  root
+
+	* pentaxsetup: Fix for test-page printing (pentaxpj_sh replaces
+	pentaxpj).
+
+2002-01-10 20:18  root
+
+	* pentaxpj.c, pentaxsetup: Fixed a bug in the creation of an output
+	file (option -o). Removed option in pentaxsetup to add a header
+	page (old-fashioned BSD lpr/lpd).
+
+2002-01-09 21:11  root
+
+	* Makefile, pentaxpj.c: Merge changes submitted by Rob Roy (form
+	feed control).
+
+2002-01-09 18:02  root
+
+	* Makefile, pentaxpj.c, pentaxsetup: Various changes related to
+	form feed modes (opta was not being used). Minor changes in setup
+	for all printer models.
+
+2002-01-09 18:02  root
+
+	* pentaxpj.c: Oops, forgot to define a variable in cmdff().
+
+2002-01-09 12:10  root
+
+	* pentaxsetup: modified pentaxsetup to insert Pentax PJ entry
+	before all others.
+
+2002-01-09 11:59  root
+
+	* pentaxsetup: Minor changes, preparing for a new pentaxsetup.
+
+2002-01-08 00:56  root
+
+	* pentaxsetup: More changes RedHat specific: overwrite
+	/etc/printcap with just our printer configuration. Don't use the
+	/etc/printcap.local feature, as it doesn't works as expected.
+
+2002-01-08 00:26  root
+
+	* pentaxsetup: Changed printcap entry for RedHat (filter=...
+	instead of of=...).  Why they don't follow the standards?
+
+2002-01-07 23:06  root
+
+	* Makefile, pentaxsetup: Output to a device if RedHat detected
+	(instead of to stdout as the regular lpd daemon supports)
+
+2002-01-05 03:36  root
+
+	* pentaxsetup: Minor change: name of the default output file to
+	/tmp/output.lp.
+
+2002-01-05 03:36  root
+
+	* Makefile: Remove ChangeLog.bak before creating package.
+
+2002-01-05 03:32  root
+
+	* pentaxpj.c: Force input from stdin when called by the printer
+	daemon (pentaxpj).
+
+2002-01-05 01:40  root
+
+	* pentaxpj.c: Minor changes for debugging.
+
+2002-01-04 21:01  root
+
+	* pentaxsetup: Corrected error (bracket missing) in pentaxsetup
+	script.
+
+2002-01-04 20:55  root
+
+	* pentaxpj.c: Changed setup of the printer to send optf (feed form
+	mode).
+
+2002-01-04 17:35  root
+
+	* pentaxpj.c: Changed strcmp by strstr (substring comparation) for
+	detecting if the command was called as "pentaxpj_sh", to remove the
+	path components.
+
+2002-01-04 17:01  root
+
+	* Install, Makefile, pentaxpj.c: Added symbolic link pentaxpj_sh to
+	the real driver (pentaxpj) so we may call it from command line,
+	parsing all cmd line options (removed from in the other case).
+
+2002-01-03 12:40  root
+
+	* Install: Detect unprivileged user attempt to install.
+
+2002-01-03 12:12  root
+
+	* pentaxsetup: Change file attributes, owner, group for spool
+	directory.
+
+2002-01-02 20:59  root
+
+	* pentaxsetup: Added spool directory setting and command to create
+	spool dir.
+
+2001-12-21 09:15  root
+
+	* pentaxpj.c: We don't really need to execl a cat command. Now it
+	is implemented in line.
+
+2001-12-21 08:06  root
+
+	* pentaxpj.h: Added #include <errno.h>.
+
+2001-12-21 08:06  root
+
+	* pentaxpj.c: Added several checks for possible hungups.
+
+2001-12-18 14:46  root
+
+	* Install, pentaxpj.c: More enlightenment in copyfiles dialog.
+
+2001-12-13 16:07  root
+
+	* pentaxpj.c, pentaxsetup: Ådded options for form feed modes.
+
+2001-12-11 19:57  root
+
+	* pentaxsetup: Modified defaults for pentaxsetup tool.
+
+2001-12-11 19:47  root
+
+	* .gdbinit, Makefile, pentaxpj.c, pentaxpj.h: Modified setup of
+	serial device to disable output FIFO.
+
+2001-12-11 12:14  root
+
+	* .gdbinit, Install, Makefile, README, pentax.xpm, pentaxpj.c,
+	pentaxpj.h, pentaxsetup, test-page.ps.gz,
+	BWidget-1.3.1/Makefile.in, BWidget-1.3.1/aclocal.m4,
+	BWidget-1.3.1/arrow.tcl, BWidget-1.3.1/bitmap.tcl,
+	BWidget-1.3.1/button.tcl, BWidget-1.3.1/buttonbox.tcl,
+	BWidget-1.3.1/color.tcl, BWidget-1.3.1/combobox.tcl,
+	BWidget-1.3.1/configure.in, BWidget-1.3.1/dialog.tcl,
+	BWidget-1.3.1/dragsite.tcl, BWidget-1.3.1/dropsite.tcl,
+	BWidget-1.3.1/dynhelp.tcl, BWidget-1.3.1/entry.tcl,
+	BWidget-1.3.1/font.tcl, BWidget-1.3.1/init.tcl,
+	BWidget-1.3.1/label.tcl, BWidget-1.3.1/labelentry.tcl,
+	BWidget-1.3.1/labelframe.tcl, BWidget-1.3.1/listbox.tcl,
+	BWidget-1.3.1/mainframe.tcl, BWidget-1.3.1/messagedlg.tcl,
+	BWidget-1.3.1/notebook.tcl, BWidget-1.3.1/pagesmgr.tcl,
+	BWidget-1.3.1/panedw.tcl, BWidget-1.3.1/passwddlg.tcl,
+	BWidget-1.3.1/pkgIndex.tcl, BWidget-1.3.1/progressbar.tcl,
+	BWidget-1.3.1/progressdlg.tcl, BWidget-1.3.1/scrollframe.tcl,
+	BWidget-1.3.1/scrollview.tcl, BWidget-1.3.1/scrollw.tcl,
+	BWidget-1.3.1/separator.tcl, BWidget-1.3.1/spinbox.tcl,
+	BWidget-1.3.1/titleframe.tcl, BWidget-1.3.1/tree.tcl,
+	BWidget-1.3.1/utils.tcl, BWidget-1.3.1/widget.tcl,
+	BWidget-1.3.1/xpm2image.tcl, BWidget-1.3.1/images/bold.gif,
+	BWidget-1.3.1/images/copy.gif, BWidget-1.3.1/images/cut.gif,
+	BWidget-1.3.1/images/dragfile.gif,
+	BWidget-1.3.1/images/dragicon.gif, BWidget-1.3.1/images/error.gif,
+	BWidget-1.3.1/images/file.gif, BWidget-1.3.1/images/folder.gif,
+	BWidget-1.3.1/images/hourglass.gif, BWidget-1.3.1/images/info.gif,
+	BWidget-1.3.1/images/italic.gif, BWidget-1.3.1/images/minus.xbm,
+	BWidget-1.3.1/images/new.gif, BWidget-1.3.1/images/opcopy.xbm,
+	BWidget-1.3.1/images/open.gif, BWidget-1.3.1/images/openfold.gif,
+	BWidget-1.3.1/images/oplink.xbm, BWidget-1.3.1/images/opmove.xbm,
+	BWidget-1.3.1/images/overstrike.gif,
+	BWidget-1.3.1/images/palette.gif, BWidget-1.3.1/images/passwd.gif,
+	BWidget-1.3.1/images/paste.gif, BWidget-1.3.1/images/plus.xbm,
+	BWidget-1.3.1/images/print.gif, BWidget-1.3.1/images/question.gif,
+	BWidget-1.3.1/images/redo.gif, BWidget-1.3.1/images/save.gif,
+	BWidget-1.3.1/images/target.xbm,
+	BWidget-1.3.1/images/underline.gif, BWidget-1.3.1/images/undo.gif,
+	BWidget-1.3.1/images/warning.gif, BWidget-1.3.1/lang/de.rc,
+	BWidget-1.3.1/lang/en.rc, BWidget-1.3.1/lang/es.rc,
+	BWidget-1.3.1/lang/fr.rc, BWidget-1.3.1/tests/entry.test: Initial
+	revision
+
+2001-12-11 12:14  root
+
+	* .gdbinit, Install, Makefile, README, pentax.xpm, pentaxpj.c,
+	pentaxpj.h, pentaxsetup, test-page.ps.gz,
+	BWidget-1.3.1/Makefile.in, BWidget-1.3.1/aclocal.m4,
+	BWidget-1.3.1/arrow.tcl, BWidget-1.3.1/bitmap.tcl,
+	BWidget-1.3.1/button.tcl, BWidget-1.3.1/buttonbox.tcl,
+	BWidget-1.3.1/color.tcl, BWidget-1.3.1/combobox.tcl,
+	BWidget-1.3.1/configure.in, BWidget-1.3.1/dialog.tcl,
+	BWidget-1.3.1/dragsite.tcl, BWidget-1.3.1/dropsite.tcl,
+	BWidget-1.3.1/dynhelp.tcl, BWidget-1.3.1/entry.tcl,
+	BWidget-1.3.1/font.tcl, BWidget-1.3.1/init.tcl,
+	BWidget-1.3.1/label.tcl, BWidget-1.3.1/labelentry.tcl,
+	BWidget-1.3.1/labelframe.tcl, BWidget-1.3.1/listbox.tcl,
+	BWidget-1.3.1/mainframe.tcl, BWidget-1.3.1/messagedlg.tcl,
+	BWidget-1.3.1/notebook.tcl, BWidget-1.3.1/pagesmgr.tcl,
+	BWidget-1.3.1/panedw.tcl, BWidget-1.3.1/passwddlg.tcl,
+	BWidget-1.3.1/pkgIndex.tcl, BWidget-1.3.1/progressbar.tcl,
+	BWidget-1.3.1/progressdlg.tcl, BWidget-1.3.1/scrollframe.tcl,
+	BWidget-1.3.1/scrollview.tcl, BWidget-1.3.1/scrollw.tcl,
+	BWidget-1.3.1/separator.tcl, BWidget-1.3.1/spinbox.tcl,
+	BWidget-1.3.1/titleframe.tcl, BWidget-1.3.1/tree.tcl,
+	BWidget-1.3.1/utils.tcl, BWidget-1.3.1/widget.tcl,
+	BWidget-1.3.1/xpm2image.tcl, BWidget-1.3.1/images/bold.gif,
+	BWidget-1.3.1/images/copy.gif, BWidget-1.3.1/images/cut.gif,
+	BWidget-1.3.1/images/dragfile.gif,
+	BWidget-1.3.1/images/dragicon.gif, BWidget-1.3.1/images/error.gif,
+	BWidget-1.3.1/images/file.gif, BWidget-1.3.1/images/folder.gif,
+	BWidget-1.3.1/images/hourglass.gif, BWidget-1.3.1/images/info.gif,
+	BWidget-1.3.1/images/italic.gif, BWidget-1.3.1/images/minus.xbm,
+	BWidget-1.3.1/images/new.gif, BWidget-1.3.1/images/opcopy.xbm,
+	BWidget-1.3.1/images/open.gif, BWidget-1.3.1/images/openfold.gif,
+	BWidget-1.3.1/images/oplink.xbm, BWidget-1.3.1/images/opmove.xbm,
+	BWidget-1.3.1/images/overstrike.gif,
+	BWidget-1.3.1/images/palette.gif, BWidget-1.3.1/images/passwd.gif,
+	BWidget-1.3.1/images/paste.gif, BWidget-1.3.1/images/plus.xbm,
+	BWidget-1.3.1/images/print.gif, BWidget-1.3.1/images/question.gif,
+	BWidget-1.3.1/images/redo.gif, BWidget-1.3.1/images/save.gif,
+	BWidget-1.3.1/images/target.xbm,
+	BWidget-1.3.1/images/underline.gif, BWidget-1.3.1/images/undo.gif,
+	BWidget-1.3.1/images/warning.gif, BWidget-1.3.1/lang/de.rc,
+	BWidget-1.3.1/lang/en.rc, BWidget-1.3.1/lang/es.rc,
+	BWidget-1.3.1/lang/fr.rc, BWidget-1.3.1/tests/entry.test:
+	Adicionado controle por CVS para o projeto pentaxpj
+

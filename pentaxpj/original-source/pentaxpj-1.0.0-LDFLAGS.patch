@@ -1,0 +1,16 @@
+--- Makefile	2003-07-15 21:09:18.000000000 +0200
++++ Makefile.oden	2008-12-29 15:55:34.000000000 +0100
+@@ -1,11 +1,12 @@
+ 
+ CC=gcc
+ CFLAGS=-O2 -g  -DLONG_FORM_FEED 
++LDFLAGS=
+ 
+ all: pentaxpj
+ 
+ pentaxpj: pentaxpj.c pentaxpj.h
+-	${CC} ${INCLUDE} ${CFLAGS} $< -o $@
++	${CC} ${INCLUDE} ${CFLAGS} ${LDFLAGS} $< -o $@
+ 	ln -sf ./pentaxpj ./pentaxpj_sh
+ 
+ package:

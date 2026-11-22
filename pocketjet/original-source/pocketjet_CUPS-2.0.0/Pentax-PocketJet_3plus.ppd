@@ -1,0 +1,191 @@
+*PPD-Adobe: "4.3"
+*FormatVersion:	"4.3"
+*FileVersion:	"2.0.0"
+*LanguageVersion: English 
+*LanguageEncoding: ISOLatin1
+*PCFileName:	"PTPJET3P.PPD"
+*Manufacturer:	"Pentax"
+*Product:	"(ESP Ghostscript)"
+*Product:	"(PENTAX PocketJet3plus)"
+*cupsVersion:	1.1
+*cupsManualCopies: True
+*cupsModelNumber:  4
+*cupsFilter:	"application/vnd.cups-raster 10 rastertopocketjet"
+*ModelName:     "Pentax PocketJet3plus"
+*ShortNickName: "Pentax PocketJet3plus"
+*NickName:      "Pentax PocketJet3plus v2.0.0 (CUPS)"
+*PSVersion:	"(3010.000) 550"
+*LanguageLevel:	"3"
+*ColorDevice:	False
+*DefaultColorSpace: Gray
+*FileSystem:	False
+*Throughput:	"1"
+*LandscapeOrientation: Plus90
+*VariablePaperSize: True
+*TTRasterizer:	Type42
+*cupsICCProfile ../Gray Profile: "/Library/Printers/Pentax/Profiles/PocketJet.icc"
+*APPrinterIconPath: "/Library/Printers/Pentax/Printer Icons/PocketJet.icns"
+
+*UIConstraints: *PageSize PerfLetter *FormFeedMode FixedPage
+*UIConstraints: *PageSize PerfLetter *FormFeedMode NoFeed
+*UIConstraints: *FormFeedMode FixedPage *PageSize PerfLetter 
+*UIConstraints: *FormFeedMode NoFeed *PageSize PerfLetter 
+*UIConstraints: *PageSize PerfA4 *FormFeedMode FixedPage
+*UIConstraints: *PageSize PerfA4 *FormFeedMode NoFeed
+*UIConstraints: *FormFeedMode FixedPage *PageSize PerfA4 
+*UIConstraints: *FormFeedMode NoFeed *PageSize PerfA4 
+
+*UIConstraints: *PageSize ContinuousLetter *FormFeedMode FixedPage
+*UIConstraints: *PageSize ContinuousLetter *FormFeedMode EndOfPage
+*UIConstraints: *FormFeedMode FixedPage *PageSize ContinuousLetter 
+*UIConstraints: *FormFeedMode EndOfPage *PageSize ContinuousLetter 
+*UIConstraints: *PageSize ContinuousLetter *ExtraFeed
+*UIConstraints: *ExtraFeed *PageSize ContinuousLetter 
+
+*OpenUI *PageSize/Media Size: PickOne
+*OrderDependency: 10 AnySetup *PageSize
+*DefaultPageSize: Letter
+*PageSize Letter:	"<</PageSize[612 792]/ImagingBBox null>>setpagedevice"
+*PageSize ContinuousLetter/Infinite:	"<</PageSize[612 7200]/ImagingBBox null>>setpagedevice"
+*PageSize PerfLetter/Letter (Perforated Roll):	"<</PageSize[612 792]/ImagingBBox null>>setpagedevice"
+*PageSize Legal:	"<</PageSize[612 1008]/ImagingBBox null>>setpagedevice"
+*PageSize A4:		"<</PageSize[595 842]/ImagingBBox null>>setpagedevice"
+*PageSize PerfA4/A4 (Perforated Roll):	"<</PageSize[595 842]/ImagingBBox null>>setpagedevice"
+*CloseUI: *PageSize
+
+*OpenUI *PageRegion: PickOne
+*OrderDependency: 10 AnySetup *PageRegion
+*DefaultPageRegion: Letter
+*PageRegion Letter:	"<</PageSize[612 792]/ImagingBBox null>>setpagedevice"
+*PageRegion ContinuousLetter/Infinite: "<</PageSize[612 7200]/ImagingBBox null>>setpagedevice"
+*PageRegion PerfLetter/Letter (Perforated Roll): "<</PageSize[612 792]/ImagingBBox null>>setpagedevice"
+*PageRegion Legal:	"<</PageSize[612 1008]/ImagingBBox null>>setpagedevice"
+*PageRegion A4:		"<</PageSize[595 842]/ImagingBBox null>>setpagedevice"
+*PageRegion PerfA4/A4 (Perforated Roll):	"<</PageSize[595 842]/ImagingBBox null>>setpagedevice"
+*CloseUI: *PageRegion
+
+*DefaultImageableArea: Letter 
+*ImageableArea Letter:                              "10.32 4.8 601.68 772.8"
+*ImageableArea ContinuousLetter/Infinite:         "10.32 0 601.68 7200"
+*ImageableArea PerfLetter/Letter (Perforated Roll): "10.32 33.6 601.68 746.4"
+*ImageableArea Legal:                               "10.32 4.8 601.68 988.8"
+*ImageableArea A4:                                  "9.6 4.8 585.6 822.24"
+*ImageableArea PerfA4/A4 (Perforated Roll):         "9.6 33.6 585.6 796.08"
+
+*DefaultPaperDimension: Letter
+*PaperDimension Letter:     "612 792"
+*PaperDimension ContinuousLetter/Infinite:     "612 7200"
+*PaperDimension PerfLetter/Letter (Perforated Roll): "612 792"
+*PaperDimension Legal:      "612 1008"
+*PaperDimension A4:         "595 842"
+*PaperDimension PerfA4/A4 (Perforated Roll):     "595 842"
+
+*MaxMediaWidth:  "612"
+*MaxMediaHeight: "7200"
+*HWMargins:      10.32 19.26 10.32 4.86
+*CustomPageSize True: "pop pop pop <</PageSize[5 -2 roll]/ImagingBBox null>>setpagedevice"
+*ParamCustomPageSize Width:        1 points 72 612
+*ParamCustomPageSize Height:       2 points 72 7200
+*ParamCustomPageSize WidthOffset:  3 points 0 0
+*ParamCustomPageSize HeightOffset: 4 points 0 0
+*ParamCustomPageSize Orientation:  5 int 0 0
+
+*OpenUI *Resolution/Output Resolution: PickOne
+*OrderDependency: 20 AnySetup *Resolution
+*DefaultResolution: 300
+*Resolution 300/300 DPI: "<</HWResolution[300 300]>>setpagedevice"
+*CloseUI: *Resolution
+
+*OpenUI *Density/Print Density: PickOne
+*OrderDependency: 40 AnySetup *Density
+*DefaultDensity: 7
+*Density 1/1 (Lightest):        "<</MediaWeight 25>>setpagedevice"
+*Density 2/2 (Very light):      "<</MediaWeight 50>>setpagedevice"
+*Density 3/3 (Light):           "<</MediaWeight 75>>setpagedevice"
+*Density 4/4 (Lighter):         "<</MediaWeight 100>>setpagedevice"
+*Density 5/5 (Normal Light):    "<</MediaWeight 125>>setpagedevice"
+*Density 6/6 (Normal):          "<</MediaWeight 150>>setpagedevice"
+*Density 7/7 (Normal Dark):     "<</MediaWeight 175>>setpagedevice"
+*Density 8/8 (Dark):            "<</MediaWeight 200>>setpagedevice"
+*Density 9/9 (Very dark):       "<</MediaWeight 225>>setpagedevice"
+*Density 10/10 (Darkest):       "<</MediaWeight 250>>setpagedevice"
+*CloseUI: *Density
+
+*OpenUI *FormFeedMode/Form Feed Mode: PickOne
+*OrderDependency: 40 AnySetup *FormFeedMode
+*DefaultFormFeedMode: FixedPage
+*FormFeedMode FixedPage/Fixed page:     "<</AdvanceMedia 1>>setpagedevice"
+*FormFeedMode EndOfPage/End-of-Page:    "<</AdvanceMedia 2>>setpagedevice"
+*FormFeedMode NoFeed/No Feed:           "<</AdvanceMedia 3>>setpagedevice"
+*CloseUI: *FormFeedMode
+
+*OpenUI *ExtraFeed/Extra Feed (No Feed Mode only): PickOne
+*OrderDependency: 40 AnySetup *ExtraFeed
+*DefaultExtraFeed: 1inch
+*ExtraFeed none/None:               "<</AdvanceDistance 0>>setpagedevice"
+*ExtraFeed halfinch/1/2 inch:       "<</AdvanceDistance 36>>setpagedevice"
+*ExtraFeed 1inch/1 inch:            "<</AdvanceDistance 72>>setpagedevice"
+*ExtraFeed 1-halfinch/1-1/2 inch:   "<</AdvanceDistance 108>>setpagedevice"
+*ExtraFeed 2inch/2 inches:          "<</AdvanceDistance 144>>setpagedevice"
+*CloseUI: *ExtraFeed
+
+*OpenUI *MirrorPrint/Mirror Print: Boolean
+*OrderDependency: 40 AnySetup *MirrorPrint
+*DefaultMirrorPrint: False
+*MirrorPrint False:              "<</MirrorPrint false>>setpagedevice"
+*MirrorPrint True:               "<</MirrorPrint true>>setpagedevice"
+*CloseUI: *MirrorPrint
+
+*OpenUI *NegativePrint/Negative Print: Boolean
+*OrderDependency: 40 AnySetup *NegativePrint
+*DefaultNegativePrint: False
+*NegativePrint False:              "<</NegativePrint false>>setpagedevice"
+*NegativePrint True:               "<</NegativePrint true>>setpagedevice"
+*CloseUI: *NegativePrint
+
+*OpenUI *CCMode/2-ply Mode: Boolean
+*OrderDependency: 40 AnySetup *CCMode
+*DefaultCCMode: False
+*CCMode False:              "<</cupsMediaType 1>>setpagedevice"
+*CCMode True:               "<</cupsMediaType 2>>setpagedevice"
+*CloseUI: *CCMode
+
+*DefaultFont: Courier
+*Font AvantGarde-Book: Standard "(001.006S)" Standard ROM
+*Font AvantGarde-BookOblique: Standard "(001.006S)" Standard ROM
+*Font AvantGarde-Demi: Standard "(001.007S)" Standard ROM
+*Font AvantGarde-DemiOblique: Standard "(001.007S)" Standard ROM
+*Font Bookman-Demi: Standard "(001.004S)" Standard ROM
+*Font Bookman-DemiItalic: Standard "(001.004S)" Standard ROM
+*Font Bookman-Light: Standard "(001.004S)" Standard ROM
+*Font Bookman-LightItalic: Standard "(001.004S)" Standard ROM
+*Font Courier: Standard "(002.004S)" Standard ROM
+*Font Courier-Bold: Standard "(002.004S)" Standard ROM
+*Font Courier-BoldOblique: Standard "(002.004S)" Standard ROM
+*Font Courier-Oblique: Standard "(002.004S)" Standard ROM
+*Font Helvetica: Standard "(001.006S)" Standard ROM
+*Font Helvetica-Bold: Standard "(001.007S)" Standard ROM
+*Font Helvetica-BoldOblique: Standard "(001.007S)" Standard ROM
+*Font Helvetica-Narrow: Standard "(001.006S)" Standard ROM
+*Font Helvetica-Narrow-Bold: Standard "(001.007S)" Standard ROM
+*Font Helvetica-Narrow-BoldOblique: Standard "(001.007S)" Standard ROM
+*Font Helvetica-Narrow-Oblique: Standard "(001.006S)" Standard ROM
+*Font Helvetica-Oblique: Standard "(001.006S)" Standard ROM
+*Font NewCenturySchlbk-Bold: Standard "(001.009S)" Standard ROM
+*Font NewCenturySchlbk-BoldItalic: Standard "(001.007S)" Standard ROM
+*Font NewCenturySchlbk-Italic: Standard "(001.006S)" Standard ROM
+*Font NewCenturySchlbk-Roman: Standard "(001.007S)" Standard ROM
+*Font Palatino-Bold: Standard "(001.005S)" Standard ROM
+*Font Palatino-BoldItalic: Standard "(001.005S)" Standard ROM
+*Font Palatino-Italic: Standard "(001.005S)" Standard ROM
+*Font Palatino-Roman: Standard "(001.005S)" Standard ROM
+*Font Symbol: Special "(001.007S)" Special ROM
+*Font Times-Bold: Standard "(001.007S)" Standard ROM
+*Font Times-BoldItalic: Standard "(001.009S)" Standard ROM
+*Font Times-Italic: Standard "(001.007S)" Standard ROM
+*Font Times-Roman: Standard "(001.007S)" Standard ROM
+*Font ZapfChancery-MediumItalic: Standard "(001.007S)" Standard ROM
+*Font ZapfDingbats: Special "(001.004S)" Standard ROM
+*%
+*% End of "$Id: Pentax-PocketJet_3plus.ppd,v 1.5 2004/10/13 16:10:45 tyler Exp $".
+*%
