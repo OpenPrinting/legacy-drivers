@@ -1,0 +1,97 @@
+#
+# rules.mk
+# (C) 2009 James Hammons
+#
+#  Compilation rules file for DPLiX
+#
+
+$(rastertodpl_TARGET): $(rastertodpl_OBJ)
+	$(call printCmd, $(cmd_link))
+	$(Q)g++ -o $@ $^ $(rastertodpl_CXXFLAGS) $(rastertodpl_LDFLAGS) \
+		$(rastertodpl_LIBS)
+
+$(pstodpl_TARGET): $(pstodpl_OBJ)
+	$(call printCmd, $(cmd_link))
+	$(Q)g++ -o $@ $^ $(pstodpl_CXXFLAGS) $(pstodpl_LDFLAGS) \
+		$(pstodpl_LIBS)
+
+.PHONY: install installcms
+cmd_install_raster	= INSTALL $(rastertodpl_TARGET)
+cmd_install_ps		= INSTALL $(pstodpl_TARGET)
+cmd_install_cms		= INSTALL color profile files
+install: $(rastertodpl_TARGET) $(pstodpl_TARGET)
+	$(Q)mkdir -p $(DESTDIR)${CUPSFILTER}
+	$(call printCmd, $(cmd_install_raster))
+	$(Q)install -m 755 -s $(rastertodpl_TARGET) $(DESTDIR)${CUPSFILTER}
+#	$(call printCmd, $(cmd_install_ps))
+#	$(Q)install -m 755 -s $(pstodpl_TARGET) $(DESTDIR)${CUPSFILTER}
+#	$(Q)$(MAKE) --no-print-directory -C ppd install Q=$(Q) \
+#		DESTDIR=$(abspath $(DESTDIR)) DISABLE_JBIG=$(DISABLE_JBIG)
+	@echo ""
+	@echo "PLEASE INSTALL MANUALLY COLOR PROFILE FILES (CHECK INSTALL)"
+	@echo "             --- Everything is done! Have fun ---"
+	@echo ""
+
+installcms:
+	@if [ "$$CMSDIR" -a -d "$$CMSDIR" ]; then \
+		CMSBASE=$(CUPSPPD)/$$MANUFACTURER; \
+		if [ "$$MANUFACTURER" -a -d "$$CMSBASE" ]; then \
+			CMSBASE=$$CMSBASE/cms; \
+			mkdir -p $(DESTDIR)$$CMSBASE; \
+			install -m 644 "$(CMSDIR)"/* $(DESTDIR)$$CMSBASE; \
+			if [ $$? = 0 ]; then \
+				echo "Color profile files has been copied."; \
+			fi; \
+		else \
+			if [ "$$MANUFACTURER" ]; then \
+				echo "Invalid manufacturer"; \
+			fi; \
+			echo "Usage: make installcms CMSDIR=/path/to/cms " \
+				"MANUFACTURER={samsung,xerox,dell}";\
+		fi; \
+	else \
+		echo "Usage: make installcms CMSDIR=/path/to/cms" \
+			"MANUFACTURER={samsung,xerox,dell}"; \
+	fi
+
+
+# Specific rules used for development and information
+
+.PHONY: tags optionList ppd cleanppd
+tags:
+	ctags --recurse --language-force=c++ --extra=+q --fields=+i \
+	      --exclude=doc --exclude=.svn *
+
+ppd:
+	@$(MAKE) --no-print-directory -C ppd/ ppd DISABLE_JBIG=$(DISABLE_JBIG)
+cleanppd:
+	@$(MAKE) --no-print-directory -C ppd/ distclean DISABLE_JBIG=$(DISABLE_JBIG)
+
+
+#ifneq ($(DISABLE_JBIG),0)
+#JBIGSTATE := disabled
+#else
+#JBIGSTATE := enabled
+#endif
+ifneq ($(DISABLE_THREADS),0)
+THREADSSTATE := disabled
+else
+THREADSSTATE := enabled
+endif
+#ifneq ($(DISABLE_BLACKOPTIM),0)
+#BLACKOPTIMSTATE := disabled
+#else
+#BLACKOPTIMSTATE := enabled
+#endif
+
+
+MSG	:=    +---------------------------------------------+\n
+MSG	+=    |      COMPILATION PARAMETERS SUMMARY         |\n
+MSG	+=    +---------------------------------------------+\n
+MSG	+=    |      THREADS     = %8s                 |\n
+MSG	+=    |      THREADS Nr  = %8i                 |\n
+MSG	+=    |      CACHESIZE   = %8i                 |\n
+MSG	+=    +---------------------------------------------+\n
+MSG	+=   (Do a \"make clean\" before updating these values)\n\n
+optionList:
+	@printf " $(MSG)" $(THREADSSTATE) $(THREADS) $(CACHESIZE)

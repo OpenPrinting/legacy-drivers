@@ -1,0 +1,46 @@
+// Include standard font and media definitions
+#include <font.defs>
+#include <media.defs>
+
+// List the fonts that are supported, in this case all standard fonts...
+// (Maybe, maybe not...)
+Font *
+
+// Manufacturer and version
+Manufacturer "Dell"
+Version 1.0.0
+
+// Each filter provided by the driver...
+DriverType custom
+Filter application/vnd.cups-raster 100 rastertodpl
+
+// Supported page sizes (HWMargins: L B R T)
+HWMargins 4.0mm 4.0mm 4.0mm 4.0mm
+*MediaSize Letter
+MediaSize A4
+
+/*{
+  // Supported resolutions
+  *Resolution k 8 0 0 0 "600dpi/600 DPI"
+
+  // Specify the model name and filename...
+  ModelName "FooJet 2000"
+  PCFileName "foojet2k.ppd"
+}*/
+
+{
+  // Supports color printing
+  ColorDevice true
+
+  // Supported colorspaces
+  ColorModel Gray/Grayscale w chunky 0
+  *ColorModel RGB/Color rgb chunky 0
+
+  // Supported resolutions
+  Resolution - 8 0 0 0 "300dpi/300 DPI"
+  *Resolution - 8 0 0 0 "600dpi/600 DPI"
+
+  // Specify the model name and filename...
+  ModelName "Dell 3010cn"
+  PCFileName "dl3010cn.ppd"
+}
