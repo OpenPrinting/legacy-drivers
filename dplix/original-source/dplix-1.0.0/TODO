@@ -1,0 +1,9 @@
+2009-04-18 James Hammons
+	* Figure out how to do sharp text at 600x600 as the current driver just
+	  uses a bitmap for all rendering. Also, it seems that internally it
+	  renders bitmaps to 300x300 regardless of what resolution you set.
+	* Figure out how to translate Postscript into DPL. This will require a
+	  bit more research.
+	* Add B/W rendering
+	* Add 300x300 support
+	* Add rotation support

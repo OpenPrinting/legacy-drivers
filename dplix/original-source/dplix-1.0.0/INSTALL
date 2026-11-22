@@ -1,0 +1,58 @@
+
+HOW-TO INSTALL AND USE THIS DRIVER (DPLiX)
+==========================================
+
+
+Introduction
+------------
+
+This driver is for the Dell 3010cn color laser printer. It's basically a
+rebadged Fuji-Xerox printer, with some fairly advanced features. Of course,
+none of the features it has are tied to the Windows(tm) OS in any way, shape,
+or form. But, due to the short-sightedness of all the companies involved with
+the manufacture of this printer, it was presented as such even though something
+as trivial as documentation would have gone a long way towards redeeming this
+particular oversight. But enough ranting, we have mended the situation with the
+present driver. :-)
+
+
+Requirements
+------------
+
+To use this driver you need... a DPL printer, and specifically a Dell 3010cn!
+Last but not least you need CUPS. It has been tested with CUPS v1.3.9 and works
+fine.
+
+If you're using a distribution with a real package manager you need to install
+the cups developement package (libcups...-devel or something like that).
+
+In short you need:
+	* CUPS
+	* libcups
+
+
+Installation
+------------
+
+  +=======================================================================+
+  |                  !!!      IMPORTANT NOTICE      !!!                   |
+  +=======================================================================+
+  |      If you are upgrading your current version, you MUST delete       |
+  |     your printer in the CUPS interface and install it again. This     |
+  |   operation MUST be done since CUPS make a copy of the PPD file and   |
+  |                this file is modified between versions.                |
+  +=======================================================================+
+
+Perform the compilation by doing:
+
+	$ make
+
+If no errors appear you can install the filter and the drivers in the super
+user environment:
+
+	$ su
+	Password: (Enter the root password and try again if it fails :-)
+	# make install
+
+To finish you have to visit http://localhost:631 with your favorite browser
+and add a new printer by selecting the correct printer in the list.
