@@ -74,6 +74,24 @@ Printer driver for **dot matrix printers (generic, uses dviprt printer definitio
 
 Ghostscript device (removed from Ghostscript after 9.52). Preserved from Ghostscript 9.52; it does not compile even there, as noted in the removal commit.
 
+### xes
+
+Printer driver for **Xerox XES printers (2700, 3700, 4045)**
+
+Ghostscript contrib device, no longer built by default from Ghostscript 10.08.0. Preserved from Ghostscript 10.07.1, where it builds and runs; PPDs come from Foomatic.
+
+### oki4w
+
+Printer driver for **Okidata OkiPage 4w, 4w+, 6w, 8w, 8z and OL400w**
+
+Ghostscript contrib device, no longer built by default from Ghostscript 10.08.0. Preserved from Ghostscript 10.07.1, where it builds and runs; PPDs come from Foomatic.
+
+### ln03
+
+Printer driver for **DEC LN03, DEClaser 2100, LA50, LA70, LA75 and LA75plus**
+
+Ghostscript contrib devices `ln03`, `dl2100`, `la50`, `la70`, `la75` and `la75plus` from one source file, no longer built by default from Ghostscript 10.08.0. Preserved from Ghostscript 10.07.1, where they build and run; PPDs come from Foomatic (no Foomatic entry for `dl2100`).
+
 ### cjet
 
 Printer driver for **Canon CaPSL level III+ laser printers**
